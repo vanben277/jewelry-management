@@ -10,7 +10,6 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Integer>, JpaSpecificationExecutor<Product> {
 
     Product findByName(@NotBlank(message = "Trường tên không được bỏ trống") String name);
-
     Boolean existsByCategoryIdAndIsDeletedFalse(Integer id);
 
     Optional<Product> findByIdAndIsDeletedFalse(Integer id);

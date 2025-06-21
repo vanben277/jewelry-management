@@ -9,4 +9,7 @@ public class ErrorCodeConstant {
     public static final String CATEGORY_HAS_PRODUCT = "400003";
     public static final String PRODUCT_HAS_BEEN_REMOVED_FROM_THE_SYSTEM = "400004";
     public static final String CATEGORY_HAS_BEEN_REMOVED_FROM_THE_SYSTEM = "400005";
+    public static final String CATEGORY_SELF_REFERENCE = "400006";
+    public static final String CATEGORY_HAS_CHILDREN = "400007";
+
 }

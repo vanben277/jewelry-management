@@ -1,4 +1,4 @@
-package com.example.jewelry_management.dto.request;
+package com.example.jewelry_management.dto.base;
 
 import com.example.jewelry_management.model.ProductStatus;
 

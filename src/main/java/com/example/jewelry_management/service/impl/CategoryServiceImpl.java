@@ -2,7 +2,9 @@ package com.example.jewelry_management.service.impl;
 
 import com.example.jewelry_management.dto.request.CreateCategory;
 import com.example.jewelry_management.dto.request.FilterCategory;
-import com.example.jewelry_management.dto.request.MapToCategory;
+import com.example.jewelry_management.dto.response.CategoryResponse;
+import com.example.jewelry_management.mapper.CategoryMapper;
+import com.example.jewelry_management.mapper.MapToCategory;
 import com.example.jewelry_management.dto.request.UpdateCategory;
 import com.example.jewelry_management.exception.BusinessException;
 import com.example.jewelry_management.exception.ErrorCodeConstant;
@@ -32,6 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
     private final MapToCategory mapToCategory;
+    private final CategoryMapper categoryMapper;
 
     public Category validateCategoryId(Integer id) {
         Optional<Category> existedById = categoryRepository.findByIdAndIsDeletedFalse(id);
@@ -42,11 +45,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Page<Category> getByFilter(FilterCategory filterCategory) {
+    public Page<CategoryResponse> getByFilter(FilterCategory filterCategory) {
         Specification<Category> specification = CategorySpecification.nameConstant(filterCategory.getName())
                 .and(CategorySpecification.notDeleted());
         Pageable pageable = PageRequest.of(filterCategory.getPageNumber(), filterCategory.getPageSize(), Sort.by("name").descending());
-        return categoryRepository.findAll(specification, pageable);
+        Page<Category> categoryPage = categoryRepository.findAll(specification, pageable);
+        return categoryPage.map(categoryMapper::toResponse);
     }
 
     @Override
@@ -60,6 +64,14 @@ public class CategoryServiceImpl implements CategoryService {
         Category createCategory = new Category();
         mapToCategory.mapDtoToCategory(dto, createCategory);
 
+        if(dto.getParentId() != null) {
+            Category parent = validateCategoryId(dto.getParentId());
+            if(Boolean.TRUE.equals(parent.getIsDeleted())) {
+                throw new BusinessException("Danh mục cha đã bị xóa khỏi hệ thống", ErrorCodeConstant.CATEGORY_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
+            }
+            createCategory.setParent(parent);
+        }
+
         createCategory.setIsDeleted(false);
 
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
@@ -67,14 +79,15 @@ public class CategoryServiceImpl implements CategoryService {
         createCategory.setUpdateAt(now);
 
         return categoryRepository.save(createCategory);
+
     }
 
     @Override
     @Transactional
-    public Category updateCategory(Integer id, UpdateCategory dto) {
+    public CategoryResponse updateCategory(Integer id, UpdateCategory dto) {
         Category updateCategory = validateCategoryId(id);
 
-        if (Boolean.TRUE.equals(updateCategory.getIsDeleted())) {
+        if(Boolean.TRUE.equals(updateCategory.getIsDeleted())) {
             throw new BusinessException("Thể loại đã được xóa khỏi hệ thống", ErrorCodeConstant.CATEGORY_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
         }
 
@@ -83,12 +96,26 @@ public class CategoryServiceImpl implements CategoryService {
             throw new BusinessException("Tên thể loại đã tồn tại trong hệ thống", ErrorCodeConstant.CATEGORY_NAME_ALREADY_EXISTS);
         }
 
+        if(dto.getParentId() != null) {
+            Category parent = validateCategoryId(dto.getParentId());
+            if(Boolean.TRUE.equals(parent.getIsDeleted())) {
+                throw new BusinessException("Danh mục cha đã bị xóa khỏi hệ thống", ErrorCodeConstant.CATEGORY_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
+            }
+            if(id.equals(dto.getParentId())) {
+                throw new BusinessException("Danh mục không thể là cha của chính nó", ErrorCodeConstant.CATEGORY_SELF_REFERENCE);
+            }
+            updateCategory.setParent(parent);
+        } else {
+            updateCategory.setParent(null);
+        }
+
         mapToCategory.mapDtoToCategory(dto, updateCategory);
 
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
         updateCategory.setUpdateAt(now);
 
-        return categoryRepository.save(updateCategory);
+        Category saveCategory = categoryRepository.save(updateCategory);
+        return categoryMapper.toResponse(saveCategory);
     }
 
 
@@ -98,8 +125,13 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = validateCategoryId(id);
 
         Boolean hasDeleted = productRepository.existsByCategoryIdAndIsDeletedFalse(id);
-        if (hasDeleted) {
+        if(hasDeleted) {
             throw new BusinessException("Không thể xóa vì có sản phẩm đang sử dụng!", ErrorCodeConstant.CATEGORY_HAS_PRODUCT);
+        }
+
+        List<Category> children = categoryRepository.findByParentIdAndIsDeletedFalse(id);
+        if(!children.isEmpty()) {
+            throw new BusinessException("Không thể xóa vì danh mục cha có danh mục con", ErrorCodeConstant.CATEGORY_HAS_CHILDREN);
         }
 
         category.setIsDeleted(true);

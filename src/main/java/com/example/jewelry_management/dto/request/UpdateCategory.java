@@ -1,5 +1,6 @@
 package com.example.jewelry_management.dto.request;
 
+import com.example.jewelry_management.dto.base.BaseDtoCategory;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,5 +17,7 @@ public class UpdateCategory implements BaseDtoCategory {
     private String description;
 
     private LocalDateTime updateAt;
+
+    private Integer parentId;
 
 }

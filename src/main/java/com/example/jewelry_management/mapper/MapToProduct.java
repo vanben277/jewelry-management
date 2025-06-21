@@ -1,5 +1,6 @@
-package com.example.jewelry_management.dto.request;
+package com.example.jewelry_management.mapper;
 
+import com.example.jewelry_management.dto.base.BaseDtoProduct;
 import com.example.jewelry_management.model.Product;
 import org.springframework.stereotype.Component;
 

@@ -1,5 +1,6 @@
 package com.example.jewelry_management.dto.request;
 
+import com.example.jewelry_management.dto.base.BaseDtoCategory;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;

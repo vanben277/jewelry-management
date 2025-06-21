@@ -1,5 +1,6 @@
 package com.example.jewelry_management.dto.request;
 
+import com.example.jewelry_management.dto.base.BaseDtoProduct;
 import com.example.jewelry_management.model.ProductStatus;
 import jakarta.validation.constraints.*;
 import lombok.Getter;

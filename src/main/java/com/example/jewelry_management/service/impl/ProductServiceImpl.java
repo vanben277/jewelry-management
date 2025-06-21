@@ -2,7 +2,7 @@ package com.example.jewelry_management.service.impl;
 
 import com.example.jewelry_management.dto.request.CreateProduct;
 import com.example.jewelry_management.dto.request.FilterProduct;
-import com.example.jewelry_management.dto.request.MapToProduct;
+import com.example.jewelry_management.mapper.MapToProduct;
 import com.example.jewelry_management.dto.request.UpdateProduct;
 import com.example.jewelry_management.exception.BusinessException;
 import com.example.jewelry_management.exception.ErrorCodeConstant;
@@ -82,7 +82,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product updateProduct = validateId(id);
 
-        if (Boolean.TRUE.equals(updateProduct.getIsDeleted())) {
+        if(Boolean.TRUE.equals(updateProduct.getIsDeleted())) {
             throw new BusinessException("Sản phẩm đã bị xóa khỏi hệ thống", ErrorCodeConstant.PRODUCT_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
         }
 

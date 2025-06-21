@@ -2,9 +2,11 @@ package com.example.jewelry_management.controller;
 
 
 import com.example.jewelry_management.dto.ApiResponse;
+import com.example.jewelry_management.dto.response.CategoryResponse;
 import com.example.jewelry_management.dto.request.CreateCategory;
 import com.example.jewelry_management.dto.request.FilterCategory;
 import com.example.jewelry_management.dto.request.UpdateCategory;
+import com.example.jewelry_management.mapper.CategoryMapper;
 import com.example.jewelry_management.model.Category;
 import com.example.jewelry_management.service.CategoryService;
 import jakarta.validation.Valid;
@@ -24,7 +26,7 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<ApiResponse> getByFilter(FilterCategory filterCategory) {
-        Page<Category> categories = categoryService.getByFilter(filterCategory);
+        Page<CategoryResponse> categories = categoryService.getByFilter(filterCategory);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", categories));
     }
 
@@ -36,8 +38,8 @@ public class CategoryController {
 
     @PutMapping("{id}")
     public ResponseEntity<ApiResponse> updateCategory(@PathVariable Integer id, @Valid @RequestBody UpdateCategory dto) {
-        Category category = categoryService.updateCategory(id, dto);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", category));
+        CategoryResponse categoryResponse = categoryService.updateCategory(id, dto);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", categoryResponse));
     }
 
     @DeleteMapping("{id}")
