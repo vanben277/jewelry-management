@@ -15,9 +15,11 @@ public interface CategoryService {
 
     CategoryResponse updateCategory(Integer id, @Valid UpdateCategory dto);
 
-    Category deleteCategory(Integer id);
+    Category softDeleteCategory(Integer id);
 
     Page<CategoryResponse> getByFilter(FilterCategory filterCategory);
 
     List<String> getAllCategoryName();
+
+    CategoryResponse restoreDeleted(Integer id);
 }

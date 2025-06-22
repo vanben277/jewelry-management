@@ -13,7 +13,6 @@ public class MapToProduct {
         product.setDateOfEntry(dto.getDateOfEntry());
         product.setImage(dto.getImage());
         product.setDescription(dto.getDescription());
-        product.setStatus(dto.getStatus());
         product.setCategoryId(dto.getCategoryId());
     }
 }

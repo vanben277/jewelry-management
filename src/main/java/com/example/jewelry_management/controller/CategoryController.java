@@ -2,11 +2,10 @@ package com.example.jewelry_management.controller;
 
 
 import com.example.jewelry_management.dto.ApiResponse;
-import com.example.jewelry_management.dto.response.CategoryResponse;
 import com.example.jewelry_management.dto.request.CreateCategory;
 import com.example.jewelry_management.dto.request.FilterCategory;
 import com.example.jewelry_management.dto.request.UpdateCategory;
-import com.example.jewelry_management.mapper.CategoryMapper;
+import com.example.jewelry_management.dto.response.CategoryResponse;
 import com.example.jewelry_management.model.Category;
 import com.example.jewelry_management.service.CategoryService;
 import jakarta.validation.Valid;
@@ -33,7 +32,7 @@ public class CategoryController {
     @PostMapping
     public ResponseEntity<ApiResponse> createCategory(@Valid @RequestBody CreateCategory dto) {
         Category category = categoryService.createCategory(dto);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", category));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Thành công", category));
     }
 
     @PutMapping("{id}")
@@ -43,8 +42,14 @@ public class CategoryController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Integer id) {
-        Category category = categoryService.deleteCategory(id);
+    public ResponseEntity<ApiResponse> softDeleteCategory(@PathVariable Integer id) {
+        Category category = categoryService.softDeleteCategory(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", category));
+    }
+
+    @PutMapping("restore/{id}")
+    public ResponseEntity<ApiResponse> restoreDeleted(@PathVariable Integer id) {
+        CategoryResponse category = categoryService.restoreDeleted(id);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", category));
     }
 

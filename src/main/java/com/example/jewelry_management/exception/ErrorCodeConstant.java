@@ -3,6 +3,7 @@ package com.example.jewelry_management.exception;
 public class ErrorCodeConstant {
     public static final String PRODUCT_NOT_FOUND_ID = "404001";
     public static final String CATEGORY_NOT_FOUND_ID = "404002";
+    public static final String PRODUCT_NOT_FOUND = "404003";
 
     public static final String PRODUCT_NAME_ALREADY_EXISTS = "400001";
     public static final String CATEGORY_NAME_ALREADY_EXISTS = "400002";

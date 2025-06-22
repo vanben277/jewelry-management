@@ -12,7 +12,9 @@ public interface ProductService {
 
     Product updateProduct(Integer id, @Valid UpdateProduct dto);
 
-    Product deleteProduct(Integer id);
+    Product softDeleteProduct(Integer id);
 
     Page<Product> getByFilter(FilterProduct filterProduct);
+
+    Product restoreDeleted(Integer id);
 }

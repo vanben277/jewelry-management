@@ -2,19 +2,20 @@ package com.example.jewelry_management.service.impl;
 
 import com.example.jewelry_management.dto.request.CreateCategory;
 import com.example.jewelry_management.dto.request.FilterCategory;
-import com.example.jewelry_management.dto.response.CategoryResponse;
-import com.example.jewelry_management.mapper.CategoryMapper;
-import com.example.jewelry_management.mapper.MapToCategory;
 import com.example.jewelry_management.dto.request.UpdateCategory;
+import com.example.jewelry_management.dto.response.CategoryResponse;
 import com.example.jewelry_management.exception.BusinessException;
 import com.example.jewelry_management.exception.ErrorCodeConstant;
 import com.example.jewelry_management.exception.NotFoundException;
+import com.example.jewelry_management.mapper.CategoryMapper;
+import com.example.jewelry_management.mapper.MapToCategory;
 import com.example.jewelry_management.model.Category;
 import com.example.jewelry_management.repository.CategoryRepository;
 import com.example.jewelry_management.repository.ProductRepository;
 import com.example.jewelry_management.repository.specification.CategorySpecification;
 import com.example.jewelry_management.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,13 +24,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
@@ -64,19 +64,15 @@ public class CategoryServiceImpl implements CategoryService {
         Category createCategory = new Category();
         mapToCategory.mapDtoToCategory(dto, createCategory);
 
-        if(dto.getParentId() != null) {
+        if (dto.getParentId() != null) {
             Category parent = validateCategoryId(dto.getParentId());
-            if(Boolean.TRUE.equals(parent.getIsDeleted())) {
+            if (Boolean.TRUE.equals(parent.getIsDeleted())) {
                 throw new BusinessException("Danh mục cha đã bị xóa khỏi hệ thống", ErrorCodeConstant.CATEGORY_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
             }
             createCategory.setParent(parent);
         }
 
         createCategory.setIsDeleted(false);
-
-        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
-        createCategory.setCreateAt(now);
-        createCategory.setUpdateAt(now);
 
         return categoryRepository.save(createCategory);
 
@@ -87,7 +83,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponse updateCategory(Integer id, UpdateCategory dto) {
         Category updateCategory = validateCategoryId(id);
 
-        if(Boolean.TRUE.equals(updateCategory.getIsDeleted())) {
+        if (Boolean.TRUE.equals(updateCategory.getIsDeleted())) {
             throw new BusinessException("Thể loại đã được xóa khỏi hệ thống", ErrorCodeConstant.CATEGORY_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
         }
 
@@ -96,12 +92,12 @@ public class CategoryServiceImpl implements CategoryService {
             throw new BusinessException("Tên thể loại đã tồn tại trong hệ thống", ErrorCodeConstant.CATEGORY_NAME_ALREADY_EXISTS);
         }
 
-        if(dto.getParentId() != null) {
+        if (dto.getParentId() != null) {
             Category parent = validateCategoryId(dto.getParentId());
-            if(Boolean.TRUE.equals(parent.getIsDeleted())) {
+            if (Boolean.TRUE.equals(parent.getIsDeleted())) {
                 throw new BusinessException("Danh mục cha đã bị xóa khỏi hệ thống", ErrorCodeConstant.CATEGORY_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
             }
-            if(id.equals(dto.getParentId())) {
+            if (id.equals(dto.getParentId())) {
                 throw new BusinessException("Danh mục không thể là cha của chính nó", ErrorCodeConstant.CATEGORY_SELF_REFERENCE);
             }
             updateCategory.setParent(parent);
@@ -111,9 +107,6 @@ public class CategoryServiceImpl implements CategoryService {
 
         mapToCategory.mapDtoToCategory(dto, updateCategory);
 
-        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
-        updateCategory.setUpdateAt(now);
-
         Category saveCategory = categoryRepository.save(updateCategory);
         return categoryMapper.toResponse(saveCategory);
     }
@@ -121,24 +114,36 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public Category deleteCategory(Integer id) {
+    public Category softDeleteCategory(Integer id) {
         Category category = validateCategoryId(id);
 
         Boolean hasDeleted = productRepository.existsByCategoryIdAndIsDeletedFalse(id);
-        if(hasDeleted) {
+        if (hasDeleted) {
             throw new BusinessException("Không thể xóa vì có sản phẩm đang sử dụng!", ErrorCodeConstant.CATEGORY_HAS_PRODUCT);
         }
 
         List<Category> children = categoryRepository.findByParentIdAndIsDeletedFalse(id);
-        if(!children.isEmpty()) {
+        if (!children.isEmpty()) {
             throw new BusinessException("Không thể xóa vì danh mục cha có danh mục con", ErrorCodeConstant.CATEGORY_HAS_CHILDREN);
         }
 
         category.setIsDeleted(true);
-        category.setUpdateAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
         categoryRepository.save(category);
 
         return null;
+    }
+
+    @Override
+    @Transactional
+    public CategoryResponse restoreDeleted(Integer id) {
+        Category restoreCategory = categoryRepository.findByIdAndIsDeletedTrue(id);
+        log.error("deletedError: {}", restoreCategory);
+        if (restoreCategory == null) {
+            throw new NotFoundException("Không tìm thấy id cần khôi phục", ErrorCodeConstant.CATEGORY_NOT_FOUND_ID);
+        }
+        restoreCategory.setIsDeleted(false);
+        Category savedCategory = categoryRepository.save(restoreCategory);
+        return categoryMapper.toResponse(savedCategory);
     }
 
     @Override

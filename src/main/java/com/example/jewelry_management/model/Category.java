@@ -1,11 +1,12 @@
 package com.example.jewelry_management.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,10 +28,12 @@ public class Category {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "create_at")
+    @CreationTimestamp
+    @Column(name = "create_at", nullable = false, updatable = false)
     private LocalDateTime createAt;
 
-    @Column(name = "update_at")
+    @UpdateTimestamp
+    @Column(name = "update_at", nullable = false)
     private LocalDateTime updateAt;
 
     @Column(name = "is_deleted")
@@ -44,4 +47,5 @@ public class Category {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Category> children = new ArrayList<>();
+
 }

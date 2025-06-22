@@ -20,7 +20,7 @@ public class CreateProduct implements BaseDtoProduct {
     private BigDecimal price;
 
     @NotNull(message = "Trường số lượng không được bỏ trống")
-    @Min(value = 0, message = "Số lượng phải lớn hơn 0")
+    @Min(value = 1, message = "Số lượng phải lớn hơn 0")
     private Integer quantity;
 
     @NotNull(message = "Ngày nhập không được bỏ trống")
@@ -33,7 +33,6 @@ public class CreateProduct implements BaseDtoProduct {
     @NotBlank(message = "Trường mô tả không được bỏ trống")
     private String description;
 
-    @NotNull(message = "Trạng thái không được bỏ trống")
     private ProductStatus status;
 
     @NotNull(message = "Trường thể loại không được bỏ trống")

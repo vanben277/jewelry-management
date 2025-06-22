@@ -29,7 +29,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ApiResponse> createProduct(@Valid @RequestBody CreateProduct dto) {
         Product product = productService.createProduct(dto);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", product));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Thành công", product));
     }
 
     @PutMapping("{id}")
@@ -39,8 +39,14 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Integer id) {
-        Product product = productService.deleteProduct(id);
+    public ResponseEntity<ApiResponse> softDeleteProduct(@PathVariable Integer id) {
+        Product product = productService.softDeleteProduct(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", product));
+    }
+
+    @PutMapping("restore/{id}")
+    public ResponseEntity<ApiResponse> restoreDeleted(@PathVariable Integer id) {
+        Product product = productService.restoreDeleted(id);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", product));
     }
 }

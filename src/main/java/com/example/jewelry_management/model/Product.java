@@ -3,6 +3,8 @@ package com.example.jewelry_management.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -38,12 +40,14 @@ public class Product {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private ProductStatus status;
+    private ProductStatus status = ProductStatus.IN_STOCK;
 
-    @Column(name = "create_at")
+    @Column(name = "create_at", updatable = false, nullable = false)
+    @CreationTimestamp
     private LocalDateTime createAt;
 
-    @Column(name = "update_at")
+    @Column(name = "update_at", nullable = false)
+    @UpdateTimestamp
     private LocalDateTime updateAt;
 
     @Column(name = "category_id")

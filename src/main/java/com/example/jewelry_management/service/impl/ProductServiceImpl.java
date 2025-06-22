@@ -2,12 +2,13 @@ package com.example.jewelry_management.service.impl;
 
 import com.example.jewelry_management.dto.request.CreateProduct;
 import com.example.jewelry_management.dto.request.FilterProduct;
-import com.example.jewelry_management.mapper.MapToProduct;
 import com.example.jewelry_management.dto.request.UpdateProduct;
 import com.example.jewelry_management.exception.BusinessException;
 import com.example.jewelry_management.exception.ErrorCodeConstant;
 import com.example.jewelry_management.exception.NotFoundException;
+import com.example.jewelry_management.mapper.MapToProduct;
 import com.example.jewelry_management.model.Product;
+import com.example.jewelry_management.model.ProductStatus;
 import com.example.jewelry_management.repository.ProductRepository;
 import com.example.jewelry_management.repository.specification.ProductSpecification;
 import com.example.jewelry_management.service.ProductService;
@@ -20,8 +21,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Optional;
 
 @Service
@@ -66,13 +65,8 @@ public class ProductServiceImpl implements ProductService {
 
         Product createProduct = new Product();
         mapToProduct.mapDtoToProduct(dto, createProduct);
+        createProduct.setStatus(ProductStatus.IN_STOCK);
         createProduct.setIsDeleted(false);
-
-        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
-
-        createProduct.setCreateAt(now);
-        createProduct.setUpdateAt(now);
-
         return productRepository.save(createProduct);
     }
 
@@ -82,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product updateProduct = validateId(id);
 
-        if(Boolean.TRUE.equals(updateProduct.getIsDeleted())) {
+        if (Boolean.TRUE.equals(updateProduct.getIsDeleted())) {
             throw new BusinessException("Sản phẩm đã bị xóa khỏi hệ thống", ErrorCodeConstant.PRODUCT_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
         }
 
@@ -92,21 +86,28 @@ public class ProductServiceImpl implements ProductService {
         }
 
         mapToProduct.mapDtoToProduct(dto, updateProduct);
-
-        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"));
-
-        updateProduct.setUpdateAt(now);
+        updateProduct.setStatus(dto.getStatus());
 
         return productRepository.save(updateProduct);
     }
 
     @Override
     @Transactional
-    public Product deleteProduct(Integer id) {
+    public Product softDeleteProduct(Integer id) {
         Product product = validateId(id);
         product.setIsDeleted(true);
-        product.setUpdateAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
         productRepository.save(product);
         return null;
+    }
+
+    @Override
+    @Transactional
+    public Product restoreDeleted(Integer id) {
+        Product restoreProduct = productRepository.findByIdAndIsDeletedTrue(id);
+        if (restoreProduct == null) {
+            throw new NotFoundException("Không tìm thấy sản phẩm cần khôi phục", ErrorCodeConstant.PRODUCT_NOT_FOUND_ID);
+        }
+        restoreProduct.setIsDeleted(false);
+        return productRepository.save(restoreProduct);
     }
 }

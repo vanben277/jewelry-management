@@ -41,6 +41,7 @@ public class GlobalExceptionHandle {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("Truy van tra ve nhieu ket qua hon mong doi", null, "MULTIPLE_RESULTS_FOUND"));
     }
 
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse> handleMethodArgNotValidEx(MethodArgumentNotValidException e) {
         var allErrors = e.getBindingResult().getAllErrors();

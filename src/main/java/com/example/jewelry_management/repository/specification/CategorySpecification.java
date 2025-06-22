@@ -6,10 +6,10 @@ import org.springframework.data.jpa.domain.Specification;
 public class CategorySpecification {
     public static Specification<Category> nameConstant(String name) {
         return ((root, query, criteriaBuilder) -> {
-           if(name == null || name.isEmpty()) {
-               return null;
-           }
-           return criteriaBuilder.like(criteriaBuilder.lower(root.get("name")),"%" + name.toLowerCase() + "%");
+            if (name == null || name.isEmpty()) {
+                return null;
+            }
+            return criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%");
         });
     }
 
