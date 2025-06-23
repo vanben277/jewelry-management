@@ -19,5 +19,8 @@ public class ErrorCodeConstant {
     public static final String ORDER_ALREADY_DELETED = "400011";
     public static final String INVALID_ORDER_STATUS = "400012";
     public static final String ORDER_NOT_DELETED = "400013";
+    public static final String INVALID_PERIOD_TYPE = "400014";
+    public static final String PRODUCT_OUT_OF_STOCK = "400015";
+
 
 }

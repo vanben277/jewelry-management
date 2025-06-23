@@ -3,6 +3,7 @@ package com.example.jewelry_management.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "product")
+@Slf4j
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,4 +57,25 @@ public class Product {
 
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
+
+
+    @PrePersist
+    public void prePersist() {
+        updateStatus();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updateStatus();
+    }
+
+    private void updateStatus() {
+        if (quantity == 0 && status != ProductStatus.SOLD_OUT) {
+            log.info("Product ID {} quantityInStock is 0, setting status to SOLD_OUT", id);
+            status = ProductStatus.SOLD_OUT;
+        } else if (quantity > 0 && status == ProductStatus.SOLD_OUT) {
+            log.info("Product ID {} quantityInStock is {}, setting status to IN_STOCK", id, quantity);
+            status = ProductStatus.IN_STOCK;
+        }
+    }
 }

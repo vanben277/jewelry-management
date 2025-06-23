@@ -2,19 +2,25 @@ package com.example.jewelry_management.service;
 
 import com.example.jewelry_management.dto.request.CreateProduct;
 import com.example.jewelry_management.dto.request.FilterProduct;
+import com.example.jewelry_management.dto.request.TopProductFilterDto;
 import com.example.jewelry_management.dto.request.UpdateProduct;
-import com.example.jewelry_management.model.Product;
+import com.example.jewelry_management.dto.response.ProductResponse;
+import com.example.jewelry_management.dto.response.TopProductResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface ProductService {
-    Product createProduct(CreateProduct dto);
+    ProductResponse createProduct(CreateProduct dto);
 
-    Product updateProduct(Integer id, @Valid UpdateProduct dto);
+    ProductResponse updateProduct(Integer id, @Valid UpdateProduct dto);
 
-    Product softDeleteProduct(Integer id);
+    ProductResponse softDeleteProduct(Integer id);
 
-    Page<Product> getByFilter(FilterProduct filterProduct);
+    Page<ProductResponse> getByFilter(FilterProduct filterProduct);
 
-    Product restoreDeleted(Integer id);
+    ProductResponse restoreDeleted(Integer id);
+
+    List<TopProductResponse> getTopSellingProducts(TopProductFilterDto filter);
 }

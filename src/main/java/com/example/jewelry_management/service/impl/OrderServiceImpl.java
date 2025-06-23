@@ -1,18 +1,13 @@
 package com.example.jewelry_management.service.impl;
 
-import com.example.jewelry_management.dto.request.CreateOrderRequest;
-import com.example.jewelry_management.dto.request.OrderItemRequest;
-import com.example.jewelry_management.dto.request.OrderListByFilterDto;
-import com.example.jewelry_management.dto.request.UpdateOrderStatus;
+import com.example.jewelry_management.dto.request.*;
 import com.example.jewelry_management.dto.response.OrderResponse;
+import com.example.jewelry_management.dto.response.RevenueReportResponse;
 import com.example.jewelry_management.exception.BusinessException;
 import com.example.jewelry_management.exception.ErrorCodeConstant;
 import com.example.jewelry_management.exception.NotFoundException;
 import com.example.jewelry_management.mapper.OrderMapper;
-import com.example.jewelry_management.model.Order;
-import com.example.jewelry_management.model.OrderItem;
-import com.example.jewelry_management.model.OrderStatus;
-import com.example.jewelry_management.model.Product;
+import com.example.jewelry_management.model.*;
 import com.example.jewelry_management.repository.OrderRepository;
 import com.example.jewelry_management.repository.ProductRepository;
 import com.example.jewelry_management.repository.specification.OrderSpecification;
@@ -28,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -66,6 +62,11 @@ public class OrderServiceImpl implements OrderService {
                 throw new NotFoundException("Sản phẩm không tồn tại: " + itemReq.getProductId(),
                         ErrorCodeConstant.PRODUCT_NOT_FOUND);
             }
+
+            if (product.getStatus() != ProductStatus.IN_STOCK) {
+                throw new BusinessException("Sản phẩm " + (product.getName()) + " không có sẵn trong kho!", ErrorCodeConstant.PRODUCT_OUT_OF_STOCK);
+            }
+
             if (product.getQuantity() < itemReq.getQuantity()) {
                 throw new BusinessException("Sản phẩm " + product.getName() + " không đủ hàng trong kho",
                         "OUT_OF_STOCK");
@@ -99,7 +100,8 @@ public class OrderServiceImpl implements OrderService {
         Specification<Order> sf = OrderSpecification.nameContains(dto.getCustomerName())
                 .and(OrderSpecification.phoneEqual(dto.getCustomerPhone()))
                 .and(OrderSpecification.addressContains(dto.getCustomerAddress()))
-                .and(OrderSpecification.statusEqual(dto.getStatus()));
+                .and(OrderSpecification.statusEqual(dto.getStatus()))
+                .and(OrderSpecification.notDeleted());
         Pageable pageable = PageRequest.of(dto.getPageNumber(), dto.getPageSize(), Sort.by("customerName").descending());
         Page<Order> savePage = orderRepository.findAll(sf, pageable);
         return savePage.map(orderMapper::toResponse);
@@ -130,7 +132,8 @@ public class OrderServiceImpl implements OrderService {
         Order saved = orderRepository.save(existedById);
         return orderMapper.toResponse(saved);
     }
-//     logic(Không được chuyển ngược)
+
+    //     logic(Không được chuyển ngược)
 //     Từ PENDING -> CONFIRMED or CANCELLED
 //     Từ CONFIRMED -> SHIPPED or CANCELLED.
 //     Từ SHIPPED -> DELIVERED.
@@ -186,5 +189,49 @@ public class OrderServiceImpl implements OrderService {
         order.setIsDeleted(false);
         Order saved = orderRepository.save(order);
         return orderMapper.toResponse(saved);
+    }
+
+    @Override
+    @Transactional()
+    public List<RevenueReportResponse> getRevenueReport(RevenueFilterDto filter) {
+        if (filter == null || filter.getPeriodType() == null) {
+            log.error("Bộ lọc khônng được trống");
+            throw new IllegalArgumentException("Bộ lọc khônng được trống");
+        }
+
+        String dateFormat;
+        LocalDateTime start, end;
+
+        switch (filter.getPeriodType().toUpperCase()) {
+            case "DAY":
+                dateFormat = "%Y-%m-%d";
+                start = filter.getStartDate() != null ? LocalDateTime.parse(filter.getStartDate()) : LocalDateTime.now();
+                end = filter.getEndDate() != null ? LocalDateTime.parse(filter.getEndDate()) : start;
+                break;
+            case "MONTH":
+                dateFormat = "%Y-%m";
+                start = filter.getStartDate() != null ? LocalDateTime.parse(filter.getStartDate() + "T00:00:00") : LocalDateTime.now().withDayOfMonth(1);
+                end = filter.getEndDate() != null ? LocalDateTime.parse(filter.getEndDate() + "T00:00:00").withDayOfMonth(1).plusMonths(1).minusDays(1) : start.withDayOfMonth(1).plusMonths(1).minusDays(1);
+                break;
+            case "YEAR":
+                dateFormat = "%Y";
+                start = filter.getStartDate() != null ? LocalDateTime.parse(filter.getStartDate() + "T00:00:00-T00:00:00") : LocalDateTime.now().withDayOfYear(1);
+                end = filter.getEndDate() != null ? LocalDateTime.parse(filter.getEndDate() + "T00:00:00-T00:00:00").withDayOfYear(1).plusYears(1).minusDays(1) : start.withDayOfYear(1).plusYears(1).minusDays(1);
+                break;
+            default:
+                log.error("Loại thời gian không hợp lệ: {}", filter.getPeriodType());
+                throw new BusinessException("Loại thời gian không hợp lệ: " + filter.getPeriodType(), ErrorCodeConstant.INVALID_PERIOD_TYPE);
+        }
+
+        log.debug("Đang tìm báo cáo doanh thu cho periodType: {}, start: {}, end: {}", filter.getPeriodType(), start, end);
+
+        List<Object[]> results = orderRepository.findRevenueByPeriod(dateFormat, start, end);
+        return results.stream().map(result -> {
+            RevenueReportResponse dto = new RevenueReportResponse();
+            dto.setPeriod((String) result[0]);
+            dto.setTotalRevenue((BigDecimal) result[1]);
+            dto.setOrderCount((Long) result[2]);
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

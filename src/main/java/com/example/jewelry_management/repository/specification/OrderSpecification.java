@@ -33,4 +33,8 @@ public class OrderSpecification {
                 status == null ? null :
                         cb.equal(root.get("status"), status);
     }
+
+    public static Specification<Order> notDeleted() {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.isFalse(root.get("isDeleted"));
+    }
 }

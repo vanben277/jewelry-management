@@ -4,8 +4,10 @@ package com.example.jewelry_management.controller;
 import com.example.jewelry_management.dto.ApiResponse;
 import com.example.jewelry_management.dto.request.CreateOrderRequest;
 import com.example.jewelry_management.dto.request.OrderListByFilterDto;
+import com.example.jewelry_management.dto.request.RevenueFilterDto;
 import com.example.jewelry_management.dto.request.UpdateOrderStatus;
 import com.example.jewelry_management.dto.response.OrderResponse;
+import com.example.jewelry_management.dto.response.RevenueReportResponse;
 import com.example.jewelry_management.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,6 +58,12 @@ public class OrderController {
     public ResponseEntity<ApiResponse> restoreOrderDeleted(@PathVariable Integer id) {
         OrderResponse order = orderService.restoreOrderDeleted(id);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", order));
+    }
+
+    @GetMapping("/reports/revenue")
+    public ResponseEntity<ApiResponse> getRevenueReport(@Valid @ModelAttribute RevenueFilterDto filter) {
+        List<RevenueReportResponse> report = orderService.getRevenueReport(filter);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", report));
     }
 
 }

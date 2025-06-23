@@ -55,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public Category createCategory(CreateCategory dto) {
+    public CategoryResponse createCategory(CreateCategory dto) {
         Category existedCategoryName = categoryRepository.findByName(dto.getName());
         if (existedCategoryName != null) {
             throw new BusinessException("Tên thể loại đã tồn tại trong hệ thống.", ErrorCodeConstant.CATEGORY_NAME_ALREADY_EXISTS);
@@ -74,8 +74,8 @@ public class CategoryServiceImpl implements CategoryService {
 
         createCategory.setIsDeleted(false);
 
-        return categoryRepository.save(createCategory);
-
+        Category saved = categoryRepository.save(createCategory);
+        return categoryMapper.toResponse(saved);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public Category softDeleteCategory(Integer id) {
+    public CategoryResponse softDeleteCategory(Integer id) {
         Category category = validateCategoryId(id);
 
         Boolean hasDeleted = productRepository.existsByCategoryIdAndIsDeletedFalse(id);
@@ -128,8 +128,8 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         category.setIsDeleted(true);
-        categoryRepository.save(category);
-
+        Category saved = categoryRepository.save(category);
+        categoryMapper.toResponse(saved);
         return null;
     }
 
