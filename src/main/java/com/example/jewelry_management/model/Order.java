@@ -31,7 +31,7 @@ public class Order {
     @Column(name = "customer_address")
     private String customerAddress;
 
-    @Column(name = "order_status", nullable = false)
+    @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.PENDING;
 
