@@ -1,8 +1,10 @@
 package com.example.jewelry_management.mapper;
 
 
-import com.example.jewelry_management.dto.response.OrderItemResponse;
-import com.example.jewelry_management.dto.response.OrderResponse;
+import com.example.jewelry_management.dto.res.AccountSummaryRes;
+import com.example.jewelry_management.dto.res.OrderItemResponse;
+import com.example.jewelry_management.dto.res.OrderResponse;
+import com.example.jewelry_management.model.Account;
 import com.example.jewelry_management.model.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderMapper {
     private final OrderItemMapper orderItemMapper;
+
+    private AccountSummaryRes toAccountResponse(Account account) {
+        return new AccountSummaryRes(
+                account.getId(),
+                account.getUserName(),
+                account.getFirstName(),
+                account.getLastName(),
+                account.getRole(),
+                account.getDateOfBirth(),
+                account.getGender(),
+                account.getAvatar(),
+                account.getPhone(),
+                account.getAddress(),
+                account.getEmail(),
+                account.getStatus()
+        );
+    }
 
     public OrderResponse toResponse(Order order) {
         List<OrderItemResponse> itemResponses = order.getItems().stream()
@@ -28,7 +47,8 @@ public class OrderMapper {
                 order.getIsDeleted(),
                 order.getCreateAt(),
                 order.getUpdateAt(),
-                itemResponses
+                itemResponses,
+                toAccountResponse(order.getAccount())
         );
     }
 }

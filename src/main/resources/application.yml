@@ -8,6 +8,21 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+  web:
+    resources:
+      static-locations: classpath:/static/,file:uploads/
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: toducbn@gmail.com
+    password: dhzeqmczmhevigrs
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 logging:
   level:
     org:

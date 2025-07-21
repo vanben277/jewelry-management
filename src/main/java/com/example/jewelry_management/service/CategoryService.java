@@ -1,24 +1,32 @@
 package com.example.jewelry_management.service;
 
-import com.example.jewelry_management.dto.request.CreateCategory;
-import com.example.jewelry_management.dto.request.FilterCategory;
-import com.example.jewelry_management.dto.request.UpdateCategory;
-import com.example.jewelry_management.dto.response.CategoryResponse;
+import com.example.jewelry_management.dto.res.AllCategoryNameResponse;
+import com.example.jewelry_management.dto.res.CategoryResponse;
+import com.example.jewelry_management.dto.res.CategoryTreeResponse;
+import com.example.jewelry_management.form.CreateCategoryForm;
+import com.example.jewelry_management.form.FilterCategoryForm;
+import com.example.jewelry_management.form.UpdateCategoryForm;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface CategoryService {
-    CategoryResponse createCategory(@Valid CreateCategory dto);
+    CategoryResponse createCategory(@Valid CreateCategoryForm dto);
 
-    CategoryResponse updateCategory(Integer id, @Valid UpdateCategory dto);
+    CategoryResponse updateCategory(Integer id, @Valid UpdateCategoryForm dto);
 
-    CategoryResponse softDeleteCategory(Integer id);
+    void softDeleteCategory(List<Integer> id);
 
-    Page<CategoryResponse> getByFilter(FilterCategory filterCategory);
+    Page<CategoryResponse> getByFilter(FilterCategoryForm filterCategory);
 
-    List<String> getAllCategoryName();
+    List<AllCategoryNameResponse> getAllCategoryName();
 
-    CategoryResponse restoreDeleted(Integer id);
+    void restoreDeleted(List<Integer> id);
+
+    void deleteCategoryByIds(List<Integer> ids);
+
+    List<CategoryTreeResponse> getCategoryTree();
+
+    CategoryResponse getById(Integer id);
 }

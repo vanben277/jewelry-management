@@ -1,17 +1,26 @@
 package com.example.jewelry_management.service.impl;
 
-import com.example.jewelry_management.dto.request.*;
-import com.example.jewelry_management.dto.response.OrderResponse;
-import com.example.jewelry_management.dto.response.RevenueReportResponse;
+import com.example.jewelry_management.dto.res.OrderResponse;
+import com.example.jewelry_management.dto.res.RevenueReportResponse;
+import com.example.jewelry_management.enums.AccountRole;
+import com.example.jewelry_management.enums.OrderStatus;
+import com.example.jewelry_management.enums.ProductStatus;
 import com.example.jewelry_management.exception.BusinessException;
 import com.example.jewelry_management.exception.ErrorCodeConstant;
+import com.example.jewelry_management.exception.ForbiddenException;
 import com.example.jewelry_management.exception.NotFoundException;
+import com.example.jewelry_management.form.*;
 import com.example.jewelry_management.mapper.OrderMapper;
-import com.example.jewelry_management.model.*;
+import com.example.jewelry_management.model.Account;
+import com.example.jewelry_management.model.Order;
+import com.example.jewelry_management.model.OrderItem;
+import com.example.jewelry_management.model.Product;
 import com.example.jewelry_management.repository.OrderRepository;
 import com.example.jewelry_management.repository.ProductRepository;
 import com.example.jewelry_management.repository.specification.OrderSpecification;
 import com.example.jewelry_management.service.OrderService;
+import com.example.jewelry_management.utils.OrderValidatorUtils;
+import com.example.jewelry_management.validator.AccountValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -34,19 +43,24 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final OrderMapper orderMapper;
+    private final AccountValidator accountValidator;
+    private final OrderValidatorUtils validatorUtils;
 
     @Override
     @Transactional
-    public OrderResponse createOrder(CreateOrderRequest request) {
+    public OrderResponse createOrder(CreateOrderRequestForm request) {
+        Account currentAccount = accountValidator.getCurrentAccount();
+
         Order order = new Order();
         order.setCustomerName(request.getCustomerName());
         order.setCustomerPhone(request.getCustomerPhone());
         order.setCustomerAddress(request.getCustomerAddress());
         order.setStatus(OrderStatus.PENDING);
         order.setIsDeleted(false);
+        order.setAccount(currentAccount);
 
         Set<Integer> productIds = request.getItems().stream()
-                .map(OrderItemRequest::getProductId)
+                .map(OrderItemRequestForm::getProductId)
                 .collect(Collectors.toSet());
 
         Map<Integer, Product> productMap = productRepository.findAllById(productIds).stream()
@@ -56,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItem> orderItems = new ArrayList<>();
         List<Product> productsToUpdate = new ArrayList<>();
 
-        for (OrderItemRequest itemReq : request.getItems()) {
+        for (OrderItemRequestForm itemReq : request.getItems()) {
             Product product = productMap.get(itemReq.getProductId());
             if (product == null) {
                 throw new NotFoundException("Sản phẩm không tồn tại: " + itemReq.getProductId(),
@@ -76,8 +90,8 @@ public class OrderServiceImpl implements OrderService {
             productsToUpdate.add(product);
 
             OrderItem item = new OrderItem();
-            item.setOrderId(order);
-            item.setProductId(product);
+            item.setOrder(order);
+            item.setProduct(product);
             item.setProductName(product.getName());
             item.setPrice(product.getPrice());
             item.setQuantity(itemReq.getQuantity());
@@ -96,7 +110,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<OrderResponse> getOrderListByFilter(OrderListByFilterDto dto) {
+    public Page<OrderResponse> getOrderListByFilter(OrderListByFilterForm dto) {
         Specification<Order> sf = OrderSpecification.nameContains(dto.getCustomerName())
                 .and(OrderSpecification.phoneEqual(dto.getCustomerPhone()))
                 .and(OrderSpecification.addressContains(dto.getCustomerAddress()))
@@ -109,14 +123,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse getOrderById(Integer id) {
+        Account currentAccount = accountValidator.getCurrentAccount();
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Không tìm thấy id trong hệ thống", ErrorCodeConstant.ORDER_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy đơn hàng", ErrorCodeConstant.ORDER_NOT_FOUND));
+
+        boolean isAdmin = currentAccount.getRole() == AccountRole.ADMIN;
+        if (!isAdmin && !order.getAccount().getId().equals(currentAccount.getId())) {
+            throw new ForbiddenException("Ban khong co quyen truy cap. Vui long thu lai!", ErrorCodeConstant.NO_ACCESS);
+        }
         return orderMapper.toResponse(order);
     }
 
     @Override
     @Transactional
-    public OrderResponse updateStatus(Integer id, UpdateOrderStatus dto) {
+    public OrderResponse updateStatus(Integer id, UpdateOrderStatusForm dto) {
         Order existedById = orderRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy id trong hệ thống", ErrorCodeConstant.ORDER_NOT_FOUND));
 
@@ -124,38 +144,13 @@ public class OrderServiceImpl implements OrderService {
         if (!orderStatusList.contains(dto.getStatus()))
             throw new BusinessException("Trạng thái không hợp lệ!", ErrorCodeConstant.INVALID_STATUS);
 
-        validateStatusTransactional(existedById.getStatus(), dto.getStatus());
+        validatorUtils.validateStatusTransactional(existedById.getStatus(), dto.getStatus());
 
         log.info("Updating order ID {} from status {} to {}", id, existedById.getStatus(), dto.getStatus());
 
         existedById.setStatus(dto.getStatus());
         Order saved = orderRepository.save(existedById);
         return orderMapper.toResponse(saved);
-    }
-
-    //     logic(Không được chuyển ngược)
-//     Từ PENDING -> CONFIRMED or CANCELLED
-//     Từ CONFIRMED -> SHIPPED or CANCELLED.
-//     Từ SHIPPED -> DELIVERED.
-    private void validateStatusTransactional(OrderStatus currentStatus, OrderStatus newStatus) {
-        switch (currentStatus) {
-            case PENDING -> {
-                if (newStatus != OrderStatus.CONFIRMED && newStatus != OrderStatus.CANCELLED)
-                    throw new BusinessException("Không thể chuyển trạng thái từ PENDING sang " + newStatus, ErrorCodeConstant.INVALID_STATUS_TRANSACTIONAL);
-            }
-            case CONFIRMED -> {
-                if (newStatus != OrderStatus.SHIPPED && newStatus != OrderStatus.CANCELLED)
-                    throw new BusinessException("Không thể chuyển trạng thái từ CONFIRMED sang " + newStatus, ErrorCodeConstant.INVALID_STATUS_TRANSACTIONAL);
-            }
-            case SHIPPED -> {
-                if (newStatus != OrderStatus.DELIVERED)
-                    throw new BusinessException("Không thể chuyển trạng thái từ SHIPPED sang " + newStatus, ErrorCodeConstant.INVALID_STATUS_TRANSACTIONAL);
-            }
-            case DELIVERED, CANCELLED ->
-                    throw new BusinessException("Không thể chuyển trạng thái từ sang " + currentStatus, ErrorCodeConstant.FINAL_STATUS);
-            default ->
-                    throw new BusinessException("Trạng thái hiện tại không hợp lệ " + newStatus, ErrorCodeConstant.INVALID_STATUS);
-        }
     }
 
     @Override
@@ -193,7 +188,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional()
-    public List<RevenueReportResponse> getRevenueReport(RevenueFilterDto filter) {
+    public List<RevenueReportResponse> getRevenueReport(RevenueFilterForm filter) {
         if (filter == null || filter.getPeriodType() == null) {
             log.error("Bộ lọc khônng được trống");
             throw new IllegalArgumentException("Bộ lọc khônng được trống");
@@ -233,5 +228,12 @@ public class OrderServiceImpl implements OrderService {
             dto.setOrderCount((Long) result[2]);
             return dto;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getAllOrderStatus() {
+        return Arrays.stream(OrderStatus.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
     }
 }

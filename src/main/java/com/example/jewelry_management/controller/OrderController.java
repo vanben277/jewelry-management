@@ -2,12 +2,12 @@ package com.example.jewelry_management.controller;
 
 
 import com.example.jewelry_management.dto.ApiResponse;
-import com.example.jewelry_management.dto.request.CreateOrderRequest;
-import com.example.jewelry_management.dto.request.OrderListByFilterDto;
-import com.example.jewelry_management.dto.request.RevenueFilterDto;
-import com.example.jewelry_management.dto.request.UpdateOrderStatus;
-import com.example.jewelry_management.dto.response.OrderResponse;
-import com.example.jewelry_management.dto.response.RevenueReportResponse;
+import com.example.jewelry_management.dto.res.OrderResponse;
+import com.example.jewelry_management.dto.res.RevenueReportResponse;
+import com.example.jewelry_management.form.CreateOrderRequestForm;
+import com.example.jewelry_management.form.OrderListByFilterForm;
+import com.example.jewelry_management.form.RevenueFilterForm;
+import com.example.jewelry_management.form.UpdateOrderStatusForm;
 import com.example.jewelry_management.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +20,19 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("order")
+@RequestMapping("api/v1/order")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createOrder(@Valid @RequestBody CreateOrderRequest request) {
+    public ResponseEntity<ApiResponse> createOrder(@Valid @RequestBody CreateOrderRequestForm request) {
         OrderResponse order = orderService.createOrder(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Thành công", order));
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse> getOrderListByFilter(@Valid OrderListByFilterDto dto) {
+    public ResponseEntity<ApiResponse> getOrderListByFilter(@Valid OrderListByFilterForm dto) {
         Page<OrderResponse> order = orderService.getOrderListByFilter(dto);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", order));
     }
@@ -43,7 +44,7 @@ public class OrderController {
     }
 
     @PutMapping("{id}/status")
-    public ResponseEntity<ApiResponse> updateStatus(@PathVariable Integer id, @Valid @RequestBody UpdateOrderStatus dto) {
+    public ResponseEntity<ApiResponse> updateStatus(@PathVariable Integer id, @Valid @RequestBody UpdateOrderStatusForm dto) {
         OrderResponse order = orderService.updateStatus(id, dto);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", order));
     }
@@ -60,10 +61,16 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", order));
     }
 
-    @GetMapping("/reports/revenue")
-    public ResponseEntity<ApiResponse> getRevenueReport(@Valid @ModelAttribute RevenueFilterDto filter) {
+    @GetMapping("reports/revenue")
+    public ResponseEntity<ApiResponse> getRevenueReport(@Valid @ModelAttribute RevenueFilterForm filter) {
         List<RevenueReportResponse> report = orderService.getRevenueReport(filter);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", report));
     }
 
+    @GetMapping("status")
+    public ResponseEntity<ApiResponse> getAllOrderStatus() {
+        List<String> status = orderService.getAllOrderStatus();
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", status));
+
+    }
 }

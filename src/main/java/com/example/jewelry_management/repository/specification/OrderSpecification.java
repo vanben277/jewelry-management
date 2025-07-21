@@ -1,7 +1,7 @@
 package com.example.jewelry_management.repository.specification;
 
+import com.example.jewelry_management.enums.OrderStatus;
 import com.example.jewelry_management.model.Order;
-import com.example.jewelry_management.model.OrderStatus;
 import org.springframework.data.jpa.domain.Specification;
 
 public class OrderSpecification {

@@ -1,0 +1,78 @@
+package com.example.jewelry_management.service.impl;
+
+import com.example.jewelry_management.service.FileStorageService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
+
+@Service
+@Slf4j
+public class FileStorageServiceImpl implements FileStorageService {
+
+    private static final String ROOT_UPLOAD_DIR = "uploads";
+
+    @Override
+    public String storeImage(MultipartFile file, String subFolder) {
+        if (file == null || file.isEmpty()) {
+            log.warn("File ảnh rỗng hoặc null");
+            return null;
+        }
+
+        try {
+            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+            Path uploadPath = Paths.get(ROOT_UPLOAD_DIR, subFolder);
+
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            String schema = "localhost:8080";
+            String avatarUrl = schema + "/" + ROOT_UPLOAD_DIR + "/" + subFolder + "/" + fileName;
+            if (!Files.exists(filePath)) {
+                log.error("File ảnh không được lưu: {}", filePath);
+                throw new RuntimeException("Không thể lưu file ảnh: " + fileName);
+            }
+
+            log.info("Đã lưu ảnh mới tại: {}", avatarUrl);
+            return avatarUrl;
+
+        } catch (IOException e) {
+            log.error("Lỗi khi lưu file ảnh: {}", e.getMessage(), e);
+            throw new RuntimeException("Lỗi khi lưu file ảnh!", e);
+        }
+    }
+
+    public void deleteFileByUrl(String url) {
+        try {
+            if (url == null || url.isBlank()) {
+                log.warn("URL ảnh không hợp lệ: {}", url);
+                return;
+            }
+            if (!url.startsWith("/uploads/")) {
+                log.warn("URL ảnh không đúng định dạng: {}", url);
+                return;
+            }
+            String relativePath = url.replaceFirst("^/uploads/", "");
+            Path filePath = Paths.get("uploads").resolve(relativePath);
+            if (Files.exists(filePath)) {
+                Files.delete(filePath);
+                log.info("Đã xóa file ảnh: {}", url);
+            } else {
+                log.warn("File ảnh không tồn tại: {}", filePath);
+            }
+        } catch (IOException e) {
+            log.error("Lỗi khi xóa file ảnh: {}. Lý do: {}", url, e.getMessage(), e);
+        }
+    }
+}
+

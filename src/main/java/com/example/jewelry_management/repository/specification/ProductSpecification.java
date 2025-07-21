@@ -1,7 +1,7 @@
 package com.example.jewelry_management.repository.specification;
 
+import com.example.jewelry_management.enums.ProductStatus;
 import com.example.jewelry_management.model.Product;
-import com.example.jewelry_management.model.ProductStatus;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
@@ -68,15 +68,6 @@ public class ProductSpecification {
                 return null;
             }
             return criteriaBuilder.lessThanOrEqualTo(root.get("dateOfEntry"), dateOfEntry);
-        });
-    }
-
-    public static Specification<Product> imageEquals(String image) {
-        return ((root, query, criteriaBuilder) -> {
-            if (image == null || image.isEmpty()) {
-                return null;
-            }
-            return criteriaBuilder.equal(root.get("image"), image);
         });
     }
 

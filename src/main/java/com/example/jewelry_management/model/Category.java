@@ -48,4 +48,9 @@ public class Category {
     @JsonManagedReference
     private List<Category> children = new ArrayList<>();
 
+    @Column(name = "banner_url")
+    private String bannerUrl;
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private List<Product> products = new ArrayList<>();
 }

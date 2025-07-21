@@ -1,21 +1,25 @@
 package com.example.jewelry_management.service.impl;
 
-import com.example.jewelry_management.dto.request.CreateProduct;
-import com.example.jewelry_management.dto.request.FilterProduct;
-import com.example.jewelry_management.dto.request.TopProductFilterDto;
-import com.example.jewelry_management.dto.request.UpdateProduct;
-import com.example.jewelry_management.dto.response.ProductResponse;
-import com.example.jewelry_management.dto.response.TopProductResponse;
+import com.example.jewelry_management.dto.res.ProductResponse;
+import com.example.jewelry_management.dto.res.TopProductResponse;
+import com.example.jewelry_management.enums.GoldType;
+import com.example.jewelry_management.enums.ProductStatus;
 import com.example.jewelry_management.exception.BusinessException;
 import com.example.jewelry_management.exception.ErrorCodeConstant;
 import com.example.jewelry_management.exception.NotFoundException;
+import com.example.jewelry_management.form.*;
 import com.example.jewelry_management.mapper.MapToProduct;
 import com.example.jewelry_management.mapper.ProductMapper;
 import com.example.jewelry_management.model.Product;
-import com.example.jewelry_management.model.ProductStatus;
+import com.example.jewelry_management.model.ProductImage;
+import com.example.jewelry_management.model.ProductSize;
+import com.example.jewelry_management.repository.OrderItemRepository;
 import com.example.jewelry_management.repository.ProductRepository;
 import com.example.jewelry_management.repository.specification.ProductSpecification;
+import com.example.jewelry_management.service.FileStorageService;
 import com.example.jewelry_management.service.ProductService;
+import com.example.jewelry_management.utils.ProductValidatorUtils;
+import com.example.jewelry_management.validator.ProductValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,11 +29,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,26 +43,18 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final MapToProduct mapToProduct;
     private final ProductMapper productMapper;
-
-    public Product validateId(Integer id) {
-        Optional<Product> optProduct = productRepository.findByIdAndIsDeletedFalse(id);
-        if (optProduct.isEmpty()) {
-            throw new NotFoundException("Không tìm thấy id: " + id + " trong hệ thống", ErrorCodeConstant.PRODUCT_NOT_FOUND_ID);
-        }
-        return optProduct.get();
-    }
+    private final OrderItemRepository orderItemRepository;
+    private final FileStorageService fileStorageService;
+    private final ProductValidatorUtils validatorUtils;
+    private final ProductValidator productValidator;
 
     @Override
-    public Page<ProductResponse> getByFilter(FilterProduct filterProduct) {
+    public Page<ProductResponse> getByFilter(FilterProductForm filterProduct) {
         Specification<Product> specification = ProductSpecification.nameContains(filterProduct.getName())
                 .and(ProductSpecification.fromPrice(filterProduct.getFromPrice()))
                 .and(ProductSpecification.toPrice(filterProduct.getToPrice()))
-                .and(ProductSpecification.fromQuantity(filterProduct.getFromQuantity()))
-                .and(ProductSpecification.toQuantity(filterProduct.getToQuantity()))
                 .and(ProductSpecification.fromDateOfEntry(filterProduct.getFromDateOfEntry()))
                 .and(ProductSpecification.toDateOfEntry(filterProduct.getToDateOfEntry()))
-                .and(ProductSpecification.imageEquals(filterProduct.getImage()))
-                .and(ProductSpecification.hasStatus(filterProduct.getStatus()))
                 .and(ProductSpecification.categoryIdEquals(filterProduct.getCategoryId()))
                 .and(ProductSpecification.notDeleted());
         Pageable pageable = PageRequest.of(filterProduct.getPageNumber(), filterProduct.getPageSize(), Sort.by("price").descending());
@@ -66,31 +62,95 @@ public class ProductServiceImpl implements ProductService {
         return saved.map(productMapper::toProductResponse);
     }
 
+
     @Override
     @Transactional
-    public ProductResponse createProduct(CreateProduct dto) {
-
+    public ProductResponse createProduct(CreateProductForm dto, MultipartFile[] files) {
         Product existedProductName = productRepository.findByName(dto.getName());
         if (existedProductName != null) {
             throw new BusinessException("Tên sản phẩm đã tồn tại trong hệ thống", ErrorCodeConstant.PRODUCT_NAME_ALREADY_EXISTS);
         }
 
-        Product createProduct = new Product();
-        mapToProduct.mapDtoToProduct(dto, createProduct);
-        createProduct.setStatus(ProductStatus.IN_STOCK);
-        createProduct.setIsDeleted(false);
-        Product saved = productRepository.save(createProduct);
+        Product existedSku = productRepository.findBySku(dto.getSku());
+        if (existedSku != null) {
+            throw new BusinessException("Mã sản phẩm đã tồn tại trong hệ thống", ErrorCodeConstant.PRODUCT_SKU_ALREADY_EXISTS);
+        }
+
+        Product product = new Product();
+        mapToProduct.mapDtoToProduct(dto, product);
+        product.setStatus(ProductStatus.IN_STOCK);
+        product.setIsDeleted(false);
+
+        if (dto.getGoldType() != null) {
+            validatorUtils.validateGoldType(dto.getGoldType().name());
+        }
+
+        List<ProductImage> productImages = processMultipartImages(files, product);
+        product.setImages(productImages);
+
+        List<ProductSize> sizes = processSizes(dto.getSizes(), product);
+        product.setSizes(sizes);
+
+        if (sizes.isEmpty() && dto.getQuantity() != null) {
+            product.setQuantity(dto.getQuantity());
+        }
+
+        product.setGoldType(dto.getGoldType());
+        product.setSku(dto.getSku());
+
+        Product saved = productRepository.save(product);
         return productMapper.toProductResponse(saved);
+    }
+
+    private List<ProductImage> processMultipartImages(MultipartFile[] files, Product product) {
+        if (files == null || files.length == 0) {
+            throw new BusinessException("Sản phẩm phải có ít nhất 1 ảnh", ErrorCodeConstant.INVALID_INPUT);
+        }
+
+        List<ProductImage> productImages = new ArrayList<>();
+        for (int i = 0; i < files.length; i++) {
+            MultipartFile file = files[i];
+            String imageUrl = fileStorageService.storeImage(file, "products");
+
+            ProductImage image = new ProductImage();
+            image.setImageUrl(imageUrl);
+            image.setIsPrimary(i == 0);
+            image.setProduct(product);
+            productImages.add(image);
+        }
+
+        return productImages;
+    }
+
+    private List<ProductSize> processSizes(List<ProductSizeForm> sizeForms, Product product) {
+        List<ProductSize> sizes = new ArrayList<>();
+
+        if (sizeForms != null && !sizeForms.isEmpty()) {
+            for (ProductSizeForm sizeForm : sizeForms) {
+                ProductSize size = new ProductSize();
+                size.setSize(sizeForm.getSize());
+                size.setQuantity(sizeForm.getQuantity());
+                size.setProduct(product);
+                sizes.add(size);
+            }
+        }
+
+        return sizes;
     }
 
     @Override
     @Transactional
-    public ProductResponse updateProduct(Integer id, UpdateProduct dto) {
+    public ProductResponse updateProduct(Integer id, UpdateProductForm dto, List<MultipartFile> imageFiles) {
+        Product updateProduct = productValidator.validateId(id);
 
-        Product updateProduct = validateId(id);
+        validatorUtils.validateGoldType(dto.getGoldType() != null ? dto.getGoldType().name() : null);
 
         if (Boolean.TRUE.equals(updateProduct.getIsDeleted())) {
             throw new BusinessException("Sản phẩm đã bị xóa khỏi hệ thống", ErrorCodeConstant.PRODUCT_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
+        }
+
+        if (dto.getStatus() == null || !EnumSet.allOf(ProductStatus.class).contains(dto.getStatus())) {
+            throw new BusinessException("Trạng thái sản phẩm không hợp lệ. Vui lòng truyền IN_STOCK hoặc SOLD_OUT", ErrorCodeConstant.INVALID_INPUT);
         }
 
         Product existedProductName = productRepository.findByName(dto.getName());
@@ -101,34 +161,174 @@ public class ProductServiceImpl implements ProductService {
         mapToProduct.mapDtoToProduct(dto, updateProduct);
         updateProduct.setStatus(dto.getStatus());
 
+        validatorUtils.validatorImages(dto.getImages());
+
+        List<ProductImage> allImages = new ArrayList<>();
+        List<ProductImage> existingImages = updateProduct.getImages();
+
+        if (imageFiles != null && !imageFiles.isEmpty()) {
+            for (MultipartFile file : imageFiles) {
+                if (!file.isEmpty()) {
+                    String imageUrl = fileStorageService.storeImage(file, "products");
+                    ProductImage img = new ProductImage();
+                    img.setImageUrl(imageUrl);
+                    img.setIsPrimary(false);
+                    img.setProduct(updateProduct);
+                    allImages.add(img);
+                }
+            }
+        }
+
+        if (dto.getImages() != null && !dto.getImages().isEmpty()) {
+            for (ProductImageForm form : dto.getImages()) {
+                ProductImage existingImage = existingImages.stream()
+                        .filter(img -> img.getImageUrl().equals(form.getImageUrl()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (existingImage != null) {
+                    existingImage.setIsPrimary(Boolean.TRUE.equals(form.getIsPrimary()));
+                    allImages.add(existingImage);
+                }
+            }
+        }
+
+        long countPrimary = allImages.stream().filter(ProductImage::getIsPrimary).count();
+        if (countPrimary > 1) {
+            throw new BusinessException("Chỉ được phép có 1 ảnh chính duy nhất", ErrorCodeConstant.INVALID_INPUT);
+        }
+        if (countPrimary == 0 && !allImages.isEmpty()) {
+            allImages.getFirst().setIsPrimary(true);
+        }
+
+        assert dto.getImages() != null;
+        List<String> keptUrls = dto.getImages().stream()
+                .map(ProductImageForm::getImageUrl)
+                .toList();
+
+        for (ProductImage oldImg : existingImages) {
+            if (!keptUrls.contains(oldImg.getImageUrl())) {
+                fileStorageService.deleteFileByUrl(oldImg.getImageUrl());
+            }
+        }
+
+        updateProduct.getImages().clear();
+        updateProduct.getImages().addAll(allImages);
+
+        if (dto.getSizes() != null) {
+            Set<Integer> sizeValues = new HashSet<>();
+            for (ProductSizeForm form : dto.getSizes()) {
+                if (!sizeValues.add(form.getSize())) {
+                    throw new BusinessException("Size sản phẩm bị trùng. Vui lòng chọn size khác", ErrorCodeConstant.INVALID_INPUT);
+                }
+            }
+        }
+
+        List<ProductSize> existingSizes = updateProduct.getSizes();
+        List<ProductSize> newSizes = new ArrayList<>();
+        if (dto.getSizes() != null && !dto.getSizes().isEmpty()) {
+            for (ProductSizeForm form : dto.getSizes()) {
+                Integer sizeValue = form.getSize();
+                ProductSize existingSize = existingSizes.stream()
+                        .filter(s -> s.getSize().equals(sizeValue))
+                        .findFirst()
+                        .orElse(null);
+                if (existingSize != null) {
+                    existingSize.setQuantity(form.getQuantity() != null ? form.getQuantity() : 0);
+                    newSizes.add(existingSize);
+                } else {
+                    ProductSize size = new ProductSize();
+                    size.setSize(sizeValue);
+                    size.setQuantity(form.getQuantity() != null ? form.getQuantity() : 0);
+                    size.setProduct(updateProduct);
+                    newSizes.add(size);
+                }
+            }
+        } else {
+            updateProduct.setQuantity(dto.getQuantity() != null ? dto.getQuantity() : 0);
+        }
+
+        updateProduct.getSizes().clear();
+        updateProduct.getSizes().addAll(newSizes);
+
+        updateProduct.updateStatus();
+
         Product saved = productRepository.save(updateProduct);
         return productMapper.toProductResponse(saved);
     }
 
-    @Override
-    @Transactional
-    public ProductResponse softDeleteProduct(Integer id) {
-        Product product = validateId(id);
-        product.setIsDeleted(true);
-        Product saved = productRepository.save(product);
-        productMapper.toProductResponse(saved);
-        return null;
-    }
 
     @Override
     @Transactional
-    public ProductResponse restoreDeleted(Integer id) {
-        Product restoreProduct = productRepository.findByIdAndIsDeletedTrue(id);
-        if (restoreProduct == null) {
-            throw new NotFoundException("Không tìm thấy sản phẩm cần khôi phục", ErrorCodeConstant.PRODUCT_NOT_FOUND_ID);
+    public void softDeleteMultiple(List<Integer> ids) {
+        if (ids == null || ids.isEmpty()) {
+            throw new BusinessException("Danh sách ID không được rỗng", ErrorCodeConstant.INVALID_INPUT);
         }
-        restoreProduct.setIsDeleted(false);
-        Product saved = productRepository.save(restoreProduct);
-        return productMapper.toProductResponse(saved);
+
+        List<Product> products = productRepository.findAllById(ids);
+
+        List<Product> activeProduct = products.stream()
+                .filter(product -> Boolean.FALSE.equals(product.getIsDeleted()))
+                .toList();
+
+        List<Integer> foundIds = activeProduct.stream()
+                .map(Product::getId)
+                .toList();
+
+        List<Integer> missingIds = ids.stream()
+                .filter(id -> !foundIds.contains(id))
+                .toList();
+
+        if (!missingIds.isEmpty()) {
+            throw new NotFoundException("id cần xóa " + missingIds + " không tồn tại trong  hệ thống", ErrorCodeConstant.PRODUCT_NOT_FOUND_ID);
+        }
+
+        List<Integer> referencedIds = orderItemRepository.findReferencedProductIds(ids);
+        if (!referencedIds.isEmpty()) {
+            throw new BusinessException("Không thể xóa vì sản phẩm đang được sử dụng trong đơn hàng. ID " + referencedIds,
+                    ErrorCodeConstant.PRODUCT_BEING_REFERENCED);
+        }
+
+        for (Product product : activeProduct) {
+            product.setIsDeleted(true);
+        }
+        productRepository.saveAll(products);
+        log.info("Đã soft delete {} sản phẩm: {}", products.size(), products.stream().map(Product::getId).toList());
     }
 
     @Override
-    public List<TopProductResponse> getTopSellingProducts(TopProductFilterDto filter) {
+    @Transactional
+    public void restoreDeleteMultiple(List<Integer> ids) {
+        if (ids == null || ids.isEmpty()) {
+            throw new BusinessException("Danh sách id không được để rỗng", ErrorCodeConstant.INVALID_INPUT);
+        }
+        List<Product> products = productRepository.findAllById(ids);
+
+        List<Product> activeDeleted = products.stream()
+                .filter(product -> Boolean.TRUE.equals(product.getIsDeleted()))
+                .toList();
+
+        List<Integer> foundIds = activeDeleted.stream()
+                .map(Product::getId)
+                .toList();
+
+        List<Integer> missingIds = ids.stream()
+                .filter(id -> !foundIds.contains(id))
+                .toList();
+
+        if (!missingIds.isEmpty()) {
+            throw new NotFoundException("id cần khôi phục " + missingIds + " không tồn tại trong  hệ thống", ErrorCodeConstant.PRODUCT_NOT_FOUND_ID);
+        }
+
+        for (Product product : activeDeleted) {
+            product.setIsDeleted(false);
+        }
+
+        productRepository.saveAll(products);
+    }
+
+    @Override
+    public List<TopProductResponse> getTopSellingProducts(TopProductFilterForm filter) {
         if (filter == null || filter.getTopN() == null) {
             log.error("Top không được bỏ trống");
             throw new IllegalArgumentException("Top không được bỏ trống");
@@ -143,11 +343,64 @@ public class ProductServiceImpl implements ProductService {
         List<Object[]> results = productRepository.findTopSellingProducts(start, end, filter.getCategoryId());
         return results.stream().limit(filter.getTopN()).map(result -> {
             TopProductResponse dto = new TopProductResponse();
-            dto.setProductId((Integer) result[0]);
+            Integer productId = (Integer) result[0];
+            dto.setProductId(productId);
             dto.setName((String) result[1]);
             dto.setTotalQuantitySold((Long) result[2]);
             dto.setTotalRevenue((BigDecimal) result[3]);
+            List<ProductImageForm> images = productRepository.findImagesByProductId(productId);
+            dto.setImages(images);
             return dto;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getAllStatus() {
+        return Arrays.stream(ProductStatus.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductResponse findById(Integer id) {
+        Product product = productValidator.validateId(id);
+        return productMapper.toProductResponse(product);
+    }
+
+    @Override
+    @Transactional
+    public void deleteMultiple(List<Integer> ids) {
+        if (ids == null || ids.isEmpty()) {
+            throw new BusinessException("Danh sách cần xóa không được để trống", ErrorCodeConstant.INVALID_INPUT);
+        }
+
+        List<Product> products = productRepository.findAllById(ids);
+
+        List<Integer> foundIds = products.stream()
+                .map(Product::getId)
+                .toList();
+
+        List<Integer> missingIds = ids.stream()
+                .filter(id -> !foundIds.contains(id))
+                .toList();
+        if (!missingIds.isEmpty()) {
+            throw new NotFoundException("Id cần xóa " + missingIds + " không tìm thấy trong hệ thống", ErrorCodeConstant.PRODUCT_NOT_FOUND_ID);
+        }
+
+        List<Integer> referencedIds = orderItemRepository.findReferencedProductIds(ids);
+
+        if (!referencedIds.isEmpty()) {
+            throw new BusinessException("Không thể xóa vì sản phẩm đang được sử dụng trong đơn hàng. ID " + referencedIds,
+                    ErrorCodeConstant.PRODUCT_BEING_REFERENCED);
+        }
+
+        productRepository.deleteAll(products);
+    }
+
+    @Override
+    public List<String> getAllGoldType() {
+        return Arrays.stream(GoldType.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
     }
 }

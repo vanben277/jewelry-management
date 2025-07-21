@@ -1,26 +1,37 @@
 package com.example.jewelry_management.service;
 
-import com.example.jewelry_management.dto.request.CreateProduct;
-import com.example.jewelry_management.dto.request.FilterProduct;
-import com.example.jewelry_management.dto.request.TopProductFilterDto;
-import com.example.jewelry_management.dto.request.UpdateProduct;
-import com.example.jewelry_management.dto.response.ProductResponse;
-import com.example.jewelry_management.dto.response.TopProductResponse;
+import com.example.jewelry_management.dto.res.ProductResponse;
+import com.example.jewelry_management.dto.res.TopProductResponse;
+import com.example.jewelry_management.form.CreateProductForm;
+import com.example.jewelry_management.form.FilterProductForm;
+import com.example.jewelry_management.form.TopProductFilterForm;
+import com.example.jewelry_management.form.UpdateProductForm;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface ProductService {
-    ProductResponse createProduct(CreateProduct dto);
+    ProductResponse createProduct(@Valid CreateProductForm dto, MultipartFile[] images);
 
-    ProductResponse updateProduct(Integer id, @Valid UpdateProduct dto);
+    ProductResponse updateProduct(Integer id, @Valid UpdateProductForm dto, List<MultipartFile> imageFiles);
 
-    ProductResponse softDeleteProduct(Integer id);
+    void softDeleteMultiple(List<Integer> ids);
 
-    Page<ProductResponse> getByFilter(FilterProduct filterProduct);
+    Page<ProductResponse> getByFilter(FilterProductForm filterProduct);
 
-    ProductResponse restoreDeleted(Integer id);
+    void restoreDeleteMultiple(List<Integer> id);
 
-    List<TopProductResponse> getTopSellingProducts(TopProductFilterDto filter);
+    List<TopProductResponse> getTopSellingProducts(@Valid TopProductFilterForm filter);
+
+    List<String> getAllStatus();
+
+    ProductResponse findById(Integer id);
+
+    void deleteMultiple(List<Integer> ids);
+
+    List<String> getAllGoldType();
+
+
 }
