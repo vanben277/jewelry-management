@@ -14,7 +14,6 @@ public class UpdateCategoryForm implements BaseDtoCategory {
     @NotBlank(message = "Trường tên thể loại không được bỏ trống")
     private String name;
 
-    @NotBlank(message = "Trường mô tả không được bỏ trống")
     private String description;
 
     private LocalDateTime updateAt;

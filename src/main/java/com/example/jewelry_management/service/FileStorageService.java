@@ -6,4 +6,6 @@ public interface FileStorageService {
     String storeImage(MultipartFile file, String subFolder);
 
     void deleteFileByUrl(String url);
+
+    boolean isValidImage(MultipartFile file);
 }

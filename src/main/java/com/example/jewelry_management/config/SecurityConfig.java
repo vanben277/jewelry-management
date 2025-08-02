@@ -39,12 +39,42 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                 // ảnh tĩnh
                                 .requestMatchers("/uploads/**").permitAll()
+
+                                // Phân quyền
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "api/v1/account/{id}"
+                                ).hasAnyRole("ADMIN", "STAFF", "USER")
+
                                 // Cho phép tất cả methods cho API v1
-                                .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/v1/**", "/api/v1/login").permitAll()
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/**").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/**").permitAll()
-                                .requestMatchers(HttpMethod.PATCH, "/api/v1/**").permitAll()
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/v1/**",
+                                        "/api/v1/product/latest",
+                                        "/api/v1/category/tree",
+                                        "/api/v1/product/gold-type",
+                                        "/api/v1/product/category/{id}"
+                                ).permitAll()
+
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/api/v1/**",
+                                        "/api/v1/login",
+                                        "/api/v1/register",
+                                        "/api/v1/forgot-password"
+                                ).permitAll()
+
+                                .requestMatchers(
+                                        HttpMethod.PUT,
+                                        "/api/v1/**",
+                                        "/api/v1/reset-password"
+                                ).permitAll()
+
+                                .requestMatchers(
+                                        HttpMethod.DELETE,
+                                        "/api/v1/**"
+                                ).permitAll()
+
                                 // Tất cả các yêu cầu khác cần xác thực
                                 .anyRequest().authenticated()
                 )
@@ -64,7 +94,6 @@ public class SecurityConfig {
         configuration.addAllowedMethod("POST");
         configuration.addAllowedMethod("PUT");
         configuration.addAllowedMethod("DELETE");
-        configuration.addAllowedMethod("OPTIONS");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
 

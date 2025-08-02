@@ -14,5 +14,6 @@ import java.util.List;
 public class CategoryTreeResponse {
     private Integer id;
     private String name;
+    private String bannerUrl;
     private List<CategoryTreeResponse> children;
 }

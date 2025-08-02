@@ -22,3 +22,4 @@ public class TopProductResponse {
     private BigDecimal totalRevenue;
     private List<ProductImageForm> images = new ArrayList<>();
 }
+

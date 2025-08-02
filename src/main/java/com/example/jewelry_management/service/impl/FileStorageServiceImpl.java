@@ -10,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -36,8 +38,12 @@ public class FileStorageServiceImpl implements FileStorageService {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            String schema = "localhost:8080";
-            String avatarUrl = schema + "/" + ROOT_UPLOAD_DIR + "/" + subFolder + "/" + fileName;
+            String protocol = "http://";
+            String host = "localhost";
+            String port = "8080";
+            String baseUrl = protocol + host + ":" + port;
+            String avatarUrl = baseUrl + "/" + ROOT_UPLOAD_DIR + "/" + subFolder + "/" + fileName;
+
             if (!Files.exists(filePath)) {
                 log.error("File ảnh không được lưu: {}", filePath);
                 throw new RuntimeException("Không thể lưu file ảnh: " + fileName);
@@ -73,6 +79,21 @@ public class FileStorageServiceImpl implements FileStorageService {
         } catch (IOException e) {
             log.error("Lỗi khi xóa file ảnh: {}. Lý do: {}", url, e.getMessage(), e);
         }
+    }
+
+    private final List<String> VALID_IMAGE_TYPES = Arrays.asList(
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/bmp",
+            "image/webp"
+    );
+    public boolean isValidImage(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            return false;
+        }
+        String contentType = file.getContentType();
+        return VALID_IMAGE_TYPES.contains(contentType);
     }
 }
 

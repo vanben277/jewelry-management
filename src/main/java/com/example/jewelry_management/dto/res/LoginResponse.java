@@ -11,16 +11,16 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public class LoginResponse {
+    private Integer id;
     private String userName;
+    private String password;
     private String firstName;
     private String lastName;
-    private String password;
-    private AccountRole role;
     private LocalDate dateOfBirth;
+    private AccountRole role;
     private AccountGender gender;
     private String avatar;
     private String phone;
     private String address;
     private String email;
-    private AccountStatus status;
 }

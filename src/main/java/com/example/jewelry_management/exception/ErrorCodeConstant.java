@@ -35,7 +35,12 @@ public class ErrorCodeConstant {
     public static final String ACCOUNT_ALREADY_EXISTS_PHONE = "400025";
     public static final String INVALID_ACCOUNT_OTP = "400026";
     public static final String OTP_HAS_EXPIRED = "400027";
-    public static final String UPLOAD_IMAGE_FAILED = "400027";
+    public static final String UPLOAD_FAILED = "400028";
+    public static final String INVALID_IMAGE = "400029";
+    public static final String IMAGE_TOO_LARGE = "400030";
+    public static final String PASSWORD_IS_NOT_RELIGIOUS = "400031";
+    public static final String NEW_PASSWORD_MUST_BE_DIFFERENT_FROM_THE_OLD_HONEY = "400032";
+    public static final String CATEGORY_IS_PARENT = "400032";
 
 
     public static final String NO_ACCESS = "403001";

@@ -19,7 +19,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(
+        origins = {
+                "http://127.0.0.1:5500",
+                "http://192.168.1.110:5500"
+        }
+)
 public class AccountController {
     private final AccountService accountService;
 
@@ -87,5 +92,11 @@ public class AccountController {
     public ResponseEntity<ApiResponse> getById(@PathVariable Integer id) {
         AccountResponse response = accountService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công!", response));
+    }
+
+    @PutMapping("account/change-password")
+    public ResponseEntity<ApiResponse> changePassword(@Valid @RequestBody ChangePassword form) {
+        accountService.changePassword(form);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Đổi mật khẩu thành công", null));
     }
 }

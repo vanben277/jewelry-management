@@ -2,10 +2,7 @@ package com.example.jewelry_management.service;
 
 import com.example.jewelry_management.dto.res.ProductResponse;
 import com.example.jewelry_management.dto.res.TopProductResponse;
-import com.example.jewelry_management.form.CreateProductForm;
-import com.example.jewelry_management.form.FilterProductForm;
-import com.example.jewelry_management.form.TopProductFilterForm;
-import com.example.jewelry_management.form.UpdateProductForm;
+import com.example.jewelry_management.form.*;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,4 +31,7 @@ public interface ProductService {
     List<String> getAllGoldType();
 
 
+    List<ProductResponse> latestProducts();
+
+    Page<ProductResponse> getProductsByCategoryId(Integer id, FilterProductsByCategoryForm filter);
 }

@@ -1,5 +1,6 @@
 package com.example.jewelry_management.service.impl;
 
+import com.example.jewelry_management.dto.res.CategoryResponse;
 import com.example.jewelry_management.dto.res.ProductResponse;
 import com.example.jewelry_management.dto.res.TopProductResponse;
 import com.example.jewelry_management.enums.GoldType;
@@ -10,9 +11,11 @@ import com.example.jewelry_management.exception.NotFoundException;
 import com.example.jewelry_management.form.*;
 import com.example.jewelry_management.mapper.MapToProduct;
 import com.example.jewelry_management.mapper.ProductMapper;
+import com.example.jewelry_management.model.Category;
 import com.example.jewelry_management.model.Product;
 import com.example.jewelry_management.model.ProductImage;
 import com.example.jewelry_management.model.ProductSize;
+import com.example.jewelry_management.repository.CategoryRepository;
 import com.example.jewelry_management.repository.OrderItemRepository;
 import com.example.jewelry_management.repository.ProductRepository;
 import com.example.jewelry_management.repository.specification.ProductSpecification;
@@ -47,6 +50,7 @@ public class ProductServiceImpl implements ProductService {
     private final FileStorageService fileStorageService;
     private final ProductValidatorUtils validatorUtils;
     private final ProductValidator productValidator;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Page<ProductResponse> getByFilter(FilterProductForm filterProduct) {
@@ -402,5 +406,55 @@ public class ProductServiceImpl implements ProductService {
         return Arrays.stream(GoldType.values())
                 .map(Enum::name)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductResponse> latestProducts() {
+        return productRepository.findAll(Sort.by(Sort.Direction.DESC, "dateOfEntry"))
+                .stream()
+                .limit(10)
+                .map(productMapper::toProductResponse)
+                .toList();
+    }
+
+    @Override
+    public Page<ProductResponse> getProductsByCategoryId(Integer id, FilterProductsByCategoryForm filter) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Id sản phẩm không tồn tại", ErrorCodeConstant.CATEGORY_NOT_FOUND_ID));
+
+        if(Boolean.TRUE.equals(category.getIsDeleted())) {
+            throw new BusinessException("Sản phẩm đã được xóa khỏi hệ thống", ErrorCodeConstant.CATEGORY_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
+        }
+
+        long childCount = categoryRepository.countChildrenByParentId(id);
+        if (childCount > 0) {
+            throw new BusinessException("Không thể lấy danh sách vì đây là danh mục cha", ErrorCodeConstant.CATEGORY_IS_PARENT);
+        }
+
+        if(filter.getGoldType() != null ) {
+            try {
+                GoldType.valueOf(String.valueOf(filter.getGoldType()));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Loại vàng không hợp lệ: '" + filter.getGoldType() + "'. Vui lòng chọn: GOLD_10K, GOLD_14K, GOLD_18K, GOLD_24K");
+            }
+        }
+
+        Specification<Product> specification = ProductSpecification.nameContains(filter.getName())
+                .and(ProductSpecification.goldTypeEquals(filter.getGoldType()))
+                .and(ProductSpecification.fromPrice(filter.getFromPrice()))
+                .and(ProductSpecification.toPrice(filter.getToPrice()))
+                .and(ProductSpecification.notDeleted());
+
+        Sort.Direction direction = filter.getSortDirection().equalsIgnoreCase("asc")
+                ? Sort.Direction.ASC : Sort.Direction.DESC;
+        List<String> allowedSortFields = List.of("price", "dateOfEntry");
+        if(!allowedSortFields.contains(filter.getSortBy())) {
+            throw new BusinessException("Trường sắp xếp không hợp lệ! Chỉ được: " + allowedSortFields, ErrorCodeConstant.INVALID_INPUT);
+        }
+        Sort sort = Sort.by(direction, filter.getSortBy());
+
+        Pageable pageable = PageRequest.of(filter.getPageNumber(), filter.getPageSize(), sort);
+        Page<Product> saved = productRepository.findAll(specification, pageable);
+        return saved.map(productMapper::toProductResponse);
     }
 }

@@ -22,13 +22,13 @@ public class AccountValidator {
     }
 
     public void validateUniqueUserName(String userName) {
-        if (accountRepository.findByEmail(userName).isPresent()) {
+        if (accountRepository.findByUserName1(userName).isPresent()) {
             throw new BusinessException("Tài khoản đã tồn tại trong hệ thống vui lòng thử lại!", ErrorCodeConstant.ACCOUNT_ALREADY_EXISTS_USER_NAME);
         }
     }
 
     public void validateUniquePhone(String phone) {
-        if (accountRepository.findByEmail(phone).isPresent()) {
+        if (accountRepository.findByPhone(phone).isPresent()) {
             throw new BusinessException("Số điện thoại đã tồn tại trong hệ thống vui lòng thử lại!", ErrorCodeConstant.ACCOUNT_ALREADY_EXISTS_PHONE);
         }
     }

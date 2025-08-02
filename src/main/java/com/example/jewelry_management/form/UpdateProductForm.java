@@ -41,7 +41,6 @@ public class UpdateProductForm implements BaseDtoProduct, QuantitySizeValidation
     @PastOrPresent(message = "Ngày nhập không thể ở tương lai")
     private LocalDate dateOfEntry;
 
-    @NotBlank(message = "Trường mô tả không được bỏ trống")
     private String description;
 
     @NotNull(message = "Trạng thái không được bỏ trống")

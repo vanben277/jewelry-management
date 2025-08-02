@@ -44,5 +44,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
 
     boolean existsByCategoryIdInAndIsDeletedFalse(List<Integer> ids);
 
-
+    List<Product> findByCategoryIdAndIsDeletedFalse(Integer id);
 }

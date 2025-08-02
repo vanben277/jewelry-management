@@ -31,4 +31,6 @@ public interface AccountService {
     void updateStatus(Integer id, @Valid UpdateAccountStatus form);
 
     AccountResponse getById(Integer id);
+
+    void changePassword(@Valid ChangePassword form);
 }

@@ -60,7 +60,20 @@ public class AccountServiceImpl implements AccountService {
         Account account = new Account();
         modelMapper.map(form, account);
 
-        String avatarUrl = fileStorageService.storeImage(form.getAvatar(), "users");
+        MultipartFile avatarFile = form.getAvatar();
+        String avatarUrl = null;
+        if (avatarFile != null && !avatarFile.isEmpty()) {
+            if (!fileStorageService.isValidImage(avatarFile)) {
+                throw new BusinessException("Định dạng ảnh avatar không hợp lệ!", ErrorCodeConstant.INVALID_IMAGE);
+            }
+            if (avatarFile.getSize() > 2 * 1024 * 1024) {
+                throw new BusinessException("Kích thước ảnh vượt quá giới hạn!", ErrorCodeConstant.IMAGE_TOO_LARGE);
+            }
+            avatarUrl = fileStorageService.storeImage(avatarFile, "users");
+            if (avatarUrl == null) {
+                throw new BusinessException("Không thể lưu ảnh mới!", ErrorCodeConstant.UPLOAD_FAILED);
+            }
+        }
         account.setAvatar(avatarUrl);
 
         Account saved = accountRepository.save(account);
@@ -72,7 +85,8 @@ public class AccountServiceImpl implements AccountService {
     public LoginResponse login(LoginForm form) {
         Account account = accountRepository.findByUserName1(form.getUserName())
                 .filter(a -> a.getUserName().equals(form.getUserName()))
-                .orElseThrow(() -> new BusinessException("Tài Khoản hoặc Mật Khẩu không đúng. Vui lòng thử lại!", ErrorCodeConstant.WRONG_ACCOUNT_OR_PASSWORD));
+                    .orElseThrow(() -> new BusinessException("Tài Khoản hoặc Mật Khẩu không đúng. Vui lòng thử lại!", ErrorCodeConstant.WRONG_ACCOUNT_OR_PASSWORD));
+
         if (!passwordEncoder.matches(form.getPassword(), account.getPassword()))
             throw new BusinessException("Tài Khoản hoặc Mật Khẩu không đúng. Vui lòng thử lại!", ErrorCodeConstant.WRONG_ACCOUNT_OR_PASSWORD);
 
@@ -91,6 +105,8 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new NotFoundException("Id không tồn tại trong hệ thống " + id, ErrorCodeConstant.ACCOUNT_NOT_FOUND));
         accountValidatorUtils.validatorAccountStatus(account);
 
+        accountValidator.getCurrentAccount();
+
         Optional<Account> existedByEmail = accountRepository.findByEmail(form.getEmail());
         if (existedByEmail.isPresent() && !id.equals(existedByEmail.get().getId())) {
             throw new BusinessException("Email đã được sử dụng vui lòng thử lại!", ErrorCodeConstant.ACCOUNT_ALREADY_EXISTS_EMAIL);
@@ -101,21 +117,46 @@ public class AccountServiceImpl implements AccountService {
             throw new BusinessException("Số điện thoại đã tồn tại trong hệ thống vui lòng thử lại!", ErrorCodeConstant.ACCOUNT_ALREADY_EXISTS_PHONE);
         }
 
-        modelMapper.map(form, account);
-        MultipartFile newImage = form.getAvatar();
-        if (newImage != null && !newImage.isEmpty()) {
-            String oldAvatar = account.getAvatar();
-            if (oldAvatar != null && !oldAvatar.isBlank() && oldAvatar.startsWith("/uploads/")) {
-                fileStorageService.deleteFileByUrl(oldAvatar);
-            } else {
-                log.warn("Đường dẫn avatar cũ không hợp lệ: {}", oldAvatar);
-            }
+        String currentAvatar = account.getAvatar();
 
-            String avatarUrl = fileStorageService.storeImage(newImage, "avatars");
-            if (avatarUrl == null) {
-                throw new RuntimeException("Không thể lưu ảnh mới");
+        modelMapper.map(form, account);
+
+        MultipartFile newImage = form.getAvatar();
+
+        account.setAvatar(currentAvatar);
+        if (newImage != null) {
+             var b = currentAvatar != null && !currentAvatar.isBlank() && currentAvatar.startsWith("/uploads/");
+            if (!newImage.isEmpty()) {
+                if (b) {
+                    try {
+                        fileStorageService.deleteFileByUrl(currentAvatar);
+                    } catch (Exception e) {
+                        log.error("Lỗi khi xóa ảnh cũ: {}", currentAvatar, e);
+                    }
+                }
+
+                String avatarUrl = fileStorageService.storeImage(newImage, "users");
+                if (avatarUrl == null) {
+                    log.error("Không thể lưu ảnh mới cho tài khoản: {}", account.getId());
+                    throw new RuntimeException("Không thể lưu ảnh mới");
+                }
+                account.setAvatar(avatarUrl);
+                log.info("Đã cập nhật avatar mới cho tài khoản: {}", account.getId());
+
+            } else {
+                // Case 2: Truyền field avatar nhưng rỗng -> giữ avatar hiện tại
+                if (b) {
+                    try {
+                        fileStorageService.deleteFileByUrl(currentAvatar);
+                        account.setAvatar(currentAvatar); // Xóa avatar
+                        log.info("Đã xóa avatar cho tài khoản: {}", account.getId());
+                    } catch (Exception e) {
+                        log.error("Lỗi khi xóa ảnh cũ: {}", currentAvatar, e);
+                    }
+                } else {
+                    account.setAvatar(currentAvatar); // Set ảnh cũ nếu không truyền avatar
+                }
             }
-            account.setAvatar(avatarUrl);
         }
 
         Account saved = accountRepository.save(account);
@@ -211,8 +252,31 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountResponse getById(Integer id) {
+
         Account existedById = accountRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Id không tồn tại trong hệ thống", ErrorCodeConstant.ACCOUNT_NOT_FOUND));
         return modelMapper.map(existedById, AccountResponse.class);
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(ChangePassword form) {
+        Account account = accountValidator.getCurrentAccount();
+
+        accountValidatorUtils.validatorAccountStatus(account);
+
+        if(!passwordEncoder.matches(form.getCurrentPassword(), account.getPassword())) {
+            throw new BusinessException("Mật khẩu hiện tại không đúng vui lòng thử lại", ErrorCodeConstant.PASSWORD_IS_NOT_RELIGIOUS);
+        }
+
+        if(passwordEncoder.matches(form.getNewPassword(), account.getPassword())) {
+            throw new BusinessException("Mật khẩu mới phải khác mật cũ", ErrorCodeConstant.NEW_PASSWORD_MUST_BE_DIFFERENT_FROM_THE_OLD_HONEY);
+        }
+
+        String encodeNewPassword = passwordEncoder.encode(form.getNewPassword());
+
+        account.setPassword(encodeNewPassword);
+
+        accountRepository.save(account);
     }
 }

@@ -4,10 +4,7 @@ package com.example.jewelry_management.controller;
 import com.example.jewelry_management.dto.ApiResponse;
 import com.example.jewelry_management.dto.res.ProductResponse;
 import com.example.jewelry_management.dto.res.TopProductResponse;
-import com.example.jewelry_management.form.CreateProductForm;
-import com.example.jewelry_management.form.FilterProductForm;
-import com.example.jewelry_management.form.TopProductFilterForm;
-import com.example.jewelry_management.form.UpdateProductForm;
+import com.example.jewelry_management.form.*;
 import com.example.jewelry_management.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -88,5 +85,18 @@ public class ProductController {
     public ResponseEntity<ApiResponse> getAllGoldType() {
         List<String> goldType = productService.getAllGoldType();
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", goldType));
+    }
+
+    @GetMapping("latest")
+    public ResponseEntity<ApiResponse> latestProducts() {
+        List<ProductResponse> productResponses = productService.latestProducts();
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", productResponses));
+
+    }
+
+    @GetMapping("category/{id}")
+    public ResponseEntity<ApiResponse> getProductsByCategoryId (@PathVariable Integer id, FilterProductsByCategoryForm filter) {
+        Page<ProductResponse> productResponses = productService.getProductsByCategoryId(id, filter);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", productResponses));
     }
 }

@@ -37,7 +37,6 @@ public class CreateProductForm implements BaseDtoProduct, QuantitySizeValidation
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate dateOfEntry;
 
-    @NotBlank(message = "Trường mô tả không được bỏ trống")
     private String description;
 
     private ProductStatus status;

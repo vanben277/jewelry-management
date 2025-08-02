@@ -1,5 +1,6 @@
 package com.example.jewelry_management.repository.specification;
 
+import com.example.jewelry_management.enums.GoldType;
 import com.example.jewelry_management.enums.ProductStatus;
 import com.example.jewelry_management.model.Product;
 import org.springframework.data.jpa.domain.Specification;
@@ -91,5 +92,14 @@ public class ProductSpecification {
 
     public static Specification<Product> notDeleted() {
         return (root, query, criteriaBuilder) -> criteriaBuilder.isFalse(root.get("isDeleted"));
+    }
+
+    public static Specification<Product> goldTypeEquals (GoldType goldType) {
+        return ((root, query, criteriaBuilder) -> {
+            if(goldType == null) {
+                return null;
+            }
+            return criteriaBuilder.equal(root.get("goldType"), goldType);
+        });
     }
 }

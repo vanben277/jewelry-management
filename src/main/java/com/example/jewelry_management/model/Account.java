@@ -50,9 +50,11 @@ public class Account {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Getter
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Getter
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private AccountRole role = AccountRole.USER;
@@ -81,4 +83,5 @@ public class Account {
     public void updateLastLogin() {
         this.lastLoginAt = LocalDateTime.now();
     }
+
 }

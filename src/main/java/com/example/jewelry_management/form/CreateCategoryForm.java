@@ -13,7 +13,6 @@ public class CreateCategoryForm implements BaseDtoCategory {
     @NotBlank(message = "Trường tên thể loại không được bỏ trống")
     private String name;
 
-    @NotBlank(message = "Trường mô tả không được bỏ trống")
     private String description;
 
     private Integer parentId;
