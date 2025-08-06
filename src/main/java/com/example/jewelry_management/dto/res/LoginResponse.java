@@ -2,7 +2,6 @@ package com.example.jewelry_management.dto.res;
 
 import com.example.jewelry_management.enums.AccountGender;
 import com.example.jewelry_management.enums.AccountRole;
-import com.example.jewelry_management.enums.AccountStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

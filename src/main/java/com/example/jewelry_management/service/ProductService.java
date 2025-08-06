@@ -34,4 +34,6 @@ public interface ProductService {
     List<ProductResponse> latestProducts();
 
     Page<ProductResponse> getProductsByCategoryId(Integer id, FilterProductsByCategoryForm filter);
+
+    Page<ProductResponse> searchProducts(String name);
 }

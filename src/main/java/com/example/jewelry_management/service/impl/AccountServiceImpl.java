@@ -85,7 +85,7 @@ public class AccountServiceImpl implements AccountService {
     public LoginResponse login(LoginForm form) {
         Account account = accountRepository.findByUserName1(form.getUserName())
                 .filter(a -> a.getUserName().equals(form.getUserName()))
-                    .orElseThrow(() -> new BusinessException("Tài Khoản hoặc Mật Khẩu không đúng. Vui lòng thử lại!", ErrorCodeConstant.WRONG_ACCOUNT_OR_PASSWORD));
+                .orElseThrow(() -> new BusinessException("Tài Khoản hoặc Mật Khẩu không đúng. Vui lòng thử lại!", ErrorCodeConstant.WRONG_ACCOUNT_OR_PASSWORD));
 
         if (!passwordEncoder.matches(form.getPassword(), account.getPassword()))
             throw new BusinessException("Tài Khoản hoặc Mật Khẩu không đúng. Vui lòng thử lại!", ErrorCodeConstant.WRONG_ACCOUNT_OR_PASSWORD);
@@ -125,7 +125,7 @@ public class AccountServiceImpl implements AccountService {
 
         account.setAvatar(currentAvatar);
         if (newImage != null) {
-             var b = currentAvatar != null && !currentAvatar.isBlank() && currentAvatar.startsWith("/uploads/");
+            var b = currentAvatar != null && !currentAvatar.isBlank() && currentAvatar.startsWith("/uploads/");
             if (!newImage.isEmpty()) {
                 if (b) {
                     try {
@@ -265,11 +265,11 @@ public class AccountServiceImpl implements AccountService {
 
         accountValidatorUtils.validatorAccountStatus(account);
 
-        if(!passwordEncoder.matches(form.getCurrentPassword(), account.getPassword())) {
+        if (!passwordEncoder.matches(form.getCurrentPassword(), account.getPassword())) {
             throw new BusinessException("Mật khẩu hiện tại không đúng vui lòng thử lại", ErrorCodeConstant.PASSWORD_IS_NOT_RELIGIOUS);
         }
 
-        if(passwordEncoder.matches(form.getNewPassword(), account.getPassword())) {
+        if (passwordEncoder.matches(form.getNewPassword(), account.getPassword())) {
             throw new BusinessException("Mật khẩu mới phải khác mật cũ", ErrorCodeConstant.NEW_PASSWORD_MUST_BE_DIFFERENT_FROM_THE_OLD_HONEY);
         }
 

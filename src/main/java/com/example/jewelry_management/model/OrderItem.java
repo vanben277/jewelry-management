@@ -39,7 +39,12 @@ public class OrderItem {
     @Column(name = "total")
     private BigDecimal total;
 
+    @Column(name = "size")
+    private Integer size;
+
     @Column(name = "create_at", updatable = false, nullable = false)
     @CreationTimestamp
     private LocalDateTime createAt;
+
+
 }

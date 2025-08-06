@@ -95,8 +95,14 @@ public class ProductController {
     }
 
     @GetMapping("category/{id}")
-    public ResponseEntity<ApiResponse> getProductsByCategoryId (@PathVariable Integer id, FilterProductsByCategoryForm filter) {
+    public ResponseEntity<ApiResponse> getProductsByCategoryId(@PathVariable Integer id, FilterProductsByCategoryForm filter) {
         Page<ProductResponse> productResponses = productService.getProductsByCategoryId(id, filter);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", productResponses));
+    }
+
+    @GetMapping("search")
+    public ResponseEntity<ApiResponse> searchProducts(@RequestParam String name) {
+        Page<ProductResponse> productResponses = productService.searchProducts(name);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", productResponses));
     }
 }

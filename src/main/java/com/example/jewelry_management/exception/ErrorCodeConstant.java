@@ -7,6 +7,7 @@ public class ErrorCodeConstant {
     public static final String ORDER_NOT_FOUND = "404004";
     public static final String ACCOUNT_NOT_FOUND = "404005";
     public static final String NOT_FOUND_LOGIN = "404006";
+    public static final String PRODUCT_SIZE_NOT_FOUND = "404007";
 
     public static final String PRODUCT_NAME_ALREADY_EXISTS = "400001";
     public static final String CATEGORY_NAME_ALREADY_EXISTS = "400002";
@@ -40,7 +41,11 @@ public class ErrorCodeConstant {
     public static final String IMAGE_TOO_LARGE = "400030";
     public static final String PASSWORD_IS_NOT_RELIGIOUS = "400031";
     public static final String NEW_PASSWORD_MUST_BE_DIFFERENT_FROM_THE_OLD_HONEY = "400032";
-    public static final String CATEGORY_IS_PARENT = "400032";
+    public static final String CATEGORY_IS_PARENT = "400033";
+    public static final String OUT_OF_STOCK = "400034";
+    public static final String PRODUCT_SIZE_REQUEST = "40003";
+    public static final String INVALID_QUANTITY = "400036";
+    public static final String PRODUCT_SIZE_NOT_ALLOWED = "400037";
 
 
     public static final String NO_ACCESS = "403001";

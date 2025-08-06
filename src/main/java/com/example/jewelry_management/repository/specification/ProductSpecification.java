@@ -81,25 +81,21 @@ public class ProductSpecification {
         });
     }
 
-    public static Specification<Product> categoryIdEquals(Integer categoryId) {
-        return ((root, query, criteriaBuilder) -> {
-            if (categoryId == null) {
-                return null;
-            }
-            return criteriaBuilder.equal(root.get("categoryId"), categoryId);
-        });
-    }
-
     public static Specification<Product> notDeleted() {
         return (root, query, criteriaBuilder) -> criteriaBuilder.isFalse(root.get("isDeleted"));
     }
 
-    public static Specification<Product> goldTypeEquals (GoldType goldType) {
+    public static Specification<Product> goldTypeEquals(GoldType goldType) {
         return ((root, query, criteriaBuilder) -> {
-            if(goldType == null) {
+            if (goldType == null) {
                 return null;
             }
             return criteriaBuilder.equal(root.get("goldType"), goldType);
         });
+    }
+
+    public static Specification<Product> categoryEquals(Integer categoryId) {
+        return (root, query, criteriaBuilder) ->
+                categoryId == null ? null : criteriaBuilder.equal(root.get("category").get("id"), categoryId);
     }
 }

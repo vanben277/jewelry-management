@@ -68,26 +68,28 @@ public class OrderServiceImpl implements OrderService {
 
         BigDecimal total = BigDecimal.ZERO;
         List<OrderItem> orderItems = new ArrayList<>();
-        List<Product> productsToUpdate = new ArrayList<>();
 
         for (OrderItemRequestForm itemReq : request.getItems()) {
             Product product = productMap.get(itemReq.getProductId());
             if (product == null) {
-                throw new NotFoundException("Sản phẩm không tồn tại: " + itemReq.getProductId(),
+                throw new NotFoundException(
+                        "Sản phẩm không tồn tại: " + itemReq.getProductId(),
                         ErrorCodeConstant.PRODUCT_NOT_FOUND);
             }
 
             if (product.getStatus() != ProductStatus.IN_STOCK) {
-                throw new BusinessException("Sản phẩm " + (product.getName()) + " không có sẵn trong kho!", ErrorCodeConstant.PRODUCT_OUT_OF_STOCK);
+                throw new BusinessException(
+                        "Sản phẩm " + (product.getName()) + " không có sẵn trong kho!",
+                        ErrorCodeConstant.PRODUCT_OUT_OF_STOCK);
             }
 
             if (product.getQuantity() < itemReq.getQuantity()) {
-                throw new BusinessException("Sản phẩm " + product.getName() + " không đủ hàng trong kho",
-                        "OUT_OF_STOCK");
+                throw new BusinessException(
+                        "Sản phẩm " + product.getName() + " không đủ hàng trong kho",
+                        ErrorCodeConstant.OUT_OF_STOCK);
             }
 
-            product.setQuantity(product.getQuantity() - itemReq.getQuantity());
-            productsToUpdate.add(product);
+            validatorUtils.validateAndReduceStock(product.getId(), itemReq.getSize(), itemReq.getQuantity());
 
             OrderItem item = new OrderItem();
             item.setOrder(order);
@@ -95,13 +97,12 @@ public class OrderServiceImpl implements OrderService {
             item.setProductName(product.getName());
             item.setPrice(product.getPrice());
             item.setQuantity(itemReq.getQuantity());
+            item.setSize(itemReq.getSize());
             item.setTotal(product.getPrice().multiply(BigDecimal.valueOf(itemReq.getQuantity())));
 
             total = total.add(item.getTotal());
             orderItems.add(item);
         }
-
-        productRepository.saveAll(productsToUpdate);
 
         order.setItems(orderItems);
         order.setTotalPrice(total);

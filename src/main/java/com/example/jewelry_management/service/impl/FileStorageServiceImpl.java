@@ -19,6 +19,13 @@ import java.util.UUID;
 public class FileStorageServiceImpl implements FileStorageService {
 
     private static final String ROOT_UPLOAD_DIR = "uploads";
+    private final List<String> VALID_IMAGE_TYPES = Arrays.asList(
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/bmp",
+            "image/webp"
+    );
 
     @Override
     public String storeImage(MultipartFile file, String subFolder) {
@@ -81,13 +88,6 @@ public class FileStorageServiceImpl implements FileStorageService {
         }
     }
 
-    private final List<String> VALID_IMAGE_TYPES = Arrays.asList(
-            "image/jpeg",
-            "image/png",
-            "image/gif",
-            "image/bmp",
-            "image/webp"
-    );
     public boolean isValidImage(MultipartFile file) {
         if (file == null || file.isEmpty()) {
             return false;

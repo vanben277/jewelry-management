@@ -20,5 +20,7 @@ public class OrderItemResponse {
     private BigDecimal price;
     private Integer quantity;
     private BigDecimal total;
+    private Integer size;
     private LocalDateTime createAt;
+    private String image;
 }

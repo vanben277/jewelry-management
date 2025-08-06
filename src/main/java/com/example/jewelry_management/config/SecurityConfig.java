@@ -53,7 +53,9 @@ public class SecurityConfig {
                                         "/api/v1/product/latest",
                                         "/api/v1/category/tree",
                                         "/api/v1/product/gold-type",
-                                        "/api/v1/product/category/{id}"
+                                        "/api/v1/product/category/{id}",
+                                        "/api/v1/product/search"
+
                                 ).permitAll()
 
                                 .requestMatchers(

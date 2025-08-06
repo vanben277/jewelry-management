@@ -1,6 +1,5 @@
 package com.example.jewelry_management.service.impl;
 
-import com.example.jewelry_management.dto.res.CategoryResponse;
 import com.example.jewelry_management.dto.res.ProductResponse;
 import com.example.jewelry_management.dto.res.TopProductResponse;
 import com.example.jewelry_management.enums.GoldType;
@@ -59,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
                 .and(ProductSpecification.toPrice(filterProduct.getToPrice()))
                 .and(ProductSpecification.fromDateOfEntry(filterProduct.getFromDateOfEntry()))
                 .and(ProductSpecification.toDateOfEntry(filterProduct.getToDateOfEntry()))
-                .and(ProductSpecification.categoryIdEquals(filterProduct.getCategoryId()))
+                .and(ProductSpecification.categoryEquals(filterProduct.getCategoryId()))
                 .and(ProductSpecification.notDeleted());
         Pageable pageable = PageRequest.of(filterProduct.getPageNumber(), filterProduct.getPageSize(), Sort.by("price").descending());
         Page<Product> saved = productRepository.findAll(specification, pageable);
@@ -422,7 +421,7 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Id sản phẩm không tồn tại", ErrorCodeConstant.CATEGORY_NOT_FOUND_ID));
 
-        if(Boolean.TRUE.equals(category.getIsDeleted())) {
+        if (Boolean.TRUE.equals(category.getIsDeleted())) {
             throw new BusinessException("Sản phẩm đã được xóa khỏi hệ thống", ErrorCodeConstant.CATEGORY_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
         }
 
@@ -431,7 +430,7 @@ public class ProductServiceImpl implements ProductService {
             throw new BusinessException("Không thể lấy danh sách vì đây là danh mục cha", ErrorCodeConstant.CATEGORY_IS_PARENT);
         }
 
-        if(filter.getGoldType() != null ) {
+        if (filter.getGoldType() != null) {
             try {
                 GoldType.valueOf(String.valueOf(filter.getGoldType()));
             } catch (IllegalArgumentException e) {
@@ -440,6 +439,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Specification<Product> specification = ProductSpecification.nameContains(filter.getName())
+                .and(ProductSpecification.categoryEquals(id))
                 .and(ProductSpecification.goldTypeEquals(filter.getGoldType()))
                 .and(ProductSpecification.fromPrice(filter.getFromPrice()))
                 .and(ProductSpecification.toPrice(filter.getToPrice()))
@@ -448,7 +448,7 @@ public class ProductServiceImpl implements ProductService {
         Sort.Direction direction = filter.getSortDirection().equalsIgnoreCase("asc")
                 ? Sort.Direction.ASC : Sort.Direction.DESC;
         List<String> allowedSortFields = List.of("price", "dateOfEntry");
-        if(!allowedSortFields.contains(filter.getSortBy())) {
+        if (!allowedSortFields.contains(filter.getSortBy())) {
             throw new BusinessException("Trường sắp xếp không hợp lệ! Chỉ được: " + allowedSortFields, ErrorCodeConstant.INVALID_INPUT);
         }
         Sort sort = Sort.by(direction, filter.getSortBy());
@@ -456,5 +456,17 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(filter.getPageNumber(), filter.getPageSize(), sort);
         Page<Product> saved = productRepository.findAll(specification, pageable);
         return saved.map(productMapper::toProductResponse);
+    }
+
+    @Override
+    public Page<ProductResponse> searchProducts(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return Page.empty();
+        }
+        Specification<Product> specification = ProductSpecification.nameContains(name)
+                .and(ProductSpecification.notDeleted());
+        Pageable pageable = PageRequest.of(0, 5);
+        Page<Product> page = productRepository.findAll(specification, pageable);
+        return page.map(productMapper::toProductResponse);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.jewelry_management.form;
 
 import com.example.jewelry_management.enums.GoldType;
+import com.example.jewelry_management.model.Category;
 import lombok.Getter;
 import lombok.Setter;
 
