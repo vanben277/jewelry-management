@@ -18,4 +18,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpeci
     List<Object[]> findRevenueByPeriod(@Param("dateFormat") String dateFormat,
                                        @Param("start") LocalDateTime start,
                                        @Param("end") LocalDateTime end);
+
+    List<Order> findByAccountIdOrderByCreateAtDesc(Integer id);
 }

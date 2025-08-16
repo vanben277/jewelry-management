@@ -1,11 +1,9 @@
 package com.example.jewelry_management.service;
 
-import com.example.jewelry_management.dto.res.AccountResponse;
-import com.example.jewelry_management.dto.res.LoginResponse;
-import com.example.jewelry_management.dto.res.RegisterResponse;
-import com.example.jewelry_management.dto.res.UpdateInfoAccountResponse;
+import com.example.jewelry_management.dto.res.*;
 import com.example.jewelry_management.form.*;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -33,4 +31,6 @@ public interface AccountService {
     AccountResponse getById(Integer id);
 
     void changePassword(@Valid ChangePassword form);
+
+    Page<AccountResponseFull> filter(AccountFilterForm accountFilterForm);
 }

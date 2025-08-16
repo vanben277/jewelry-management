@@ -1,9 +1,6 @@
 package com.example.jewelry_management.service.impl;
 
-import com.example.jewelry_management.dto.res.AccountResponse;
-import com.example.jewelry_management.dto.res.LoginResponse;
-import com.example.jewelry_management.dto.res.RegisterResponse;
-import com.example.jewelry_management.dto.res.UpdateInfoAccountResponse;
+import com.example.jewelry_management.dto.res.*;
 import com.example.jewelry_management.enums.AccountGender;
 import com.example.jewelry_management.enums.AccountRole;
 import com.example.jewelry_management.enums.AccountStatus;
@@ -13,6 +10,7 @@ import com.example.jewelry_management.exception.NotFoundException;
 import com.example.jewelry_management.form.*;
 import com.example.jewelry_management.model.Account;
 import com.example.jewelry_management.repository.AccountRepository;
+import com.example.jewelry_management.repository.specification.AccountSpecification;
 import com.example.jewelry_management.service.AccountService;
 import com.example.jewelry_management.service.EmailService;
 import com.example.jewelry_management.service.FileStorageService;
@@ -21,6 +19,11 @@ import com.example.jewelry_management.validator.AccountValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -105,7 +108,10 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new NotFoundException("Id không tồn tại trong hệ thống " + id, ErrorCodeConstant.ACCOUNT_NOT_FOUND));
         accountValidatorUtils.validatorAccountStatus(account);
 
-        accountValidator.getCurrentAccount();
+        Account currentAccount = accountValidator.getCurrentAccount();
+        if (!currentAccount.getRole().equals(AccountRole.ADMIN) && !currentAccount.getId().equals(id)) {
+            throw new BusinessException("Bạn không có quyền cập nhật thông tin", ErrorCodeConstant.NO_ACCESS);
+        }
 
         Optional<Account> existedByEmail = accountRepository.findByEmail(form.getEmail());
         if (existedByEmail.isPresent() && !id.equals(existedByEmail.get().getId())) {
@@ -233,8 +239,13 @@ public class AccountServiceImpl implements AccountService {
     public void updateRole(Integer id, UpdateAccountRole form) {
         Account existedById = accountRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Id không tồn tại trong hệ thống", ErrorCodeConstant.ACCOUNT_NOT_FOUND));
-        accountValidatorUtils.validatorAccountStatus(existedById);
+
         accountValidatorUtils.validateAccountRole(String.valueOf(existedById.getRole()));
+
+        Account currentAccount = accountValidator.getCurrentAccount();
+        if (currentAccount.getId().equals(id) && currentAccount.getRole() == AccountRole.ADMIN) {
+            throw new BusinessException("Bạn không thể tự cập nhật role cho chính mình", ErrorCodeConstant.NO_ACCESS);
+        }
 
         existedById.setRole(AccountRole.valueOf(form.getRole().toUpperCase()));
         accountRepository.save(existedById);
@@ -245,6 +256,16 @@ public class AccountServiceImpl implements AccountService {
     public void updateStatus(Integer id, UpdateAccountStatus form) {
         Account existedById = accountRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Id không tồn tại trong hệ thống", ErrorCodeConstant.ACCOUNT_NOT_FOUND));
+
+        accountValidatorUtils.validateAccountRole(String.valueOf(existedById.getRole()));
+
+        Account currentAccount = accountValidator.getCurrentAccount();
+
+        accountValidatorUtils.validatorAccountStatus(currentAccount);
+
+        if (currentAccount.getId().equals(id) && currentAccount.getRole() == AccountRole.ADMIN) {
+            throw new BusinessException("Bạn không thể tự cập nhật status cho chính mình", ErrorCodeConstant.NO_ACCESS);
+        }
 
         existedById.setStatus(AccountStatus.valueOf(form.getStatus().toUpperCase()));
         accountRepository.save(existedById);
@@ -278,5 +299,22 @@ public class AccountServiceImpl implements AccountService {
         account.setPassword(encodeNewPassword);
 
         accountRepository.save(account);
+    }
+
+    @Override
+    public Page<AccountResponseFull> filter(AccountFilterForm accountFilterForm) {
+        Account account = accountValidator.getCurrentAccount();
+        accountValidatorUtils.validatorAccountStatus(account);
+
+        Specification<Account> specification = AccountSpecification.phoneConstant(accountFilterForm.getPhone())
+                .and(AccountSpecification.roleEquals(accountFilterForm.getRole()))
+                .and(AccountSpecification.genderEquals(accountFilterForm.getGender()))
+                .and(AccountSpecification.statusEquals(accountFilterForm.getStatus()));
+
+        Pageable pageable = PageRequest.of(accountFilterForm.getPageNumber(), accountFilterForm.getPageSize(), Sort.by("createdAt").descending());
+
+        Page<Account> accounts = accountRepository.findAll(specification, pageable);
+
+        return accounts.map(acc -> modelMapper.map(acc, AccountResponseFull.class));
     }
 }

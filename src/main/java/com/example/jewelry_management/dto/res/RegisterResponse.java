@@ -4,8 +4,6 @@ import com.example.jewelry_management.enums.AccountGender;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 public class RegisterResponse {
@@ -13,7 +11,7 @@ public class RegisterResponse {
     private String userName;
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
+    private String dateOfBirth;
     private AccountGender gender;
     private String avatar;
     private String phone;

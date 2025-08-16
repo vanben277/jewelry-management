@@ -1,14 +1,12 @@
 package com.example.jewelry_management.controller;
 
 import com.example.jewelry_management.dto.ApiResponse;
-import com.example.jewelry_management.dto.res.AccountResponse;
-import com.example.jewelry_management.dto.res.LoginResponse;
-import com.example.jewelry_management.dto.res.RegisterResponse;
-import com.example.jewelry_management.dto.res.UpdateInfoAccountResponse;
+import com.example.jewelry_management.dto.res.*;
 import com.example.jewelry_management.form.*;
 import com.example.jewelry_management.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -79,13 +77,13 @@ public class AccountController {
     @PutMapping("account/role/{id}")
     public ResponseEntity<ApiResponse> updateRole(@PathVariable Integer id, @Valid @RequestBody UpdateAccountRole form) {
         accountService.updateRole(id, form);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", null));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Phân quyền thành công", null));
     }
 
     @PutMapping("account/status/{id}")
     public ResponseEntity<ApiResponse> updateStatus(@PathVariable Integer id, @Valid @RequestBody UpdateAccountStatus form) {
         accountService.updateStatus(id, form);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", null));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Cập nhật trạng thái thành công", null));
     }
 
     @GetMapping("account/{id}")
@@ -98,5 +96,12 @@ public class AccountController {
     public ResponseEntity<ApiResponse> changePassword(@Valid @RequestBody ChangePassword form) {
         accountService.changePassword(form);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Đổi mật khẩu thành công", null));
+    }
+
+    @GetMapping("account/filter")
+    public ResponseEntity<ApiResponse> filter(AccountFilterForm accountFilterForm) {
+        Page<AccountResponseFull> accountResponsePage = accountService.filter(accountFilterForm);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", accountResponsePage));
+
     }
 }

@@ -43,7 +43,7 @@ public class ErrorCodeConstant {
     public static final String NEW_PASSWORD_MUST_BE_DIFFERENT_FROM_THE_OLD_HONEY = "400032";
     public static final String CATEGORY_IS_PARENT = "400033";
     public static final String OUT_OF_STOCK = "400034";
-    public static final String PRODUCT_SIZE_REQUEST = "40003";
+    public static final String PRODUCT_SIZE_REQUEST = "400035";
     public static final String INVALID_QUANTITY = "400036";
     public static final String PRODUCT_SIZE_NOT_ALLOWED = "400037";
 

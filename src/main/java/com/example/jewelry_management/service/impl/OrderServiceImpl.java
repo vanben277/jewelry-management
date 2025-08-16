@@ -5,20 +5,19 @@ import com.example.jewelry_management.dto.res.RevenueReportResponse;
 import com.example.jewelry_management.enums.AccountRole;
 import com.example.jewelry_management.enums.OrderStatus;
 import com.example.jewelry_management.enums.ProductStatus;
-import com.example.jewelry_management.exception.BusinessException;
-import com.example.jewelry_management.exception.ErrorCodeConstant;
-import com.example.jewelry_management.exception.ForbiddenException;
-import com.example.jewelry_management.exception.NotFoundException;
+import com.example.jewelry_management.exception.*;
 import com.example.jewelry_management.form.*;
 import com.example.jewelry_management.mapper.OrderMapper;
 import com.example.jewelry_management.model.Account;
 import com.example.jewelry_management.model.Order;
 import com.example.jewelry_management.model.OrderItem;
 import com.example.jewelry_management.model.Product;
+import com.example.jewelry_management.repository.AccountRepository;
 import com.example.jewelry_management.repository.OrderRepository;
 import com.example.jewelry_management.repository.ProductRepository;
 import com.example.jewelry_management.repository.specification.OrderSpecification;
 import com.example.jewelry_management.service.OrderService;
+import com.example.jewelry_management.utils.AccountValidatorUtils;
 import com.example.jewelry_management.utils.OrderValidatorUtils;
 import com.example.jewelry_management.validator.AccountValidator;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +44,8 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final AccountValidator accountValidator;
     private final OrderValidatorUtils validatorUtils;
+    private final AccountRepository accountRepository;
+    private final AccountValidatorUtils accountValidatorUtils;
 
     @Override
     @Transactional
@@ -236,5 +237,34 @@ public class OrderServiceImpl implements OrderService {
         return Arrays.stream(OrderStatus.values())
                 .map(Enum::name)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrderResponse> getAllOrdersByMe(Integer id, OrderStatus status) {
+        Account currentAccount = accountValidator.getCurrentAccount();
+
+        if (!currentAccount.getId().equals(id)) {
+            throw new UnauthorizedException("Bạn không có quyền truy cập vào đơn hàng khác", ErrorCodeConstant.NO_ACCESS);
+        }
+
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Tài khoản không tồn tại trong hệ thống", ErrorCodeConstant.ACCOUNT_NOT_FOUND));
+        accountValidatorUtils.validatorAccountStatus(account);
+
+        List<Order> orders = orderRepository.findByAccountIdOrderByCreateAtDesc(id);
+
+        if (status != null) {
+            orders = orders.stream()
+                    .filter(order -> order.getStatus().equals(status))
+                    .toList();
+        }
+
+        orders = orders.stream()
+                .filter(order -> !order.getIsDeleted())
+                .toList();
+
+        return orders.stream()
+                .map(orderMapper::toResponse)
+                .toList();
     }
 }

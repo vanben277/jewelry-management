@@ -27,7 +27,8 @@ public class OrderItemMapper {
                 orderItem.getTotal(),
                 orderItem.getSize(),
                 orderItem.getCreateAt(),
-                imageUrl
+                imageUrl,
+                orderItem.getProduct().getSku()
         );
     }
 }

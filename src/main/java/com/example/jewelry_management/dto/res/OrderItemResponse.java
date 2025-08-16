@@ -23,4 +23,5 @@ public class OrderItemResponse {
     private Integer size;
     private LocalDateTime createAt;
     private String image;
+    private String sku;
 }

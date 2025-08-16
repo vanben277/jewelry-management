@@ -1,6 +1,5 @@
 package com.example.jewelry_management.repository;
 
-import com.example.jewelry_management.form.ProductSizeForm;
 import com.example.jewelry_management.model.ProductSize;
 import org.springframework.data.jpa.repository.JpaRepository;
 

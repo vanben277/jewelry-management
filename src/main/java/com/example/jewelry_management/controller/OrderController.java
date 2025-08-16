@@ -4,6 +4,7 @@ package com.example.jewelry_management.controller;
 import com.example.jewelry_management.dto.ApiResponse;
 import com.example.jewelry_management.dto.res.OrderResponse;
 import com.example.jewelry_management.dto.res.RevenueReportResponse;
+import com.example.jewelry_management.enums.OrderStatus;
 import com.example.jewelry_management.form.CreateOrderRequestForm;
 import com.example.jewelry_management.form.OrderListByFilterForm;
 import com.example.jewelry_management.form.RevenueFilterForm;
@@ -71,6 +72,11 @@ public class OrderController {
     public ResponseEntity<ApiResponse> getAllOrderStatus() {
         List<String> status = orderService.getAllOrderStatus();
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", status));
+    }
 
+    @GetMapping("me/{id}")
+    public ResponseEntity<ApiResponse> getAllOrdersByMe(@PathVariable Integer id, OrderStatus status) {
+        List<OrderResponse> orderResponses = orderService.getAllOrdersByMe(id, status);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", orderResponses));
     }
 }

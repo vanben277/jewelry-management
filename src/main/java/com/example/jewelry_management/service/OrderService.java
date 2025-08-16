@@ -2,6 +2,7 @@ package com.example.jewelry_management.service;
 
 import com.example.jewelry_management.dto.res.OrderResponse;
 import com.example.jewelry_management.dto.res.RevenueReportResponse;
+import com.example.jewelry_management.enums.OrderStatus;
 import com.example.jewelry_management.form.CreateOrderRequestForm;
 import com.example.jewelry_management.form.OrderListByFilterForm;
 import com.example.jewelry_management.form.RevenueFilterForm;
@@ -27,4 +28,6 @@ public interface OrderService {
     List<RevenueReportResponse> getRevenueReport(RevenueFilterForm filter);
 
     List<String> getAllOrderStatus();
+
+    List<OrderResponse> getAllOrdersByMe(Integer id, OrderStatus status);
 }

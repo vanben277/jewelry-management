@@ -40,10 +40,35 @@ public class SecurityConfig {
                                 // ảnh tĩnh
                                 .requestMatchers("/uploads/**").permitAll()
 
-                                // Phân quyền
+                                // Phân quyền riêng (ADMIN)
                                 .requestMatchers(
                                         HttpMethod.GET,
-                                        "api/v1/account/{id}"
+                                        "/api/v1/account/filter",
+                                        "/api/v1/account/role",
+                                        "api/v1/account/gender",
+                                        "/api/v1/account/status"
+                                ).hasAnyRole("ADMIN")
+
+                                .requestMatchers(
+                                        HttpMethod.PUT,
+                                        "/api/v1/account/status/{id}",
+                                        "/api/v1/account/role/{id}"
+                                ).hasAnyRole("ADMIN")
+
+                                // Phân quyền chung
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/v1/account/{id}"
+                                ).hasAnyRole("ADMIN", "STAFF", "USER")
+
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/api/v1/order"
+                                ).hasAnyRole("ADMIN", "STAFF", "USER")
+
+                                .requestMatchers(
+                                        HttpMethod.PUT,
+                                        "/api/v1/account/{id}"
                                 ).hasAnyRole("ADMIN", "STAFF", "USER")
 
                                 // Cho phép tất cả methods cho API v1
@@ -54,7 +79,8 @@ public class SecurityConfig {
                                         "/api/v1/category/tree",
                                         "/api/v1/product/gold-type",
                                         "/api/v1/product/category/{id}",
-                                        "/api/v1/product/search"
+                                        "/api/v1/product/search",
+                                        "/api/v1/order/me/{id}"
 
                                 ).permitAll()
 
