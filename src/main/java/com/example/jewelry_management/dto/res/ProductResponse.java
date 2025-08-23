@@ -37,6 +37,7 @@ public class ProductResponse {
     private List<ProductSizeForm> sizes = new ArrayList<>();
     private String sku;
     private GoldType goldType;
+    private String categoryName;
 
     @JsonProperty("displayName")
     public String getDisplayName() {

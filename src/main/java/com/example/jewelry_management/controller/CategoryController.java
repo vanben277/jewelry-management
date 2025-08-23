@@ -26,7 +26,7 @@ import java.util.List;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    @GetMapping
+    @GetMapping("filter")
     public ResponseEntity<ApiResponse> getByFilter(FilterCategoryForm filterCategory) {
         Page<CategoryResponse> categories = categoryService.getByFilter(filterCategory);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", categories));
@@ -59,6 +59,12 @@ public class CategoryController {
     @GetMapping("name")
     public ResponseEntity<ApiResponse> getAllCategoryName() {
         List<AllCategoryNameResponse> names = categoryService.getAllCategoryName();
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", names));
+    }
+
+    @GetMapping("name-not-parent")
+    public ResponseEntity<ApiResponse> getAllChildCategoryNames() {
+        List<AllCategoryNameResponse> names = categoryService.getAllChildCategoryNames();
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", names));
     }
 

@@ -24,7 +24,7 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping
+    @GetMapping("filter")
     public ResponseEntity<ApiResponse> getByFilter(FilterProductForm filterProduct) {
         Page<ProductResponse> products = productService.getByFilter(filterProduct);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", products));
@@ -75,7 +75,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", product));
     }
 
-    @DeleteMapping("delete-multiple")
+    @DeleteMapping("hard-delete")
     public ResponseEntity<ApiResponse> deleteMultiple(@RequestBody List<Integer> ids) {
         productService.deleteMultiple(ids);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Khôi phục sản phẩm thành công", null));
@@ -105,4 +105,11 @@ public class ProductController {
         Page<ProductResponse> productResponses = productService.searchProducts(name);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", productResponses));
     }
+
+    @PutMapping("status/{id}")
+    public ResponseEntity<ApiResponse> updatedStatusByInStockOrSoldOut(@PathVariable Integer id, @Valid @RequestBody UpdateProductStatusForm form) {
+        productService.updatedStatusByInStockOrSoldOut(id, form);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Cập nhật trạng thái thành công", null));
+    }
+
 }

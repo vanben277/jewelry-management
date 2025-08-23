@@ -47,9 +47,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Page<CategoryResponse> getByFilter(FilterCategoryForm filterCategory) {
-        Specification<Category> specification = CategorySpecification.nameConstant(filterCategory.getName())
-                .and(CategorySpecification.notDeleted());
-        Pageable pageable = PageRequest.of(filterCategory.getPageNumber(), filterCategory.getPageSize(), Sort.by("name").descending());
+        Specification<Category> specification = CategorySpecification.nameConstant(filterCategory.getName());
+        Pageable pageable = PageRequest.of(filterCategory.getPageNumber(), filterCategory.getPageSize(), Sort.by("createAt").descending());
         Page<Category> categoryPage = categoryRepository.findAll(specification, pageable);
         return categoryPage.map(categoryMapper::toResponse);
     }
@@ -249,5 +248,10 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponse getById(Integer id) {
         Category category = validator.validateCategoryId(id);
         return modelMapper.map(category, CategoryResponse.class);
+    }
+
+    @Override
+    public List<AllCategoryNameResponse> getAllChildCategoryNames() {
+        return categoryRepository.findAllChildCategoryNames();
     }
 }

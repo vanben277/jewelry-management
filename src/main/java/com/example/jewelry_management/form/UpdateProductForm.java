@@ -2,7 +2,6 @@ package com.example.jewelry_management.form;
 
 import com.example.jewelry_management.dto.base.BaseDtoProduct;
 import com.example.jewelry_management.enums.GoldType;
-import com.example.jewelry_management.enums.ProductStatus;
 import com.example.jewelry_management.validator.OnlyOneOfQuantityOrSizes;
 import com.example.jewelry_management.validator.QuantitySizeValidationTarget;
 import jakarta.validation.Valid;
@@ -43,8 +42,6 @@ public class UpdateProductForm implements BaseDtoProduct, QuantitySizeValidation
 
     private String description;
 
-    @NotNull(message = "Trạng thái không được bỏ trống")
-    private ProductStatus status;
 
     @NotNull(message = "Trường thể loại không được bỏ trống")
     private Integer categoryId;

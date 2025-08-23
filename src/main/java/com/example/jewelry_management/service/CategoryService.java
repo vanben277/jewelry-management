@@ -29,4 +29,6 @@ public interface CategoryService {
     List<CategoryTreeResponse> getCategoryTree();
 
     CategoryResponse getById(Integer id);
+
+    List<AllCategoryNameResponse> getAllChildCategoryNames();
 }

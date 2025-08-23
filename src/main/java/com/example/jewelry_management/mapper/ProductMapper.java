@@ -59,6 +59,11 @@ public class ProductMapper {
 
         response.setSku(product.getSku());
         response.setGoldType(product.getGoldType());
+
+        if (product.getCategory() != null) {
+            response.setCategoryName(product.getCategory().getName());
+        }
+
         return response;
     }
 }

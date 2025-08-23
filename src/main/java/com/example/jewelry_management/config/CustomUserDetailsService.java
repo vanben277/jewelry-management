@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Tài khoản hoặc mật khẩu không hợp lệ!"));
         return User.withUsername(username)
                 .password(account.getPassword())
-                .roles(String.valueOf(account.getRole()))
+                .roles(account.getRole().name())
                 .build();
     }
 }

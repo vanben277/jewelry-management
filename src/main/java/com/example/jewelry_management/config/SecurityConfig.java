@@ -40,19 +40,71 @@ public class SecurityConfig {
                                 // ảnh tĩnh
                                 .requestMatchers("/uploads/**").permitAll()
 
+                                // Cho phép tất cả methods cho API v1
+                                .requestMatchers(
+                                        HttpMethod.GET,
+                                        "/api/v1/product/latest",
+                                        "/api/v1/category/tree",
+                                        "/api/v1/product/gold-type",
+                                        "/api/v1/product/category/{id}",
+                                        "/api/v1/product/search",
+                                        "/api/v1/order/me/{id}",
+                                        "/api/v1/product/{id}"
+
+                                ).permitAll()
+
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/api/v1/login",
+                                        "/api/v1/register",
+                                        "/api/v1/forgot-password"
+                                ).permitAll()
+
+                                .requestMatchers(
+                                        HttpMethod.PUT,
+                                        "/api/v1/reset-password"
+                                ).permitAll()
+
                                 // Phân quyền riêng (ADMIN)
                                 .requestMatchers(
                                         HttpMethod.GET,
                                         "/api/v1/account/filter",
                                         "/api/v1/account/role",
                                         "api/v1/account/gender",
-                                        "/api/v1/account/status"
+                                        "/api/v1/account/status",
+                                        "/api/v1/category/filter",
+                                        "/api/v1/category/name",
+                                        "/api/v1/category/{id}",
+                                        "/api/v1/category/name-not-parent",
+                                        "/api/v1/product/filter",
+                                        "/api/v1/product/top-selling",
+                                        "/api/v1/product/status"
+                                ).hasAnyRole("ADMIN")
+
+
+                                .requestMatchers(
+                                        HttpMethod.POST,
+                                        "/api/v1/category",
+                                        "/api/v1/product"
                                 ).hasAnyRole("ADMIN")
 
                                 .requestMatchers(
                                         HttpMethod.PUT,
                                         "/api/v1/account/status/{id}",
-                                        "/api/v1/account/role/{id}"
+                                        "/api/v1/account/role/{id}",
+                                        "/api/v1/category/{id}",
+                                        "/api/v1/category/restore-delete",
+                                        "/api/v1/product/{id}",
+                                        "/api/v1/product/restore-deleted",
+                                        "/api/v1/product/status/{id}"
+                                ).hasAnyRole("ADMIN")
+
+                                .requestMatchers(
+                                        HttpMethod.DELETE,
+                                        "/api/v1/category/soft-delete",
+                                        "/api/v1/category/hard-delete",
+                                        "/api/v1/product/soft-deleted",
+                                        "/api/v1/product/hard-delete"
                                 ).hasAnyRole("ADMIN")
 
                                 // Phân quyền chung
@@ -70,38 +122,6 @@ public class SecurityConfig {
                                         HttpMethod.PUT,
                                         "/api/v1/account/{id}"
                                 ).hasAnyRole("ADMIN", "STAFF", "USER")
-
-                                // Cho phép tất cả methods cho API v1
-                                .requestMatchers(
-                                        HttpMethod.GET,
-                                        "/api/v1/**",
-                                        "/api/v1/product/latest",
-                                        "/api/v1/category/tree",
-                                        "/api/v1/product/gold-type",
-                                        "/api/v1/product/category/{id}",
-                                        "/api/v1/product/search",
-                                        "/api/v1/order/me/{id}"
-
-                                ).permitAll()
-
-                                .requestMatchers(
-                                        HttpMethod.POST,
-                                        "/api/v1/**",
-                                        "/api/v1/login",
-                                        "/api/v1/register",
-                                        "/api/v1/forgot-password"
-                                ).permitAll()
-
-                                .requestMatchers(
-                                        HttpMethod.PUT,
-                                        "/api/v1/**",
-                                        "/api/v1/reset-password"
-                                ).permitAll()
-
-                                .requestMatchers(
-                                        HttpMethod.DELETE,
-                                        "/api/v1/**"
-                                ).permitAll()
 
                                 // Tất cả các yêu cầu khác cần xác thực
                                 .anyRequest().authenticated()

@@ -36,4 +36,6 @@ public interface ProductService {
     Page<ProductResponse> getProductsByCategoryId(Integer id, FilterProductsByCategoryForm filter);
 
     Page<ProductResponse> searchProducts(String name);
+
+    void updatedStatusByInStockOrSoldOut(Integer id, @Valid UpdateProductStatusForm form);
 }

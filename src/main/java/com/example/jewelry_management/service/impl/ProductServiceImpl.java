@@ -2,25 +2,26 @@ package com.example.jewelry_management.service.impl;
 
 import com.example.jewelry_management.dto.res.ProductResponse;
 import com.example.jewelry_management.dto.res.TopProductResponse;
+import com.example.jewelry_management.enums.AccountRole;
 import com.example.jewelry_management.enums.GoldType;
 import com.example.jewelry_management.enums.ProductStatus;
 import com.example.jewelry_management.exception.BusinessException;
 import com.example.jewelry_management.exception.ErrorCodeConstant;
 import com.example.jewelry_management.exception.NotFoundException;
+import com.example.jewelry_management.exception.UnauthorizedException;
 import com.example.jewelry_management.form.*;
 import com.example.jewelry_management.mapper.MapToProduct;
 import com.example.jewelry_management.mapper.ProductMapper;
-import com.example.jewelry_management.model.Category;
-import com.example.jewelry_management.model.Product;
-import com.example.jewelry_management.model.ProductImage;
-import com.example.jewelry_management.model.ProductSize;
+import com.example.jewelry_management.model.*;
 import com.example.jewelry_management.repository.CategoryRepository;
 import com.example.jewelry_management.repository.OrderItemRepository;
 import com.example.jewelry_management.repository.ProductRepository;
 import com.example.jewelry_management.repository.specification.ProductSpecification;
 import com.example.jewelry_management.service.FileStorageService;
 import com.example.jewelry_management.service.ProductService;
+import com.example.jewelry_management.utils.AccountValidatorUtils;
 import com.example.jewelry_management.utils.ProductValidatorUtils;
+import com.example.jewelry_management.validator.AccountValidator;
 import com.example.jewelry_management.validator.ProductValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,17 +51,25 @@ public class ProductServiceImpl implements ProductService {
     private final ProductValidatorUtils validatorUtils;
     private final ProductValidator productValidator;
     private final CategoryRepository categoryRepository;
+    private final AccountValidatorUtils accountValidatorUtils;
+    private final AccountValidator accountValidator;
 
     @Override
     public Page<ProductResponse> getByFilter(FilterProductForm filterProduct) {
-        Specification<Product> specification = ProductSpecification.nameContains(filterProduct.getName())
-                .and(ProductSpecification.fromPrice(filterProduct.getFromPrice()))
-                .and(ProductSpecification.toPrice(filterProduct.getToPrice()))
-                .and(ProductSpecification.fromDateOfEntry(filterProduct.getFromDateOfEntry()))
-                .and(ProductSpecification.toDateOfEntry(filterProduct.getToDateOfEntry()))
+        Account account = accountValidator.getCurrentAccount();
+
+        if (!account.getRole().equals(AccountRole.ADMIN)) {
+            throw new UnauthorizedException("Bạn không có quyền truy cập", ErrorCodeConstant.UNAUTHORIZED);
+        }
+
+        accountValidatorUtils.validatorAccountStatus(account);
+
+        Specification<Product> specification = ProductSpecification.nameAndSkuCombinedSearch(filterProduct.getName())
                 .and(ProductSpecification.categoryEquals(filterProduct.getCategoryId()))
-                .and(ProductSpecification.notDeleted());
-        Pageable pageable = PageRequest.of(filterProduct.getPageNumber(), filterProduct.getPageSize(), Sort.by("price").descending());
+                .and(ProductSpecification.hasStatus(filterProduct.getStatus()))
+                .and(ProductSpecification.goldTypeEquals(filterProduct.getGoldType()))
+                .and(ProductSpecification.isDeletedEquals(filterProduct.getIsDeleted()));
+        Pageable pageable = PageRequest.of(filterProduct.getPageNumber(), filterProduct.getPageSize(), Sort.by("createAt").descending());
         Page<Product> saved = productRepository.findAll(specification, pageable);
         return saved.map(productMapper::toProductResponse);
     }
@@ -152,9 +161,6 @@ public class ProductServiceImpl implements ProductService {
             throw new BusinessException("Sản phẩm đã bị xóa khỏi hệ thống", ErrorCodeConstant.PRODUCT_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
         }
 
-        if (dto.getStatus() == null || !EnumSet.allOf(ProductStatus.class).contains(dto.getStatus())) {
-            throw new BusinessException("Trạng thái sản phẩm không hợp lệ. Vui lòng truyền IN_STOCK hoặc SOLD_OUT", ErrorCodeConstant.INVALID_INPUT);
-        }
 
         Product existedProductName = productRepository.findByName(dto.getName());
         if (existedProductName != null && !existedProductName.getId().equals(id)) {
@@ -162,12 +168,11 @@ public class ProductServiceImpl implements ProductService {
         }
 
         mapToProduct.mapDtoToProduct(dto, updateProduct);
-        updateProduct.setStatus(dto.getStatus());
 
         validatorUtils.validatorImages(dto.getImages());
 
-        List<ProductImage> allImages = new ArrayList<>();
         List<ProductImage> existingImages = updateProduct.getImages();
+        List<ProductImage> allImages = new ArrayList<>(existingImages);
 
         if (imageFiles != null && !imageFiles.isEmpty()) {
             for (MultipartFile file : imageFiles) {
@@ -184,15 +189,9 @@ public class ProductServiceImpl implements ProductService {
 
         if (dto.getImages() != null && !dto.getImages().isEmpty()) {
             for (ProductImageForm form : dto.getImages()) {
-                ProductImage existingImage = existingImages.stream()
+                allImages.stream()
                         .filter(img -> img.getImageUrl().equals(form.getImageUrl()))
-                        .findFirst()
-                        .orElse(null);
-
-                if (existingImage != null) {
-                    existingImage.setIsPrimary(Boolean.TRUE.equals(form.getIsPrimary()));
-                    allImages.add(existingImage);
-                }
+                        .findFirst().ifPresent(existingImage -> existingImage.setIsPrimary(Boolean.TRUE.equals(form.getIsPrimary())));
             }
         }
 
@@ -204,14 +203,15 @@ public class ProductServiceImpl implements ProductService {
             allImages.getFirst().setIsPrimary(true);
         }
 
-        assert dto.getImages() != null;
-        List<String> keptUrls = dto.getImages().stream()
-                .map(ProductImageForm::getImageUrl)
-                .toList();
+        if (dto.getImages() != null) {
+            List<String> keptUrls = dto.getImages().stream()
+                    .map(ProductImageForm::getImageUrl)
+                    .toList();
 
-        for (ProductImage oldImg : existingImages) {
-            if (!keptUrls.contains(oldImg.getImageUrl())) {
-                fileStorageService.deleteFileByUrl(oldImg.getImageUrl());
+            for (ProductImage oldImg : existingImages) {
+                if (!keptUrls.contains(oldImg.getImageUrl())) {
+                    fileStorageService.deleteFileByUrl(oldImg.getImageUrl());
+                }
             }
         }
 
@@ -438,7 +438,7 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        Specification<Product> specification = ProductSpecification.nameContains(filter.getName())
+        Specification<Product> specification = ProductSpecification.nameAndSkuCombinedSearch(filter.getName())
                 .and(ProductSpecification.categoryEquals(id))
                 .and(ProductSpecification.goldTypeEquals(filter.getGoldType()))
                 .and(ProductSpecification.fromPrice(filter.getFromPrice()))
@@ -463,10 +463,27 @@ public class ProductServiceImpl implements ProductService {
         if (name == null || name.trim().isEmpty()) {
             return Page.empty();
         }
-        Specification<Product> specification = ProductSpecification.nameContains(name)
+        Specification<Product> specification = ProductSpecification.nameAndSkuCombinedSearch(name)
                 .and(ProductSpecification.notDeleted());
         Pageable pageable = PageRequest.of(0, 5);
         Page<Product> page = productRepository.findAll(specification, pageable);
         return page.map(productMapper::toProductResponse);
+    }
+
+    @Override
+    @Transactional
+    public void updatedStatusByInStockOrSoldOut(Integer id, UpdateProductStatusForm form) {
+        Account account = accountValidator.getCurrentAccount();
+        accountValidatorUtils.validatorAccountStatus(account);
+
+        if (!EnumSet.of(ProductStatus.IN_STOCK, ProductStatus.SOLD_OUT).contains(form.getStatus())) {
+            throw new BusinessException("Trạng thái sản phẩm không hợp lệ. Vui lòng truyền IN_STOCK, SOLD_OUT", ErrorCodeConstant.INVALID_INPUT);
+        }
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy sản phẩm trong hệ thống", ErrorCodeConstant.PRODUCT_NOT_FOUND_ID));
+
+        product.setStatus(form.getStatus());
+        productRepository.save(product);
     }
 }

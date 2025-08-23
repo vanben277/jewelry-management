@@ -48,6 +48,9 @@ public class ErrorCodeConstant {
     public static final String PRODUCT_SIZE_NOT_ALLOWED = "400037";
 
 
+    public static final String UNAUTHORIZED = "401001";
+
+
     public static final String NO_ACCESS = "403001";
 
 }

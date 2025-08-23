@@ -3,18 +3,30 @@ package com.example.jewelry_management.repository.specification;
 import com.example.jewelry_management.enums.GoldType;
 import com.example.jewelry_management.enums.ProductStatus;
 import com.example.jewelry_management.model.Product;
+import jakarta.persistence.criteria.Expression;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 public class ProductSpecification {
-    public static Specification<Product> nameContains(String name) {
+    public static Specification<Product> nameAndSkuCombinedSearch(String name) {
         return ((root, query, criteriaBuilder) -> {
             if (name == null || name.isEmpty()) {
                 return null;
             }
-            return criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + name.toLowerCase() + "%");
+            String likePattern = "%" + name.toLowerCase().trim() + "%";
+
+            Expression<String> displayNameException = criteriaBuilder.concat(
+                    criteriaBuilder.concat(root.get("name"), " "),
+                    root.get("sku")
+            );
+
+            return criteriaBuilder.like(criteriaBuilder
+                            .lower(
+                                    displayNameException
+                            ),
+                    likePattern
+            );
         });
     }
 
@@ -33,42 +45,6 @@ public class ProductSpecification {
                 return null;
             }
             return criteriaBuilder.lessThanOrEqualTo(root.get("price"), price);
-        });
-    }
-
-    public static Specification<Product> fromQuantity(Integer quantity) {
-        return ((root, query, criteriaBuilder) -> {
-            if (quantity == null) {
-                return null;
-            }
-            return criteriaBuilder.greaterThanOrEqualTo(root.get("quantity"), quantity);
-        });
-    }
-
-    public static Specification<Product> toQuantity(Integer quantity) {
-        return ((root, query, criteriaBuilder) -> {
-            if (quantity == null) {
-                return null;
-            }
-            return criteriaBuilder.lessThanOrEqualTo(root.get("quantity"), quantity);
-        });
-    }
-
-    public static Specification<Product> fromDateOfEntry(LocalDate dateOfEntry) {
-        return ((root, query, criteriaBuilder) -> {
-            if (dateOfEntry == null) {
-                return null;
-            }
-            return criteriaBuilder.greaterThanOrEqualTo(root.get("dateOfEntry"), dateOfEntry);
-        });
-    }
-
-    public static Specification<Product> toDateOfEntry(LocalDate dateOfEntry) {
-        return ((root, query, criteriaBuilder) -> {
-            if (dateOfEntry == null) {
-                return null;
-            }
-            return criteriaBuilder.lessThanOrEqualTo(root.get("dateOfEntry"), dateOfEntry);
         });
     }
 
@@ -97,5 +73,14 @@ public class ProductSpecification {
     public static Specification<Product> categoryEquals(Integer categoryId) {
         return (root, query, criteriaBuilder) ->
                 categoryId == null ? null : criteriaBuilder.equal(root.get("category").get("id"), categoryId);
+    }
+
+    public static Specification<Product> isDeletedEquals(Boolean isDeleted) {
+        return (root, query, cb) -> {
+            if (isDeleted == null) {
+                return null;
+            }
+            return cb.equal(root.get("isDeleted"), isDeleted);
+        };
     }
 }
