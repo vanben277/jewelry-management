@@ -18,8 +18,8 @@ import java.util.List;
 public class TopProductResponse {
     private Integer productId;
     private String name;
+    private BigDecimal price;
     private Long totalQuantitySold;
-    private BigDecimal totalRevenue;
     private List<ProductImageForm> images = new ArrayList<>();
 }
 

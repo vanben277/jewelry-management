@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,25 +15,16 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
 
     Product findByName(@NotBlank(message = "Trường tên không được bỏ trống") String name);
 
-    Boolean existsByCategoryIdAndIsDeletedFalse(Integer id);
-
     Optional<Product> findByIdAndIsDeletedFalse(Integer id);
 
-    Product findByIdAndIsDeletedTrue(Integer id);
-
-    @Query("SELECT p.id, p.name, SUM(oi.quantity) AS totalQuantity, " +
-            "SUM(oi.quantity * oi.price) AS totalRevenue " +
+    @Query("SELECT p.id, p.name, p.price, SUM(oi.quantity) AS totalQuantity " +
             "FROM OrderItem oi " +
             "JOIN oi.order o " +
             "JOIN oi.product p " +
-            "WHERE o.status = 'DELIVERED' AND o.isDeleted = false " +
-            "AND (:categoryId IS NULL OR p.category.id = :categoryId) " +
-            "AND o.createAt BETWEEN :start AND :end " +
-            "GROUP BY p.id, p.name " +
+            "WHERE o.status = 'DELIVERED' " +
+            "GROUP BY p.id, p.name, p.price " +
             "ORDER BY SUM(oi.quantity) DESC")
-    List<Object[]> findTopSellingProducts(@Param("start") LocalDateTime start,
-                                          @Param("end") LocalDateTime end,
-                                          @Param("categoryId") Integer categoryId);
+    List<Object[]> findTopSellingProducts();
 
     @Query("SELECT new com.example.jewelry_management.form.ProductImageForm(pi.imageUrl, pi.isPrimary) " +
             "FROM ProductImage pi WHERE pi.product.id = :productId")
@@ -44,5 +34,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
 
     boolean existsByCategoryIdInAndIsDeletedFalse(List<Integer> ids);
 
-    List<Product> findByCategoryIdAndIsDeletedFalse(Integer id);
+    @Query("SELECT coalesce(sum(p.quantity), 0) from Product p")
+    Integer countInventory();
 }

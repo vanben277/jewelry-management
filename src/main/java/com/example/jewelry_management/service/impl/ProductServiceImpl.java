@@ -35,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -337,20 +336,14 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalArgumentException("Top không được bỏ trống");
         }
 
-        LocalDateTime start = filter.getStartDate() != null ? LocalDateTime.parse(filter.getStartDate() + "T00:00:00") : LocalDateTime.now().minusMonths(1);
-        LocalDateTime end = filter.getEndDate() != null ? LocalDateTime.parse(filter.getEndDate() + "T00:00:00") : LocalDateTime.now();
-
-        log.debug("Đang lấy các sản phẩm bán chạy nhất {} từ {} đến {} với categoryId: {}",
-                filter.getTopN(), start, end, filter.getCategoryId());
-
-        List<Object[]> results = productRepository.findTopSellingProducts(start, end, filter.getCategoryId());
+        List<Object[]> results = productRepository.findTopSellingProducts();
         return results.stream().limit(filter.getTopN()).map(result -> {
             TopProductResponse dto = new TopProductResponse();
             Integer productId = (Integer) result[0];
             dto.setProductId(productId);
             dto.setName((String) result[1]);
-            dto.setTotalQuantitySold((Long) result[2]);
-            dto.setTotalRevenue((BigDecimal) result[3]);
+            dto.setPrice((BigDecimal) result[2]);
+            dto.setTotalQuantitySold((Long) result[3]);
             List<ProductImageForm> images = productRepository.findImagesByProductId(productId);
             dto.setImages(images);
             return dto;

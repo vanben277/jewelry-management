@@ -2,6 +2,8 @@ package com.example.jewelry_management.controller;
 
 
 import com.example.jewelry_management.dto.ApiResponse;
+import com.example.jewelry_management.dto.res.MonthRevenueListResponse;
+import com.example.jewelry_management.dto.res.MonthlyRevenueResponse;
 import com.example.jewelry_management.dto.res.OrderResponse;
 import com.example.jewelry_management.dto.res.RevenueReportResponse;
 import com.example.jewelry_management.enums.OrderStatus;
@@ -32,7 +34,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Thành công", order));
     }
 
-    @GetMapping
+    @GetMapping("filter")
     public ResponseEntity<ApiResponse> getOrderListByFilter(@Valid OrderListByFilterForm dto) {
         Page<OrderResponse> order = orderService.getOrderListByFilter(dto);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", order));
@@ -44,21 +46,9 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", order));
     }
 
-    @PutMapping("{id}/status")
+    @PutMapping("status/{id}")
     public ResponseEntity<ApiResponse> updateStatus(@PathVariable Integer id, @Valid @RequestBody UpdateOrderStatusForm dto) {
         OrderResponse order = orderService.updateStatus(id, dto);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", order));
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<ApiResponse> softOrderDeleted(@PathVariable Integer id) {
-        OrderResponse order = orderService.softOrderDeleted(id);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", order));
-    }
-
-    @PutMapping("{id}/restore")
-    public ResponseEntity<ApiResponse> restoreOrderDeleted(@PathVariable Integer id) {
-        OrderResponse order = orderService.restoreOrderDeleted(id);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", order));
     }
 
@@ -78,5 +68,20 @@ public class OrderController {
     public ResponseEntity<ApiResponse> getAllOrdersByMe(@PathVariable Integer id, OrderStatus status) {
         List<OrderResponse> orderResponses = orderService.getAllOrdersByMe(id, status);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", orderResponses));
+    }
+
+    @GetMapping("monthly-revenue")
+    public ResponseEntity<ApiResponse> monthlyRevenue() {
+        MonthlyRevenueResponse monthlyRevenue = orderService.monthlyRevenue();
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", monthlyRevenue));
+    }
+
+    @GetMapping("monthly")
+    public ResponseEntity<ApiResponse> getMonthlyRevenue(
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false, defaultValue = "true") boolean millions) {
+
+        List<MonthRevenueListResponse> data = orderService.getMonthlyRevenue(year, millions);
+        return ResponseEntity.ok(new ApiResponse("Thành công", data));
     }
 }

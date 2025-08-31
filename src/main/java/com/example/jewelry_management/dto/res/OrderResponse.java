@@ -21,7 +21,6 @@ public class OrderResponse {
     private String customerAddress;
     private OrderStatus status;
     private BigDecimal totalPrice;
-    private Boolean isDeleted;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
     private List<OrderItemResponse> items;

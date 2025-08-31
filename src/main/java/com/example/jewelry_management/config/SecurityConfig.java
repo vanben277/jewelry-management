@@ -48,7 +48,6 @@ public class SecurityConfig {
                                         "/api/v1/product/gold-type",
                                         "/api/v1/product/category/{id}",
                                         "/api/v1/product/search",
-                                        "/api/v1/order/me/{id}",
                                         "/api/v1/product/{id}"
 
                                 ).permitAll()
@@ -78,7 +77,12 @@ public class SecurityConfig {
                                         "/api/v1/category/name-not-parent",
                                         "/api/v1/product/filter",
                                         "/api/v1/product/top-selling",
-                                        "/api/v1/product/status"
+                                        "/api/v1/product/status",
+                                        "/api/v1/order/filter",
+                                        "/api/v1/order/status",
+                                        "/api/v1/order/reports/revenue",
+                                        "/api/v1/order/monthly-revenue",
+                                        "/api/v1/order/monthly"
                                 ).hasAnyRole("ADMIN")
 
 
@@ -96,7 +100,8 @@ public class SecurityConfig {
                                         "/api/v1/category/restore-delete",
                                         "/api/v1/product/{id}",
                                         "/api/v1/product/restore-deleted",
-                                        "/api/v1/product/status/{id}"
+                                        "/api/v1/product/status/{id}",
+                                        "/api/v1/order/status/{id}"
                                 ).hasAnyRole("ADMIN")
 
                                 .requestMatchers(
@@ -110,7 +115,9 @@ public class SecurityConfig {
                                 // Phân quyền chung
                                 .requestMatchers(
                                         HttpMethod.GET,
-                                        "/api/v1/account/{id}"
+                                        "/api/v1/account/{id}",
+                                        "/api/v1/order/me/{id}",
+                                        "/api/v1/order/{id}"
                                 ).hasAnyRole("ADMIN", "STAFF", "USER")
 
                                 .requestMatchers(

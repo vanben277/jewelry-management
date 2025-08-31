@@ -39,9 +39,6 @@ public class Order {
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    @Column(name = "is_deleted")
-    private Boolean isDeleted = false;
-
     @Column(name = "create_at", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createAt;

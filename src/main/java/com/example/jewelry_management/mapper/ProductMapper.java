@@ -6,13 +6,18 @@ import com.example.jewelry_management.form.ProductSizeForm;
 import com.example.jewelry_management.model.Category;
 import com.example.jewelry_management.model.Product;
 import com.example.jewelry_management.model.ProductImage;
+import com.example.jewelry_management.repository.OrderItemRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class ProductMapper {
+    private final OrderItemRepository orderItemRepository;
+
     public ProductResponse toProductResponse(Product product) {
         ProductResponse response = new ProductResponse();
         response.setId(product.getId());
@@ -63,6 +68,9 @@ public class ProductMapper {
         if (product.getCategory() != null) {
             response.setCategoryName(product.getCategory().getName());
         }
+
+        Long soldQuantity = orderItemRepository.getSoldQuantityByProductId(product.getId());
+        response.setSoldQuantity(soldQuantity);
 
         return response;
     }

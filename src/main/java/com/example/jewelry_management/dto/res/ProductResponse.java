@@ -39,6 +39,8 @@ public class ProductResponse {
     private GoldType goldType;
     private String categoryName;
 
+    private Long soldQuantity;
+
     @JsonProperty("displayName")
     public String getDisplayName() {
         return name + " " + sku;

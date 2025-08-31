@@ -44,7 +44,6 @@ public class OrderMapper {
                 order.getCustomerAddress(),
                 order.getStatus(),
                 order.getTotalPrice(),
-                order.getIsDeleted(),
                 order.getCreateAt(),
                 order.getUpdateAt(),
                 itemResponses,

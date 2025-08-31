@@ -13,11 +13,11 @@ public class OrderSpecification {
 
     }
 
-    public static Specification<Order> phoneEqual(String customerPhone) {
+    public static Specification<Order> phoneConstant(String customerPhone) {
         return
                 (root, query, cb) ->
                         customerPhone == null || customerPhone.isEmpty() ? null :
-                                cb.equal(root.get("customerPhone"), customerPhone);
+                                cb.like(cb.lower(root.get("customerPhone")), "%" + customerPhone + "%");
     }
 
     public static Specification<Order> addressContains(String customerAddress) {
@@ -32,9 +32,5 @@ public class OrderSpecification {
         return (root, query, cb) ->
                 status == null ? null :
                         cb.equal(root.get("status"), status);
-    }
-
-    public static Specification<Order> notDeleted() {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.isFalse(root.get("isDeleted"));
     }
 }

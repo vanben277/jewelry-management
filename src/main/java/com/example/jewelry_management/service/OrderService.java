@@ -1,5 +1,7 @@
 package com.example.jewelry_management.service;
 
+import com.example.jewelry_management.dto.res.MonthRevenueListResponse;
+import com.example.jewelry_management.dto.res.MonthlyRevenueResponse;
 import com.example.jewelry_management.dto.res.OrderResponse;
 import com.example.jewelry_management.dto.res.RevenueReportResponse;
 import com.example.jewelry_management.enums.OrderStatus;
@@ -21,13 +23,13 @@ public interface OrderService {
 
     OrderResponse updateStatus(Integer id, @Valid UpdateOrderStatusForm dto);
 
-    OrderResponse softOrderDeleted(Integer id);
-
-    OrderResponse restoreOrderDeleted(Integer id);
-
     List<RevenueReportResponse> getRevenueReport(RevenueFilterForm filter);
 
     List<String> getAllOrderStatus();
 
     List<OrderResponse> getAllOrdersByMe(Integer id, OrderStatus status);
+
+    MonthlyRevenueResponse monthlyRevenue();
+
+    List<MonthRevenueListResponse> getMonthlyRevenue(Integer year, boolean millions);
 }

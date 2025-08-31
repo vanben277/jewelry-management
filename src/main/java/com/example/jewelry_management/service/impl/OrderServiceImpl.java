@@ -1,5 +1,7 @@
 package com.example.jewelry_management.service.impl;
 
+import com.example.jewelry_management.dto.res.MonthRevenueListResponse;
+import com.example.jewelry_management.dto.res.MonthlyRevenueResponse;
 import com.example.jewelry_management.dto.res.OrderResponse;
 import com.example.jewelry_management.dto.res.RevenueReportResponse;
 import com.example.jewelry_management.enums.AccountRole;
@@ -31,6 +33,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -57,7 +61,6 @@ public class OrderServiceImpl implements OrderService {
         order.setCustomerPhone(request.getCustomerPhone());
         order.setCustomerAddress(request.getCustomerAddress());
         order.setStatus(OrderStatus.PENDING);
-        order.setIsDeleted(false);
         order.setAccount(currentAccount);
 
         Set<Integer> productIds = request.getItems().stream()
@@ -114,11 +117,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Page<OrderResponse> getOrderListByFilter(OrderListByFilterForm dto) {
         Specification<Order> sf = OrderSpecification.nameContains(dto.getCustomerName())
-                .and(OrderSpecification.phoneEqual(dto.getCustomerPhone()))
+                .and(OrderSpecification.phoneConstant(dto.getCustomerPhone()))
                 .and(OrderSpecification.addressContains(dto.getCustomerAddress()))
-                .and(OrderSpecification.statusEqual(dto.getStatus()))
-                .and(OrderSpecification.notDeleted());
-        Pageable pageable = PageRequest.of(dto.getPageNumber(), dto.getPageSize(), Sort.by("customerName").descending());
+                .and(OrderSpecification.statusEqual(dto.getStatus()));
+        Pageable pageable = PageRequest.of(dto.getPageNumber(), dto.getPageSize(), Sort.by("createAt").descending());
         Page<Order> savePage = orderRepository.findAll(sf, pageable);
         return savePage.map(orderMapper::toResponse);
     }
@@ -152,39 +154,6 @@ public class OrderServiceImpl implements OrderService {
 
         existedById.setStatus(dto.getStatus());
         Order saved = orderRepository.save(existedById);
-        return orderMapper.toResponse(saved);
-    }
-
-    @Override
-    @Transactional
-    public OrderResponse softOrderDeleted(Integer id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Không tìm thấy đơn hàng!", ErrorCodeConstant.ORDER_NOT_FOUND));
-
-        if (Boolean.TRUE.equals(order.getIsDeleted())) {
-            throw new BusinessException("Đơn hàng đã đươc xóa khỏi hệ thống", ErrorCodeConstant.ORDER_ALREADY_DELETED);
-        }
-
-        if (order.getStatus() != OrderStatus.PENDING && order.getStatus() != OrderStatus.CANCELLED) {
-            throw new BusinessException("Không thể xóa đơn hàng ở trạng thái " + order.getStatus(), ErrorCodeConstant.INVALID_ORDER_STATUS);
-        }
-
-        order.setIsDeleted(true);
-        Order saved = orderRepository.save(order);
-        orderMapper.toResponse(saved);
-        return null;
-    }
-
-    @Override
-    @Transactional
-    public OrderResponse restoreOrderDeleted(Integer id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Không tìm thấy đơn hàng!", ErrorCodeConstant.ORDER_NOT_FOUND));
-        if (Boolean.FALSE.equals(order.getIsDeleted())) {
-            throw new BusinessException("Đơn hàng chưa bị xóa khỏi hệ thống!", ErrorCodeConstant.ORDER_NOT_DELETED);
-        }
-        order.setIsDeleted(false);
-        Order saved = orderRepository.save(order);
         return orderMapper.toResponse(saved);
     }
 
@@ -259,12 +228,63 @@ public class OrderServiceImpl implements OrderService {
                     .toList();
         }
 
-        orders = orders.stream()
-                .filter(order -> !order.getIsDeleted())
-                .toList();
-
         return orders.stream()
                 .map(orderMapper::toResponse)
                 .toList();
+    }
+
+    @Override
+    public MonthlyRevenueResponse monthlyRevenue() {
+        Account account = accountValidator.getCurrentAccount();
+
+        accountValidatorUtils.validatorAccountStatus(account);
+
+        MonthlyRevenueResponse revenue = new MonthlyRevenueResponse();
+        revenue.setTotalOrderMonthly(
+                Integer.valueOf(String.valueOf(orderRepository.countOrdersInCurrentMonth()))
+        );
+
+        revenue.setTotalMoneyMonthly(
+                BigDecimal.valueOf(orderRepository.totalRevenueInCurrentMonth())
+        );
+
+        revenue.setTotalProductMonthly(
+                Integer.valueOf(String.valueOf(orderRepository.totalProductsSoldInCurrentMonth()))
+        );
+
+        revenue.setTotalInventory(
+                productRepository.countInventory()
+        );
+
+        return revenue;
+    }
+
+    @Override
+    public List<MonthRevenueListResponse> getMonthlyRevenue(Integer year, boolean millions) {
+        Account account = accountValidator.getCurrentAccount();
+        accountValidatorUtils.validatorAccountStatus(account);
+
+        int y = (year == null) ? LocalDate.now().getYear() : year;
+        List<Object[]> rows = orderRepository.findMonthlyRevenueByYear(y);
+
+        Map<Integer, BigDecimal> map = new HashMap<>();
+        for (Object[] row : rows) {
+            Integer month = ((Number) row[0]).intValue();
+            BigDecimal rev = row[1] == null ? BigDecimal.ZERO : (BigDecimal) row[1];
+            map.put(month, rev);
+        }
+
+        List<MonthRevenueListResponse> result = new ArrayList<>(12);
+        for (int m = 1; m <= 12; m++) {
+            BigDecimal rev = map.getOrDefault(m, BigDecimal.ZERO);
+            double value;
+            if (millions) {
+                value = rev.divide(BigDecimal.valueOf(1_000_000), 2, RoundingMode.HALF_UP).doubleValue();
+            } else {
+                value = rev.setScale(2, RoundingMode.HALF_UP).doubleValue();
+            }
+            result.add(new MonthRevenueListResponse("T" + m, value));
+        }
+        return result;
     }
 }
