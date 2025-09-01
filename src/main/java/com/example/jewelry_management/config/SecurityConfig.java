@@ -118,11 +118,14 @@ public class SecurityConfig {
                                         "/api/v1/account/{id}",
                                         "/api/v1/order/me/{id}",
                                         "/api/v1/order/{id}"
+
                                 ).hasAnyRole("ADMIN", "STAFF", "USER")
 
                                 .requestMatchers(
                                         HttpMethod.POST,
-                                        "/api/v1/order"
+                                        "/api/v1/order",
+                                        "/api/v1/payment/zalopay/callback",
+                                        "/api/v1/payment/zalopay/create"
                                 ).hasAnyRole("ADMIN", "STAFF", "USER")
 
                                 .requestMatchers(

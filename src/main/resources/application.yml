@@ -33,6 +33,13 @@ spring:
           starttls:
             enable: true
             required: true
+zalopay:
+  appid: 553
+  key1: 9phuAOYhan4urywHTh0ndEXiV3pKHr5Q
+  key2: Iyz2habzyr7AG8SgvoBCbKwKi3UzlLi3
+  endpoint: https://sb-openapi.zalopay.vn/v2/create
+  callback-url: http://localhost:8080/payment/zalopay/callback
+  redirect-url: http://localhost:5500/order-success.html
 logging:
   level:
     org:
