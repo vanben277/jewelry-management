@@ -199,7 +199,7 @@ public class ProductServiceImpl implements ProductService {
             throw new BusinessException("Chỉ được phép có 1 ảnh chính duy nhất", ErrorCodeConstant.INVALID_INPUT);
         }
         if (countPrimary == 0 && !allImages.isEmpty()) {
-            allImages.getFirst().setIsPrimary(true);
+            allImages.get(0).setIsPrimary(true);
         }
 
         if (dto.getImages() != null) {
@@ -412,10 +412,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductResponse> getProductsByCategoryId(Integer id, FilterProductsByCategoryForm filter) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Id sản phẩm không tồn tại", ErrorCodeConstant.CATEGORY_NOT_FOUND_ID));
+                .orElseThrow(() -> new BusinessException("Id danh mục không tồn tại", ErrorCodeConstant.CATEGORY_NOT_FOUND_ID));
 
         if (Boolean.TRUE.equals(category.getIsDeleted())) {
-            throw new BusinessException("Sản phẩm đã được xóa khỏi hệ thống", ErrorCodeConstant.CATEGORY_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
+            throw new BusinessException("Danh mục đã được xóa khỏi hệ thống", ErrorCodeConstant.CATEGORY_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
         }
 
         long childCount = categoryRepository.countChildrenByParentId(id);

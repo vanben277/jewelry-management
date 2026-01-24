@@ -38,7 +38,7 @@ public class GlobalExceptionHandle {
 
         if (rootCause instanceof InvalidFormatException ife) {
             if (ife.getTargetType().isEnum()) {
-                String fieldName = ife.getPath().getFirst().getFieldName();
+                String fieldName = ife.getPath().get(0).getFieldName();
                 String invalidValue = ife.getValue().toString();
                 String enumName = ife.getTargetType().getSimpleName();
 

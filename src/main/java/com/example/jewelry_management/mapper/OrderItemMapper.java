@@ -13,7 +13,7 @@ public class OrderItemMapper {
                 ? orderItem.getProduct().getImages().stream()
                 .filter(ProductImage::getIsPrimary)
                 .findFirst()
-                .orElse(orderItem.getProduct().getImages().getFirst())
+                .orElse(orderItem.getProduct().getImages().get(0))
                 .getImageUrl()
                 : null;
 
