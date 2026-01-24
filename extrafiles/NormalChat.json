@@ -1,0 +1,239 @@
+{
+    "how are you / Bạn khỏe không": {
+        "en": [
+            "I'm good, thanks for asking! How can I assist you today?",
+            "I'm doing great! How about you?"
+        ],
+        "vi": [
+            "Tôi ổn, cảm ơn bạn đã hỏi! Tôi có thể giúp gì cho bạn hôm nay?",
+            "Tôi đang rất tốt! Còn bạn thì sao?"
+        ]
+    },
+    "what is your name / Tên của bạn là gì": {
+        "en": [
+            "I'm your Jewelry Assistant! Nice to meet you!",
+            "You can call me your personal shopping assistant."
+        ],
+        "vi": [
+            "Tôi là Trợ lý Trang sức của bạn! Rất vui được gặp bạn!",
+            "Bạn có thể gọi tôi là trợ lý mua sắm cá nhân của bạn."
+        ]
+    },
+    "who are you / bạn là ai": {
+        "en": [
+            "I'm your Jewelry Assistant, here to help you find the perfect piece!",
+            "I'm here to assist you with all your jewelry needs."
+        ],
+        "vi": [
+            "Tôi là Trợ lý Trang sức của bạn, ở đây để giúp bạn tìm món trang sức hoàn hảo!",
+            "Tôi ở đây để hỗ trợ bạn với mọi nhu cầu về trang sức."
+        ]
+    },
+    "thank you / cảm ơn bạn": {
+        "en": [
+            "You're welcome! Let me know if you need more help.",
+            "My pleasure! Happy shopping!"
+        ],
+        "vi": [
+            "Không có gì! Hãy cho tôi biết nếu bạn cần thêm sự giúp đỡ.",
+            "Rất vui được giúp bạn! Chúc bạn mua sắm vui vẻ!"
+        ]
+    },
+    "hello / xin chào": {
+        "en": [
+            "Hello! Welcome to our jewelry store!",
+            "Hi there! How can I help you today?"
+        ],
+        "vi": [
+            "Xin chào! Chào mừng bạn đến với cửa hàng trang sức của chúng tôi!",
+            "Chào bạn! Tôi có thể giúp gì cho bạn hôm nay?"
+        ]
+    },
+    "a lô / alo": {
+        "vi": [
+            "Chào bạn! Bạn cần tôi giúp gì về trang sức?",
+            "Tôi đang nghe đây, bạn muốn hỏi gì về mua sắm?"
+        ]
+    },
+    "i am fine / tôi ổn": {
+        "en": [
+            "Good to know! How can I assist you with your shopping today?",
+            "Great to hear! Looking for any jewelry?"
+        ],
+        "vi": [
+            "Thật tốt khi biết bạn ổn! Tôi có thể giúp gì cho bạn về mua sắm hôm nay?",
+            "Tuyệt vời khi nghe bạn nói vậy! Bạn đang tìm trang sức nào không?"
+        ]
+    },
+    "i have a question / tôi có thể hỏi bạn vài câu được không": {
+        "en": [
+            "Of course! What would you like to know about our jewelry?",
+            "Ask away! I'm here to help."
+        ],
+        "vi": [
+            "Tất nhiên rồi! Bạn muốn biết gì về trang sức của chúng tôi?",
+            "Hãy hỏi đi! Tôi ở đây để giúp bạn."
+        ]
+    },
+    "you are smart / bạn thật thông minh": {
+        "en": [
+            "Thank you! I'm here to help you find the best jewelry.",
+            "I try my best to assist you!"
+        ],
+        "vi": [
+            "Cảm ơn bạn! Tôi ở đây để giúp bạn tìm trang sức tốt nhất.",
+            "Tôi cố gắng hết sức để hỗ trợ bạn!"
+        ]
+    },
+    "i am really sorry / tôi thực sự xin lỗi": {
+        "en": [
+            "No worries! How can I assist you now?",
+            "It's okay! Let me help you with your shopping."
+        ],
+        "vi": [
+            "Không sao đâu! Tôi có thể giúp gì cho bạn bây giờ?",
+            "Không sao! Để tôi giúp bạn với việc mua sắm."
+        ]
+    },
+    "are you my friend / bạn có phải là bạn của tôi không": {
+        "en": [
+            "I'm your friendly assistant here to help with your jewelry needs!",
+            "I’d love to be your shopping friend!"
+        ],
+        "vi": [
+            "Tôi là trợ lý thân thiện của bạn, ở đây để giúp bạn với nhu cầu trang sức!",
+            "Tôi rất muốn trở thành người bạn mua sắm của bạn!"
+        ]
+    },
+    "i am alone / tôi cô đơn": {
+        "en": [
+            "I'm here for you! Let’s find some beautiful jewelry to brighten your day.",
+            "Don’t feel lonely—I can help you find something special!"
+        ],
+        "vi": [
+            "Tôi ở đây vì bạn! Hãy cùng tìm một món trang sức đẹp để làm sáng ngày của bạn.",
+            "Đừng cảm thấy cô đơn—tôi có thể giúp bạn tìm một món đồ đặc biệt!"
+        ]
+    },
+    "tôi khỏe": {
+        "vi": "Tôi cũng vậy, bạn cần trợ giúp gì về trang sức không?"
+    },
+    "không có gì": {
+        "vi": "Cảm ơn bạn, hãy hỏi tôi thêm để tôi hỗ trợ bạn mua sắm tốt hơn!"
+    },
+    "what types of jewelry do you sell / bạn bán loại trang sức nào": {
+        "en": [
+            "We sell a variety of jewelry including necklaces, earrings, bracelets, and rings!",
+            "Our store offers elegant necklaces, sparkling earrings, stylish bracelets, and beautiful rings."
+        ],
+        "vi": [
+            "Chúng tôi bán nhiều loại trang sức bao gồm dây chuyền, bông tai, vòng tay và nhẫn!",
+            "Cửa hàng của chúng tôi có dây chuyền thanh lịch, bông tai lấp lánh, vòng tay thời trang và nhẫn đẹp."
+        ]
+    },
+    "do you have any discounts / có khuyến mãi không": {
+        "en": [
+            "Yes, we often have special discounts! Please check our website for the latest offers.",
+            "We have seasonal promotions—would you like to know more?"
+        ],
+        "vi": [
+            "Có, chúng tôi thường có các chương trình giảm giá đặc biệt! Vui lòng kiểm tra website để xem ưu đãi mới nhất.",
+            "Chúng tôi có khuyến mãi theo mùa—bạn có muốn biết thêm không?"
+        ]
+    },
+    "how can i check my order / làm sao để kiểm tra đơn hàng của tôi": {
+        "en": [
+            "You can check your order status by logging into your account on our website.",
+            "Please provide your order number, and I can help you check your order!"
+        ],
+        "vi": [
+            "Bạn có thể kiểm tra trạng thái đơn hàng bằng cách đăng nhập vào tài khoản trên website của chúng tôi.",
+            "Vui lòng cung cấp số đơn hàng, tôi sẽ giúp bạn kiểm tra!"
+        ]
+    },
+    "what is your return policy / chính sách đổi trả của bạn là gì": {
+        "en": [
+            "We offer a 30-day return policy for unused items in their original packaging.",
+            "You can return your jewelry within 30 days if it’s unused and in original condition."
+        ],
+        "vi": [
+            "Chúng tôi có chính sách đổi trả trong 30 ngày đối với các sản phẩm chưa sử dụng và còn nguyên bao bì.",
+            "Bạn có thể đổi trả trang sức trong vòng 30 ngày nếu chưa sử dụng và còn nguyên trạng."
+        ]
+    },
+    "do you sell gold jewelry / bạn có bán trang sức vàng không": {
+        "en": [
+            "Yes, we have a stunning collection of gold jewelry! Would you like to know more?",
+            "Our gold jewelry includes necklaces, rings, and earrings. Check them out!"
+        ],
+        "vi": [
+            "Có, chúng tôi có bộ sưu tập trang sức vàng tuyệt đẹp! Bạn có muốn biết thêm không?",
+            "Trang sức vàng của chúng tôi bao gồm dây chuyền, nhẫn và bông tai. Hãy xem thử nhé!"
+        ]
+    },
+    "do you have diamond rings / bạn có nhẫn kim cương không": {
+        "en": [
+            "Yes, we have a wide selection of diamond rings! Perfect for any occasion.",
+            "Our diamond rings are stunning—would you like to see some options?"
+        ],
+        "vi": [
+            "Có, chúng tôi có nhiều mẫu nhẫn kim cương! Phù hợp với mọi dịp.",
+            "Nhẫn kim cương của chúng tôi rất đẹp—bạn có muốn xem một số lựa chọn không?"
+        ]
+    },
+    "how much is a silver necklace / dây chuyền bạc giá bao nhiêu": {
+        "en": [
+            "The price of our silver necklaces varies—please check our website for the latest prices!",
+            "We have silver necklaces starting from affordable prices. Would you like more details?"
+        ],
+        "vi": [
+            "Giá dây chuyền bạc của chúng tôi khác nhau—vui lòng kiểm tra website để xem giá mới nhất!",
+            "Chúng tôi có dây chuyền bạc với giá phải chăng. Bạn có muốn biết thêm chi tiết không?"
+        ]
+    },
+    "can you help me choose a gift / bạn có thể giúp tôi chọn quà không": {
+        "en": [
+            "Of course! Jewelry makes a perfect gift—do you have a budget or style in mind?",
+            "I’d love to help! Who are you buying the gift for?"
+        ],
+        "vi": [
+            "Tất nhiên! Trang sức là món quà hoàn hảo—bạn có ngân sách hoặc phong cách nào cụ thể không?",
+            "Tôi rất sẵn lòng giúp! Bạn đang mua quà cho ai?"
+        ]
+    },
+    "what do you think if i could ask you a few questions about jewelry": {
+        "en": [
+            ", if I could answer a few questions about your jewelry, if I could answer a few questions about your jewelry, if I could answer a few questions"
+        ]
+    },
+    "you know what i mean": {
+        "en": [
+            "by \"good,\" and you know what you want to hear."
+        ]
+    },
+    "cảm ơn": {
+        "vi": [
+            "Xin lỗi, tôi không tìm thấy sản phẩm nào phù hợp. Bạn có thể thử tìm kiếm với từ khóa khác không?"
+        ]
+    },
+    "bạn có thể làm gì": {
+        "vi": [
+            "Xin lỗi, tôi không tìm thấy sản phẩm nào phù hợp. Bạn có thể thử tìm kiếm với từ khóa khác không?"
+        ]
+    },
+    "giúp tôi với": {
+        "vi": [
+            "Xin lỗi, tôi không tìm thấy sản phẩm nào phù hợp. Bạn có thể thử tìm kiếm với từ khóa khác không?"
+        ]
+    },
+    "thời tiết hôm nay thế nào?": {
+        "vi": [
+            "Xin lỗi, tôi không tìm thấy sản phẩm nào phù hợp. Bạn có thể thử tìm kiếm với từ khóa khác không?"
+        ]
+    },
+    "thời tiết": {
+        "vi": [
+            "Xin lỗi, tôi không tìm thấy sản phẩm nào phù hợp. Bạn có thể thử tìm kiếm với từ khóa khác không?"
+        ]
+    }
+}
