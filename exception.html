@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error</title>
+    <link rel="shortcut icon" href="./assets/img/Icon.webp" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        .error {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .error-box {
+            background: #f0f0f0;
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+        }
+
+        .error-box h1 {
+            font-size: 72px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .error-box h4 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .error-box p {
+            color: #6c757d;
+            margin-bottom: 25px;
+        }
+
+        .btn-home {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-home:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+        }
+
+        .error-icon {
+            font-size: 48px;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error">
+        <div class="error-box">
+            <div class="error-icon"><i class="fa-solid fa-ban"></i></div>
+            <h1 id="errorCode">500</h1>
+            <h4 id="errorTitle">Internal Server Error</h4>
+            <p id="errorMessage">Có lỗi xảy ra khi xử lý yêu cầu. Vui lòng thử lại sau hoặc quay về trang chủ.</p>
+            <a href="index.html" class="btn-home"><i class="fas fa-home"></i> Về trang chủ</a>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code') || '500';
+
+
+        const codeMap = {
+            '400': ['Bad Request', 'Yêu cầu không hợp lệ. Vui lòng kiểm tra lại.'],
+            '401': ['Unauthorized', 'Bạn chưa đăng nhập hoặc không có quyền truy cập.'],
+            '403': ['Forbidden', 'Bạn không được phép truy cập tài nguyên này.'],
+            '404': ['Not Found', 'Không tìm thấy trang bạn yêu cầu.'],
+            '500': ['Internal Server Error', 'Đã có lỗi xảy ra từ hệ thống. Vui lòng thử lại sau.'],
+            '503': ['Service Unavailable', 'Dịch vụ hiện không khả dụng. Hãy quay lại sau.']
+        };
+
+        if (codeMap[code]) {
+            document.getElementById('errorCode').textContent = code;
+            document.getElementById('errorTitle').textContent = codeMap[code][0];
+            document.getElementById('errorMessage').textContent = codeMap[code][1];
+        }
+    </script>
+</body>
+
+</html>

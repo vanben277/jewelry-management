@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/Icon.webp">
+  <link rel="icon" type="image/png" href="./assets/img/Icon.webp">
+  <title>
+    Danh sách đơn hàng
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+  <!-- Nucleo Icons -->
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Material Icons -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/icon/fontawesome-free-6.6.0-web/css/all.min.css">
+  <link rel="stylesheet" href="./assets/css/modal-create-product.css">
+
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2"
+    id="sidenav-main">
+    <div id="sidenav"></div>
+    </div>
+  </aside>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur"
+      data-scroll="true">
+      <div id="sidenav"></div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-2">
+
+      <!-- Search Filters -->
+      <div class="row">
+        <div class="col-12">
+          <div class="search-filters">
+            <h6><i class="fa-solid fa-filter me-2"></i>Tìm kiếm và lọc đơn hàng</h6>
+            <div class="row">
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><i class="fa-solid fa-phone me-1"></i>Số điện thoại</label>
+                  <input type="text" class="form-control" placeholder="Nhập số điện thoại">
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><i class="fa-solid fa-user me-1"></i>Tên khách hàng</label>
+                  <input type="text" class="form-control" placeholder="Nhập tên khách hàng">
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                      xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" x="0" y="0"
+                      viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
+                      <g>
+                        <path
+                          d="M256 0C166.035 0 91 72.47 91 165c0 35.202 10.578 66.592 30.879 96.006l121.494 189.58c5.894 9.216 19.372 9.198 25.254 0l122.021-190.225C410.512 232.28 421 199.307 421 165 421 74.019 346.981 0 256 0zm0 240c-41.353 0-75-33.647-75-75s33.647-75 75-75 75 33.647 75 75-33.647 75-75 75z"
+                          fill="#737373" opacity="1" data-original="#000000" class=""></path>
+                        <path
+                          d="m373.264 344.695-75.531 118.087c-19.551 30.482-64.024 30.382-83.481.029l-75.654-118.085C72.034 360.116 31 388.309 31 422c0 58.462 115.928 90 225 90s225-31.538 225-90c0-33.715-41.091-61.923-107.736-77.305z"
+                          fill="#737373" opacity="1" data-original="#000000" class=""></path>
+                      </g>
+                    </svg> Địa
+                    chỉ</label>
+                  <input type="text" class="form-control" placeholder="Nhập địa chỉ">
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><i class="fa-solid fa-circle-info me-1"></i>Trạng thái</label>
+                  <select class="form-select" id="selectStatusFilter">
+                    <option value="">Tất cả</option>
+                    <option value="PENDING">PENDING</option>
+                    <option value="CONFIRMED">CONFIRMED</option>
+                    <option value="SHIPPED">SHIPPED</option>
+                    <option value="DELIVERED">DELIVERED</option>
+                    <option value="CANCELLED">CANCELLED</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div
+                class="bg-gradient-dark d-flex align-items-center justify-content-space-between shadow-dark border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Danh sách đơn hàng</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Id</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Full Name</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Phone</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Address</th>
+                      <th
+                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Status
+                      </th>
+                      <th
+                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Total Price
+                      </th>
+                      <th
+                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Account id
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Created At</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Updated at</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colspan="12" class="text-center text-muted py-4"><i
+                          class="fa-solid fa-circle-exclamation me-2"></i>Không có bản ghi nào phù hợp</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      con dong form
+
+      <!-- Pagination -->
+      <div class="row">
+        <div class="col-12">
+          <div class="pagination-wrapper">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="pagination-info">
+                <i class="fa-solid fa-info-circle me-2"></i>Hiển thị 1-10 trong tổng số 125 đơn hàng
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="text-secondary" style="font-size: 14px;">Hiển thị:</span>
+                <select class="entries-select">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                <span class="text-secondary" style="font-size: 14px;">mục/trang</span>
+              </div>
+            </div>
+
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <div id="productModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>
+              <i class="fas fa-shopping-cart"></i>
+              <span id="modalTitle">Chi tiết đơn hàng</span>
+            </h2>
+            <span class="close" onclick="closeModalView()">&times;</span>
+          </div>
+
+          <div class="form-container">
+            <div class="product-info" id="productInfo">
+              <!-- Order information will be loaded here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer py-4" id="footer">
+      </footer>
+    </div>
+  </main>
+
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./assets/js/sidenav.js"></script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+
+    // API Configuration
+    const API_BASE_URL = 'http://localhost:8080/api/v1';
+
+    // Utility functions for localStorage and auth
+    function getAuthHeader() {
+      const auth = localStorage.getItem('auth');
+      if (!auth) {
+        throw new Error('Không tìm thấy thông tin xác thực. Vui lòng đăng nhập lại.');
+      }
+      return {
+        'Authorization': `Basic ${auth}`,
+        'Content-Type': 'application/json'
+      };
+    }
+
+    function checkAdminPermission() {
+      const userInfo = localStorage.getItem('userInfo');
+      if (!userInfo) {
+        throw new Error('Không tìm thấy thông tin người dùng.');
+      }
+
+      const user = JSON.parse(userInfo);
+      if (user.role !== 'ADMIN') {
+        throw new Error('Bạn không có quyền truy cập chức năng này.');
+      }
+      return true;
+    }
+
+    // API Functions
+    async function fetchOrderStatuses() {
+      try {
+        checkAdminPermission();
+        const response = await fetch(`${API_BASE_URL}/order/status`, {
+          method: 'GET',
+          headers: getAuthHeader()
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        // Return the data part since response has { message, data, errorMessage } structure
+        return result.data || result;
+      } catch (error) {
+        console.error('Error fetching order statuses:', error);
+        throw error;
+      }
+    }
+
+    async function fetchOrders(filters = {}, pagination = {}) {
+      try {
+        checkAdminPermission();
+
+        // Build query parameters
+        const params = new URLSearchParams();
+
+        if (filters.customerName) params.append('customerName', filters.customerName);
+        if (filters.customerPhone) params.append('customerPhone', filters.customerPhone);
+        if (filters.customerAddress) params.append('customerAddress', filters.customerAddress);
+        if (filters.status) params.append('status', filters.status);
+
+        params.append('pageSize', pagination.pageSize || 10);
+        params.append('pageNumber', pagination.pageNumber || 0);
+
+        const response = await fetch(`${API_BASE_URL}/order/filter?${params}`, {
+          method: 'GET',
+          headers: getAuthHeader()
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        // Return the data part since response has { message, data, errorMessage } structure
+        return result.data || result;
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+        throw error;
+      }
+    }
+
+    async function fetchOrderDetail(orderId) {
+      try {
+        checkAdminPermission();
+
+        const response = await fetch(`${API_BASE_URL}/order/${orderId}`, {
+          method: 'GET',
+          headers: getAuthHeader()
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        // Return the data part since response has { message, data, errorMessage } structure
+        return result.data || result;
+      } catch (error) {
+        console.error('Error fetching order detail:', error);
+        throw error;
+      }
+    }
+
+    async function updateOrderStatus(orderId, newStatus) {
+      try {
+        checkAdminPermission();
+
+        const response = await fetch(`${API_BASE_URL}/order/status/${orderId}`, {
+          method: 'PUT',
+          headers: getAuthHeader(),
+          body: JSON.stringify({ status: newStatus })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.errorMessage || errorData.message || `HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        return result.data || result;
+      } catch (error) {
+        console.error('Error updating order status:', error);
+        throw error;
+      }
+    }
+
+    // UI Helper Functions
+    function formatPrice(price) {
+      return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+      }).format(price);
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return 'N/A';
+      return new Date(dateString).toLocaleDateString('vi-VN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function getStatusInVietnamese(status) {
+      const statusMap = {
+        PENDING: 'Chờ xác nhận',
+        CONFIRMED: 'Đã xác nhận',
+        SHIPPED: 'Đã gửi hàng',
+        DELIVERED: 'Đã giao hàng',
+        CANCELLED: 'Đã hủy'
+      };
+      return statusMap[status] || status;
+    }
+
+    // Get valid status options based on current status (for status transition logic)
+    function getValidStatusOptions(currentStatus) {
+      switch (currentStatus) {
+        case 'PENDING':
+          return ['PENDING', 'CONFIRMED', 'CANCELLED'];
+        case 'CONFIRMED':
+          return ['CONFIRMED', 'SHIPPED', 'CANCELLED'];
+        case 'SHIPPED':
+          return ['SHIPPED', 'DELIVERED'];
+        case 'DELIVERED':
+        case 'CANCELLED':
+          return [currentStatus]; // Cannot change from final states
+        default:
+          return [currentStatus];
+      }
+    }
+
+    // Main Functions
+    async function loadOrderStatuses() {
+      try {
+        const statuses = await fetchOrderStatuses();
+        const selectElement = document.getElementById('selectStatusFilter');
+
+        // Clear existing options except "Tất cả"
+        selectElement.innerHTML = '<option value="">Tất cả</option>';
+
+        statuses.forEach(status => {
+          const option = document.createElement('option');
+          option.value = status;
+          option.textContent = status;
+          selectElement.appendChild(option);
+        });
+
+      } catch (error) {
+        console.error('Error loading order statuses:', error);
+        alert('Không thể tải danh sách trạng thái: ' + error.message);
+      }
+    }
+
+    let currentPage = 0;
+    let currentPageSize = 10;
+    let currentFilters = {};
+
+    async function loadOrders() {
+      try {
+        // Get filter values
+        const filters = {
+          customerPhone: document.querySelector('input[placeholder="Nhập số điện thoại"]').value || '',
+          customerName: document.querySelector('input[placeholder="Nhập tên khách hàng"]').value || '',
+          customerAddress: document.querySelector('input[placeholder="Nhập địa chỉ"]').value || '',
+          status: document.getElementById('selectStatusFilter').value || ''
+        };
+
+        // Remove empty filters
+        currentFilters = Object.fromEntries(
+          Object.entries(filters).filter(([key, value]) => value.trim() !== '')
+        );
+
+        const pagination = {
+          pageNumber: currentPage,
+          pageSize: currentPageSize
+        };
+
+        const response = await fetchOrders(currentFilters, pagination);
+        console.log('API Response:', response); // Debug log
+
+        // Handle Spring Boot Page response or direct array
+        let ordersData;
+        let paginationData = {};
+
+        if (response.content && Array.isArray(response.content)) {
+          // Spring Boot Page response
+          ordersData = response.content;
+          paginationData = {
+            totalElements: response.totalElements,
+            totalPages: response.totalPages,
+            currentPage: response.number,
+            size: response.size,
+            first: response.first,
+            last: response.last
+          };
+        } else if (Array.isArray(response)) {
+          // Direct array response
+          ordersData = response;
+          paginationData = {
+            totalElements: response.length,
+            totalPages: 1,
+            currentPage: 0,
+            size: response.length,
+            first: true,
+            last: true
+          };
+        } else {
+          // Fallback
+          ordersData = [];
+          paginationData = {
+            totalElements: 0,
+            totalPages: 0,
+            currentPage: 0,
+            size: 0,
+            first: true,
+            last: true
+          };
+        }
+
+        displayOrders(ordersData);
+        updatePaginationInfo(paginationData);
+        generatePagination(paginationData);
+      } catch (error) {
+        console.error('Error loading orders:', error);
+        alert('Không thể tải danh sách đơn hàng: ' + error.message);
+      }
+    }
+
+    function displayOrders(orders) {
+      const tbody = document.querySelector('tbody');
+      tbody.innerHTML = '';
+
+      console.log('Orders to display:', orders); // Debug log
+
+      // Ensure orders is an array
+      if (!Array.isArray(orders)) {
+        console.error('Orders is not an array:', orders);
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="10" class="text-center py-4">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Dữ liệu không hợp lệ
+                </td>
+            </tr>
+        `;
+        return;
+      }
+
+      if (orders.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="10" class="text-center py-4">
+                    <i class="fas fa-inbox me-2"></i>Không tìm thấy đơn hàng nào
+                </td>
+            </tr>
+        `;
+        return;
+      }
+
+      orders.forEach(order => {
+        const row = document.createElement('tr');
+
+        // Get valid status options for this order
+        const validStatuses = getValidStatusOptions(order.status);
+        const statusOptions = validStatuses.map(status =>
+          `<option value="${status}" ${order.status === status ? 'selected' : ''}>${status}</option>`
+        ).join('');
+
+        row.innerHTML = `
+            <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">#${order.id}</span>
+            </td>
+            <td>
+                <div class="d-flex px-2 py-1">
+                    <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm color-text-primary">${order.customerName || 'N/A'}</h6>
+                    </div>
+                </div>
+            </td>
+            <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">${order.customerPhone || 'N/A'}</span>
+            </td>
+            <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">${order.customerAddress || 'N/A'}</span>
+            </td>
+            <td class="align-middle text-center">
+                <select class="status-select active-status" onchange="handleStatusChange(${order.id}, this.value, '${order.status}')">
+                    ${statusOptions}
+                </select>
+            </td>
+            <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">${formatPrice(order.totalPrice || 0)}</span>
+            </td>
+            <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">#${order.accountResponse?.id || 'N/A'}</span>
+            </td>
+            <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">${formatDate(order.createAt)}</span>
+            </td>
+            <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">${formatDate(order.updateAt)}</span>
+            </td>
+            <td class="align-middle text-center">
+                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" 
+                   onclick="openModalView(${order.id})" title="Chi tiết đơn hàng">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                      xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" x="0" y="0"
+                      viewBox="0 0 682.667 682.667" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                      class="">
+                      <g>
+                        <defs>
+                          <clipPath id="a" clipPathUnits="userSpaceOnUse">
+                            <path d="M0 512h512V0H0Z" fill="#737373" opacity="1" data-original="#000000"></path>
+                          </clipPath>
+                        </defs>
+                        <path d="M0 0h-28"
+                          style="stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+                          transform="matrix(1.33333 0 0 -1.33333 330.667 506.667)" fill="none" stroke="#737373"
+                          stroke-width="40" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                          stroke-dasharray="none" stroke-opacity="" data-original="#000000" class="" opacity="1">
+                        </path>
+                        <path d="M0 0h-172"
+                          style="stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+                          transform="matrix(1.33333 0 0 -1.33333 522.667 337.333)" fill="none" stroke="#737373"
+                          stroke-width="40" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                          stroke-dasharray="none" stroke-opacity="" data-original="#000000" class="" opacity="1">
+                        </path>
+                        <path d="M0 0h-172"
+                          style="stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+                          transform="matrix(1.33333 0 0 -1.33333 522.667 177.333)" fill="none" stroke="#737373"
+                          stroke-width="40" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                          stroke-dasharray="none" stroke-opacity="" data-original="#000000" class="" opacity="1">
+                        </path>
+                        <path d="M0 0h-20"
+                          style="stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+                          transform="matrix(1.33333 0 0 -1.33333 186.667 506.667)" fill="none" stroke="#737373"
+                          stroke-width="40" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                          stroke-dasharray="none" stroke-opacity="" data-original="#000000" class="" opacity="1">
+                        </path>
+                        <path d="M0 0h-20"
+                          style="stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+                          transform="matrix(1.33333 0 0 -1.33333 186.667 337.333)" fill="none" stroke="#737373"
+                          stroke-width="40" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                          stroke-dasharray="none" stroke-opacity="" data-original="#000000" class="" opacity="1">
+                        </path>
+                        <path d="M0 0h-20"
+                          style="stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+                          transform="matrix(1.33333 0 0 -1.33333 186.667 177.333)" fill="none" stroke="#737373"
+                          stroke-width="40" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                          stroke-dasharray="none" stroke-opacity="" data-original="#000000" class="" opacity="1">
+                        </path>
+                        <g clip-path="url(#a)" transform="matrix(1.33333 0 0 -1.33333 0 682.667)">
+                          <path d="M0 0c-38.66 0-70-31.34-70-70s31.34-70 70-70 70 31.34 70 70S38.66 0 0 0Z"
+                            style="stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+                            transform="translate(398 187)" fill="none" stroke="#737373" stroke-width="40"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                            stroke-dasharray="none" stroke-opacity="" data-original="#000000" class=""
+                            opacity="1"></path>
+                          <path d="m0 0 43-43"
+                            style="stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+                            transform="translate(449 63)" fill="none" stroke="#737373" stroke-width="40"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                            stroke-dasharray="none" stroke-opacity="" data-original="#000000" class=""
+                            opacity="1"></path>
+                          <path
+                            d="M0 0h-206c-33.137 0-60 26.863-60 60v352c0 33.137 26.863 60 60 60h352c33.137 0 60-26.863 60-60V214"
+                            style="stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+                            transform="translate(286 20)" fill="none" stroke="#737373" stroke-width="40"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                            stroke-dasharray="none" stroke-opacity="" data-original="#000000" class=""
+                            opacity="1"></path>
+                        </g>
+                      </g>
+                    </svg>
+                </a>
+            </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    async function handleStatusChange(orderId, newStatus, currentStatus) {
+      if (newStatus === currentStatus) {
+        return; // No change
+      }
+
+      if (confirm(`Bạn có chắc chắn muốn chuyển trạng thái đơn hàng #${orderId} sang ${getStatusInVietnamese(newStatus)}?`)) {
+        try {
+          await updateOrderStatus(orderId, newStatus);
+          alert('Cập nhật trạng thái thành công!');
+          await loadOrders(); // Reload the orders list
+        } catch (error) {
+          alert('Lỗi khi cập nhật trạng thái: ' + error.message);
+          // Revert the select back to original value
+          const selectElement = event.target;
+          selectElement.value = currentStatus;
+        }
+      } else {
+        // Revert the select back to original value
+        const selectElement = event.target;
+        selectElement.value = currentStatus;
+      }
+    }
+
+    function updatePaginationInfo(paginationData) {
+      const paginationInfo = document.querySelector('.pagination-info');
+      if (paginationInfo && paginationData.totalElements !== undefined) {
+        const startItem = paginationData.currentPage * paginationData.size + 1;
+        const endItem = Math.min((paginationData.currentPage + 1) * paginationData.size, paginationData.totalElements);
+        paginationInfo.innerHTML = `<i class="fa-solid fa-info-circle me-2"></i>Hiển thị ${startItem}-${endItem} trong tổng số ${paginationData.totalElements} đơn hàng`;
+      }
+    }
+
+    function generatePagination(paginationData) {
+      const paginationContainer = document.querySelector('.pagination');
+      if (!paginationContainer || !paginationData.totalPages) return;
+
+      paginationContainer.innerHTML = '';
+
+      const currentPage = paginationData.currentPage;
+      const totalPages = paginationData.totalPages;
+
+      // Previous button
+      const prevLi = document.createElement('li');
+      prevLi.className = `page-item ${paginationData.first ? 'disabled' : ''}`;
+      prevLi.innerHTML = `
+        <a class="page-link" href="#" onclick="${paginationData.first ? 'return false;' : 'goToPreviousPage(); return false;'}" tabindex="-1">
+            <i class="fa-solid fa-angle-left"></i>
+        </a>
+    `;
+      paginationContainer.appendChild(prevLi);
+
+      // Page numbers
+      const maxVisiblePages = 5;
+      let startPage = Math.max(0, currentPage - Math.floor(maxVisiblePages / 2));
+      let endPage = Math.min(totalPages - 1, startPage + maxVisiblePages - 1);
+
+      // Adjust start page if we're near the end
+      if (endPage - startPage < maxVisiblePages - 1) {
+        startPage = Math.max(0, endPage - maxVisiblePages + 1);
+      }
+
+      // First page if not visible
+      if (startPage > 0) {
+        const firstLi = document.createElement('li');
+        firstLi.className = 'page-item';
+        firstLi.innerHTML = `<a class="page-link" href="#" onclick="goToPage(0); return false;">1</a>`;
+        paginationContainer.appendChild(firstLi);
+
+        if (startPage > 1) {
+          const ellipsisLi = document.createElement('li');
+          ellipsisLi.className = 'page-item';
+          ellipsisLi.innerHTML = `<span class="page-link">...</span>`;
+          paginationContainer.appendChild(ellipsisLi);
+        }
+      }
+
+      // Visible page numbers
+      for (let i = startPage; i <= endPage; i++) {
+        const li = document.createElement('li');
+        li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+        li.innerHTML = `<a class="page-link" href="#" onclick="goToPage(${i}); return false;">${i + 1}</a>`;
+        paginationContainer.appendChild(li);
+      }
+
+      // Last page if not visible
+      if (endPage < totalPages - 1) {
+        if (endPage < totalPages - 2) {
+          const ellipsisLi = document.createElement('li');
+          ellipsisLi.className = 'page-item';
+          ellipsisLi.innerHTML = `<span class="page-link">...</span>`;
+          paginationContainer.appendChild(ellipsisLi);
+        }
+
+        const lastLi = document.createElement('li');
+        lastLi.className = 'page-item';
+        lastLi.innerHTML = `<a class="page-link" href="#" onclick="goToPage(${totalPages - 1}); return false;">${totalPages}</a>`;
+        paginationContainer.appendChild(lastLi);
+      }
+
+      // Next button
+      const nextLi = document.createElement('li');
+      nextLi.className = `page-item ${paginationData.last ? 'disabled' : ''}`;
+      nextLi.innerHTML = `
+        <a class="page-link" href="#" onclick="${paginationData.last ? 'return false;' : 'goToNextPage(); return false;'}">
+            <i class="fa-solid fa-angle-right"></i>
+        </a>
+    `;
+      paginationContainer.appendChild(nextLi);
+    }
+
+    // Updated openModalView function to use real API
+    async function openModalView(orderId) {
+      try {
+        const order = await fetchOrderDetail(orderId);
+
+        // Kiểm tra dữ liệu trả về
+        if (!order || !order.id) {
+          throw new Error("Không tìm thấy thông tin đơn hàng");
+        }
+
+        // Tạo HTML cho danh sách sản phẩm
+        const itemsHTML = order.items && order.items.length > 0
+          ? order.items.map(item => `
+                <div class="order-item">
+                    <div class="item-image">
+                        <img src="${item.image}" alt="${item.productName}" onerror="this.src='./assets/img/placeholder.jpg'">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">${item.productName}</div>
+                        <div class="item-sku">Mã: ${item.sku}</div>
+                        ${item.size ? `<div class="item-size">Size: ${item.size}</div>` : ''}
+                    </div>
+                    <div class="item-quantity">x${item.quantity}</div>
+                    <div class="item-price">${formatPrice(item.price)}</div>
+                    <div class="item-total">${formatPrice(item.total)}</div>
+                </div>
+            `).join('')
+          : '<div class="no-items">Không có sản phẩm trong đơn hàng</div>';
+
+        // Hiển thị modal
+        const modal = document.getElementById("productModal");
+        const productInfo = document.querySelector("#productInfo");
+
+        if (modal && productInfo) {
+          productInfo.innerHTML = `
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Mã đơn hàng:</strong>
+                            <span>#${order.id}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Trạng thái:</strong>
+                            <span class="status-badge status-${order.status.toLowerCase()}">${getStatusInVietnamese(order.status)}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Tên khách hàng:</strong>
+                            <span>${order.customerName || 'N/A'}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Số điện thoại:</strong>
+                            <span>${order.customerPhone || 'N/A'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <div class="info-field">
+                            <strong>Địa chỉ giao hàng:</strong>
+                            <span>${order.customerAddress || 'N/A'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Ngày tạo:</strong>
+                            <span>${formatDate(order.createAt)}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Tài khoản:</strong>
+                            <span>${order.accountResponse?.userName ? `${order.accountResponse.userName} (#${order.accountResponse.id})` : 'N/A'}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Email:</strong>
+                            <span>${order.accountResponse?.email || 'N/A'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <div class="info-field">
+                            <strong>Danh sách sản phẩm:</strong>
+                        </div>
+                        <div class="items-list">
+                            ${itemsHTML}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <div class="info-field">
+                            <strong>Tổng giá trị:</strong>
+                            <span class="total-price total-price-color">${formatPrice(order.totalPrice || 0)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+          modal.style.display = "flex";
+        } else {
+          console.error("Không tìm thấy modal hoặc productInfo");
+        }
+      } catch (error) {
+        console.error("Lỗi khi mở chi tiết đơn hàng:", error.message);
+        alert("Không thể tải thông tin đơn hàng: " + error.message);
+      }
+    }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', function () {
+      try {
+        // Check authentication and permissions on page load
+        checkAdminPermission();
+
+        // Load initial data
+        loadOrderStatuses();
+        loadOrders();
+
+        // Add event listeners for filters
+        const phoneInput = document.querySelector('input[placeholder="Nhập số điện thoại"]');
+        const nameInput = document.querySelector('input[placeholder="Nhập tên khách hàng"]');
+        const addressInput = document.querySelector('input[placeholder="Nhập địa chỉ"]');
+        const statusSelect = document.getElementById('selectStatusFilter');
+
+        // Add debounced search for text inputs
+        let searchTimeout;
+        const searchInputs = [phoneInput, nameInput, addressInput];
+
+        searchInputs.forEach(input => {
+          if (input) {
+            input.addEventListener('input', function () {
+              clearTimeout(searchTimeout);
+              searchTimeout = setTimeout(() => {
+                currentPage = 0; // Reset to first page
+                loadOrders();
+              }, 500); // 500ms debounce
+            });
+          }
+        });
+
+        // Add immediate search for status select
+        if (statusSelect) {
+          statusSelect.addEventListener('change', function () {
+            currentPage = 0; // Reset to first page
+            loadOrders();
+          });
+        }
+
+        // Add event listener for entries per page
+        const entriesSelect = document.querySelector('.entries-select');
+        if (entriesSelect) {
+          entriesSelect.addEventListener('change', function () {
+            currentPageSize = parseInt(this.value);
+            currentPage = 0; // Reset to first page
+            loadOrders();
+          });
+        }
+
+      } catch (error) {
+        console.error('Initialization error:', error);
+        alert('Lỗi khởi tạo: ' + error.message);
+        // Redirect to login page or show error message
+        window.location.href = './login.html';
+      }
+    });
+
+    // Pagination functions
+    function goToPage(page) {
+      currentPage = page;
+      loadOrders();
+    }
+
+    function goToPreviousPage() {
+      if (currentPage > 0) {
+        currentPage--;
+        loadOrders();
+      }
+    }
+
+    function goToNextPage() {
+      currentPage++;
+      loadOrders();
+    }
+
+    function closeModalView() {
+      const modal = document.getElementById("productModal");
+      if (modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+
+</html>

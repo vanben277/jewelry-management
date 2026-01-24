@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/edit-personal-info.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <!-- google roboto font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="profile-edit-container">
+        <div class="order-header">
+            <a href="#" class="order-left">
+                <div class="order-back"><i class="fa fa-angle-left"></i></div>
+                <span class="order-title">Chỉnh sửa thông tin</span>
+            </a>
+            <a href="./index.html" class="order-right">
+                <div
+                    class="w-6 h-6 bg-[rgba(145,158,171,0.08)] rounded-full overflow-hidden flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="#000"
+                            d="M6 19h3v-5q0-.425.288-.712T10 13h4q.425 0 .713.288T15 14v5h3v-9l-6-4.5L6 10zm-2 0v-9q0-.475.213-.9t.587-.7l6-4.5q.525-.4 1.2-.4t1.2.4l6 4.5q.375.275.588.7T20 10v9q0 .825-.588 1.413T18 21h-4q-.425 0-.712-.288T13 20v-5h-2v5q0 .425-.288.713T10 21H6q-.825 0-1.412-.587T4 19m8-6.75">
+                        </path>
+                    </svg>
+                </div>
+            </a>
+        </div>
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i> Cập nhật thông tin thành công!
+        </div>
+
+        <form id="profileForm">
+            <div class="avatar-section">
+                <div class="avatar-container">
+                    <img src="https://cdn.pnj.io/images/customer/home/new_avatar_default.svg" class="avatar-img"
+                        alt="avatar" id="avatarImg" />
+                    <div class="camera-icon" id="cameraIcon">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+                    <input type="file" id="avatar" accept="image/*" style="display: none;" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group" style="flex: 1;">
+                    <label for="firstName">Họ <span class="required">*</span></label>
+                    <input type="text" id="firstName" name="firstName" placeholder="Vui lòng nhập họ" />
+                    <div class="error-message" id="firstNameError"></div>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="lastName">Tên <span class="required">*</span></label>
+                    <input type="text" id="lastName" name="lastName" placeholder="Vui lòng nhập tên" />
+                    <div class="error-message" id="lastNameError"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="dateOfBirth">Ngày sinh</label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" />
+                <div class="error-message" id="dateOfBirthError"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Giới tính</label>
+                <div class="gender-group">
+                    <label><input type="radio" id="gender" name="gender" value="MALE" checked /> Nam</label>
+                    <label><input type="radio" id="gender" name="gender" value="FEMALE" /> Nữ</label>
+                    <label><input type="radio" id="gender" name="gender" value="OTHER" /> Khác</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email <span class="required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="Vui lòng nhập email" />
+                <div class="error-message" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Địa chỉ <span class="required">*</span></label>
+                <input type="text" id="address" name="address" placeholder="Vui lòng nhập địa chỉ" />
+                <div class="error-message" id="addressError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Số điện thoại</label>
+                <input type="tel" id="phone" name="phone" placeholder="Vui lòng nhập số điện thoại" />
+                <div class="error-message" id="phoneError"></div>
+            </div>
+
+            <button type="submit" class="save-btn" id="saveBtn">Lưu</button>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./assets/js/account-sync.js"></script>
+    <script>
+        $(document).ready(function () {
+
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromPage = urlParams.get('from');
+
+            // Xác định URL back
+            let backUrl = './my-account.html';
+
+            switch (fromPage) {
+                case 'my-account':
+                    backUrl = './my-account.html';
+                    break;
+                case 'profile':
+                    backUrl = './profile.html';
+                    break;
+                default:
+                    backUrl = './my-account.html';
+            }
+
+            $('.order-left').attr('href', backUrl);
+
+            $('.order-left').on('click', function (e) {
+                e.preventDefault();
+                window.location.href = backUrl;
+            });
+
+            const user = JSON.parse(localStorage.getItem('editAccount'));
+            const auth = localStorage.getItem('auth');
+
+            if (!user || !auth) {
+                alert('Vui lòng đăng nhập để tiếp tục.')
+                window.location.href = 'login.html';
+            }
+
+            // Gán giá trị ban đầu cho form
+            $('#firstName').val(user.firstName);
+            $('#lastName').val(user.lastName);
+            $('#email').val(user.email);
+            $('#phone').val(user.phone);
+            $('#dateOfBirth').val(user.dateOfBirth);
+            $('input[name="gender"][value="' + user.gender + '"]').prop('checked', true);
+            $('#address').val(user.address);
+            $('#avatarImg').attr('src', user.avatar || 'https://cdn.pnj.io/images/customer/home/new_avatar_default.svg');
+
+            // Xử lý upload ảnh
+            $('#cameraIcon').click(function () {
+                $('#avatar').click();
+            });
+
+            $('#avatar').change(function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#avatarImg').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            function validateField(value, fieldName, regex = null) {
+                if (!value || value.trim() === '') {
+                    return `${fieldName} là bắt buộc`;
+                }
+                if (regex && !regex.test(value)) {
+                    return `${fieldName} không đúng định dạng`;
+                }
+                return '';
+            }
+
+            const validateEmail = (email) => validateField(email, 'Email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+            const validatePhone = (phone) => {
+                if (phone && phone.trim() !== '') {
+                    return validateField(phone.replace(/\s/g, ''), 'Số điện thoại', /^[0-9]{10,11}$/);
+                }
+                return '';
+            };
+
+            function showError(fieldId, message) {
+                $(`#${fieldId}`).addClass('error');
+                $(`#${fieldId}Error`).text(message).show();
+            }
+
+            function hideError(fieldId) {
+                $(`#${fieldId}`).removeClass('error');
+                $(`#${fieldId}Error`).hide();
+            }
+
+            const fields = [
+                { id: 'firstName', name: 'Họ', validator: (val) => validateField(val, 'Họ') },
+                { id: 'lastName', name: 'Tên', validator: (val) => validateField(val, 'Tên') },
+                { id: 'email', name: 'Email', validator: validateEmail },
+                { id: 'address', name: 'Địa chỉ', validator: (val) => validateField(val, 'Địa chỉ') },
+                { id: 'phone', name: 'Số điện thoại', validator: validatePhone }
+            ];
+
+            fields.forEach(field => {
+                $(`#${field.id}`).blur(function () {
+                    const value = $(this).val();
+                    const error = field.validator(value);
+                    if (error) {
+                        showError(field.id, error);
+                    } else {
+                        hideError(field.id);
+                    }
+                });
+            });
+
+            $('#profileForm').submit(function (e) {
+                e.preventDefault();
+
+                const formDataValidate = {
+                    firstName: $('#firstName').val().trim(),
+                    lastName: $('#lastName').val().trim(),
+                    dateOfBirth: $('#dateOfBirth').val(),
+                    gender: $('input[name="gender"]:checked').val(),
+                    email: $('#email').val().trim(),
+                    address: $('#address').val().trim(),
+                    phone: $('#phone').val().trim()
+                };
+
+                let hasErrors = false;
+                fields.forEach(field => {
+                    const error = field.validator(formDataValidate[field.id]);
+                    if (error) {
+                        showError(field.id, error);
+                        hasErrors = true;
+                    } else {
+                        hideError(field.id);
+                    }
+                });
+
+                if (hasErrors) {
+                    const firstError = $('.error').first();
+                    if (firstError.length) {
+                        firstError[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        firstError.focus();
+                    }
+                    return;
+                }
+
+                const $saveBtn = $('#saveBtn');
+                $saveBtn.prop('disabled', true).addClass('loading').text('Đang lưu...');
+
+                const formData = new FormData();
+                formData.append('firstName', $('#firstName').val().trim());
+                formData.append('lastName', $('#lastName').val().trim());
+                formData.append('dateOfBirth', $('#dateOfBirth').val());
+                formData.append('gender', $('input[name="gender"]:checked').val());
+                formData.append('email', $('#email').val().trim());
+                formData.append('address', $('#address').val().trim());
+                formData.append('phone', $('#phone').val().trim());
+
+                const file = $('#avatar')[0].files[0];
+                if (file) {
+                    formData.append('avatar', file);
+                }
+
+                console.log('Gửi request với data:', {
+                    firstName: formData.get('firstName'),
+                    lastName: formData.get('lastName'),
+                    email: formData.get('email'),
+                    hasAvatar: !!file
+                });
+
+                $.ajax({
+                    url: `http://localhost:8080/api/v1/account/${user.id}`,
+                    method: 'PUT',
+                    headers: { 'Authorization': 'Basic ' + auth },
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function () {
+                        $('#successMessage').show();
+                        $.ajax({
+                            url: `http://localhost:8080/api/v1/account/${user.id}`,
+                            method: 'GET',
+                            headers: { 'Authorization': 'Basic ' + auth },
+                            success: function (res) {
+                                if (res.data.status) {
+                                    switch (res.data.status) {
+                                        case 'ACTIVE':
+                                            break;
+                                        case 'BANNED':
+                                            alert("Tài khoản đã bị cấm!");
+                                            localStorage.removeItem('auth');
+                                            localStorage.removeItem('userId');
+                                            localStorage.removeItem('userInfo');
+                                            window.location.href = 'exception.html?code=403'
+                                            break;
+                                        case 'INACTIVE':
+                                            alert("Tài khoản đã bị vô hiệu hóa!");
+                                            localStorage.removeItem('auth');
+                                            localStorage.removeItem('userId');
+                                            localStorage.removeItem('userInfo');
+                                            window.location.href = 'exception.html?code=403'
+                                            break;
+                                        case 'PENDING':
+                                            alert("Tài khoản đang chờ xác thực!");
+                                            localStorage.removeItem('auth');
+                                            localStorage.removeItem('userId');
+                                            localStorage.removeItem('userInfo');
+                                            window.location.href = 'exception.html?code=403'
+                                            break;
+                                        default:
+                                            alert("Lỗi không xác định");
+                                            window.location.href = 'exception.html?code=500'
+                                    }
+                                }
+                                localStorage.setItem('userInfo', JSON.stringify(res.data));
+                                UserSync.updateAccountInfo(res.data);
+                                localStorage.removeItem('editAccount');
+
+                                setTimeout(() => {
+                                    window.location.href = 'my-account.html';
+                                });
+
+                            },
+                            error: function () {
+                                alert('Không thể tải lại thông tin tài khoản. Vui lòng thử lại.');
+                            }
+                        });
+                    },
+                    error: function (xhr) {
+                        console.error('Lỗi update:', xhr);
+
+                        let errorMessage = "Có lỗi xảy ra khi cập nhật thông tin. Vui lòng thử lại!";
+                        let shouldRedirect = false;
+                        let statusCode = xhr.status;
+
+                        if (xhr.status === 400 || xhr.status === 404) {
+                            try {
+                                const response = JSON.parse(xhr.responseText);
+                                const errorMessages = {
+                                    '400019': "Email này đã tồn tại. Vui lòng sử dụng email khác!",
+                                    '400025': "Số điện thoại này đã tồn tại. Vui lòng sử dụng số khác!",
+                                    '404005': "Không tìm thấy tài khoản. Vui lòng thử lại!",
+                                    '404006': "Không tìm thấy thông tin đăng nhập!",
+                                    '400022': "Tài khoản đã bị vô hiệu hóa. Vui lòng liên hệ quản trị viên!",
+                                    '400023': "Tài khoản đã bị khóa. Vui lòng liên hệ quản trị viên!",
+                                    '400024': "Tài khoản chưa được xác thực. Vui lòng kiểm tra email!"
+                                };
+
+                                errorMessage = errorMessages[response.errorMessage] ||
+                                    (response.message || errorMessage);
+
+                                console.log("Chi tiết lỗi:", response.message);
+
+                                shouldRedirect = [400, 404].includes(statusCode);
+                            } catch (e) {
+                                console.error("Lỗi khi parse response:", e);
+                                shouldRedirect = true;
+                            }
+                        } else if (xhr.status === 500) {
+                            console.error("Lỗi máy chủ:", xhr.responseText);
+                            errorMessage = "Hệ thống lỗi. Vui lòng thử lại sau!";
+                            shouldRedirect = true;
+                        } else {
+                            console.error('Hệ thống đang bảo trì hoặc không phản hồi.');
+                            shouldRedirect = true;
+                            statusCode = xhr.status || 503;
+                        }
+
+                        alert(errorMessage);
+
+                        if (shouldRedirect) {
+                            window.location.href = `exception.html?status=${statusCode}`;
+                        }
+                    },
+                    complete: function () {
+                        $saveBtn.prop('disabled', false).removeClass('loading').text('Lưu');
+                    }
+                });
+            });
+
+            $('input').on('input', function () {
+                const fieldId = $(this).attr('id');
+                if ($(this).hasClass('error')) {
+                    hideError(fieldId);
+                }
+            });
+        }); 
+    </script>
+</body>
+
+</html>

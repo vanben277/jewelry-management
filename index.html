@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Normalize css cdn -->
+    <link href=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="shortcut icon" href="./assets/img/Icon.webp" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/grid.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <link rel="stylesheet" href="./assets/icon/fontawesome-free-6.6.0-web/css/all.min.css">
+    <!-- google roboto font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/chatbot.css">
+    <link rel="stylesheet" href="./assets/css/component/ResetBoostrap.css">
+    <title>Trang Sức Cao Cấp PNJ</title>
+
+    <style>
+        @media(min-width:1240px) {
+            .container__newitem .row .container__blocknew--item .container__img .container__img--h {
+                width: 270px;
+            }
+        }
+
+        @media(min-width:1024px) and (max-width:1239px) {
+            .container__newitem .row .container__blocknew--item .container__img .container__img--h {
+                width: 220px;
+            }
+        }
+
+        @media(min-width:740px) and (max-width:1023px) {
+            .container__newitem .row .container__blocknew--item .container__img .container__img--h {
+                width: 194px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div id="chatbot-placeholder"></div>
+
+        <!-- banner -->
+        <div id="popup-banner-placeholder"></div>
+        <!-- header -->
+        <div id="header" class="header"></div>
+
+        <div id="header_tablet" class="tablet__navbar"></div>
+
+        <!-- end header -->
+
+
+        <!-- banner -->
+
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://cdn.pnj.io/images/promo/271/tabsale-t10-25-1972x640CTA.jpg" class="d-block w-100"
+                        alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://cdn.pnj.io/images/promo/270/pnvn-2010-25-1972X640-CTA.png" class="d-block w-100"
+                        alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://cdn.pnj.io/images/promo/240/egift-t3-25-1972x640CTA.jpg" class="d-block w-100"
+                        alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://cdn.pnj.io/images/promo/264/PNJ_fast_2025-_banner-1972x640-CTA.png"
+                        class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <!-- end banner -->
+
+        <!-- content -->
+
+        <div class="content m-16 m-32">
+            <div class="grid wide">
+                <div class="content__title">
+                    <img src="https://cdn.pnj.io/images/banner/homepage/banner_tim_gi_theme_gia_dinh_20250619.png"
+                        alt="">
+                </div>
+                <div class="content__search">
+                    <ul class="content__search--list">
+                        <li class="content__search--item">
+                            <a href="containers.html?search=Nhẫn%20Kim%20cương" class="content__search--link">
+                                <img src="https://cdn.pnj.io/images/promo/223/kim_cuong.png" class="content--img"
+                                    alt="Nhẫn Kim cương">
+                                <span class="content__search--title">Nhẫn Kim cương</span>
+                            </a>
+                        </li>
+                        <li class="content__search--item">
+                            <a href="containers.html?search=Nhẫn%20Cưới" class="content__search--link">
+                                <img src="https://cdn.pnj.io/images/promo/223/nhan_cuoi.png" alt="Nhẫn cưới">
+                                <span class="content__search--title">Nhẫn Cưới</span>
+                            </a>
+                        </li>
+                        <li class="content__search--item">
+                            <a href="containers.html?search=Nhẫn%20Cầu%20hôn" class="content__search--link">
+                                <img src="https://cdn.pnj.io/images/promo/223/nhan_cau_hon.png" alt="Nhẫn cầu hôn">
+                                <span class="content__search--title">Nhẫn Cầu hôn</span>
+                            </a>
+                        </li>
+                        <li class="content__search--item">
+                            <a href="containers.html?search=Bông%20tai%20EZC" class="content__search--link">
+                                <img src="https://cdn.pnj.io/images/promo/223/bong_tai_ecz.png" alt="Bông tai EZC">
+                                <span class="content__search--title">Bông tai EZC</span>
+                            </a>
+                        </li>
+                        <li class="content__search--item">
+                            <a href="containers.html?search=Dây%20chuyền%20vàng" class="content__search--link">
+                                <img src="https://cdn.pnj.io/images/promo/223/day_chuyen_vang.png"
+                                    alt="Dây chuyền vàng">
+                                <span class="content__search--title">Dây chuyền vàng</span>
+                            </a>
+                        </li>
+                        <li class="content__search--item">
+                            <a href="containers.html?search=Đồng%20hồ%20Kim%20cương" class="content__search--link">
+                                <img src="https://cdn.pnj.io/images/promo/223/dong_ho_kim_cuong.png"
+                                    alt="Đồng hồ Kim cương">
+                                <span class="content__search--title">Đồng hồ Kim cương</span>
+                            </a>
+                        </li>
+                        <li class="content__search--item">
+                            <a href="containers.html?search=Trang%20sức%20mới" class="content__search--link">
+                                <img src="https://cdn.pnj.io/images/promo/254/BANNER_AWI_t6_256x256.jpg"
+                                    alt="Trang sức mới">
+                                <span class="content__search--title">Trang sức mới</span>
+                            </a>
+                        </li>
+                        <li class="content__search--item">
+                            <a href="containers.html?search=Trang%20sức%20Cưới" class="content__search--link">
+                                <img src="https://cdn.pnj.io/images/promo/249/494359035_701314925707359_6381650686439066502_n.png"
+                                    class="content--img" alt="Trang sức Cưới">
+                                <span class="content__search--title">Trang sức Cưới</span>
+                            </a>
+                        </li>
+                        <li class="content__search--item">
+                            <a href="containers.html?search=Trang%20sức%20Nam" class="content__search--link">
+                                <img src="https://cdn.pnj.io/images/promo/223/trang_suc_nam.jpg" alt="Trang sức Nam">
+                                <span class="content__search--title">Trang sức Nam</span>
+                            </a>
+                        </li>
+                        <li class="content__search--item">
+                            <a href="containers.html?search=Trang%20sức%20May%20mắn" class="content__search--link">
+                                <img src="https://cdn.pnj.io/images/promo/223/trang_suc_may_man.jpg"
+                                    alt="Trang sức May mắn">
+                                <span class="content__search--title">Trang sức May mắn</span>
+                            </a>
+                        </li>
+                        <li class="content__search--item">
+                            <a href="containers.html?search=Trang%20sức%20Vàng" class="content__search--link">
+                                <img src="https://cdn.pnj.io/images/promo/223/trang_suc_vang.jpg" alt="Trang sức Vàng">
+                                <span class="content__search--title">Trang sức Vàng</span>
+                            </a>
+                        </li>
+                        <li class="content__search--item">
+                            <a href="containers.html?search=Trang%20sức%20bạc" class="content__search--link">
+                                <img src="https://cdn.pnj.io/images/promo/223/trang_suc_bac.jpg" alt="Trang sức bạc">
+                                <span class="content__search--title">Trang sức bạc</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- end content -->
+
+        <!-- slider -->
+        <!-- Desktop slider -->
+        <div class="grid wide hidden__mobile">
+            <div id="slider" class="slider__img m-16 m-32">
+                <div class="content__title">
+                    <h2>Thương hiệu nổi bật</h2>
+                </div>
+                <div class="slider__container">
+                    <div class="slider__box" id="desktopSlider">
+                        <a href="./containers.html" class="slider__box--item">
+                            <img src="https://cdn.pnj.io/images/promo/202/BANNER-WEB_Style_LuckyMe_1200x1200-nocta.jpg"
+                                class="slider__box--img" alt="Style Lucky Me">
+                            <div class="banner__shortcut">
+                                <p class="banner__shortcut--item">
+                                    <img src="https://cdn.pnj.io/images/image-update/2021/tab-sale-v2/style-logo_1.svg"
+                                        alt="Style Logo">
+                                </p>
+                            </div>
+                        </a>
+                        <a href="./containers.html" class="slider__box--item">
+                            <img src="https://cdn.pnj.io/images/promo/222/1000x1000_disney.jpg" class="slider__box--img"
+                                alt="Disney">
+                            <div class="banner__shortcut">
+                                <p class="banner__shortcut--item">
+                                    <img src="https://cdn.pnj.io/images/image-update/2021/tab-sale-v2/pnj disney-01.png"
+                                        alt="Disney Logo">
+                                </p>
+                            </div>
+                        </a>
+                        <a href="./containers.html" class="slider__box--item">
+                            <img src="https://cdn.pnj.io/images/promo/225/watch-t10-24-1000x1000.jpg"
+                                class="slider__box--img" alt="PNJ Watch">
+                            <div class="banner__shortcut">
+                                <p class="banner__shortcut--item">
+                                    <img src="https://cdn.pnj.io/images/image-update/2021/tab-sale-v2/pnj-watch_1.svg"
+                                        alt="Watch Logo">
+                                </p>
+                            </div>
+                        </a>
+                        <a href="./containers.html" class="slider__box--item">
+                            <img src="https://cdn.pnj.io/images/promo/222/1200x1200_Sandrio.jpg"
+                                class="slider__box--img" alt="Sanrio">
+                            <div class="banner__shortcut">
+                                <p class="banner__shortcut--item">
+                                    <img src="https://cdn.pnj.io/images/2023/04/hello-kitty/sanrio1.svg"
+                                        alt="Sanrio Logo">
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="slider__controls">
+                    <div class="slider__dots" id="desktopDots"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile slider -->
+        <div id="slider" class="sliderMobile__img hidden__table__pc">
+            <div class="content__title">
+                <h2>Thương hiệu nổi bật</h2>
+            </div>
+            <div class="sliderMobile__container">
+                <div class="sliderMobile__box" id="mobileSlider">
+                    <a href="./containers.html" class="sliderMobile__box--item">
+                        <img src="https://cdn.pnj.io/images/promo/202/BANNER-WEB_Style_LuckyMe_1200x1200-nocta.jpg"
+                            class="sliderMobile__box--img" alt="Style Lucky Me">
+                        <div class="bannerMobile__shortcut">
+                            <div class="bannerMobile__shortcut--item">
+                                <img src="https://cdn.pnj.io/images/image-update/2021/tab-sale-v2/style-logo_1.svg"
+                                    alt="Style Logo">
+                            </div>
+                        </div>
+                    </a>
+                    <a href="./containers.html" class="sliderMobile__box--item">
+                        <img src="https://cdn.pnj.io/images/promo/222/1000x1000_disney.jpg"
+                            class="sliderMobile__box--img" alt="Disney">
+                        <div class="bannerMobile__shortcut">
+                            <div class="bannerMobile__shortcut--item">
+                                <img src="https://cdn.pnj.io/images/image-update/2021/tab-sale-v2/pnj disney-01.png"
+                                    alt="Disney Logo">
+                            </div>
+                        </div>
+                    </a>
+                    <a href="./containers.html" class="sliderMobile__box--item">
+                        <img src="https://cdn.pnj.io/images/promo/225/watch-t10-24-1000x1000.jpg"
+                            class="sliderMobile__box--img" alt="PNJ Watch">
+                        <div class="bannerMobile__shortcut">
+                            <div class="bannerMobile__shortcut--item">
+                                <img src="https://cdn.pnj.io/images/image-update/2021/tab-sale-v2/pnj-watch_1.svg"
+                                    alt="Watch Logo">
+                            </div>
+                        </div>
+                    </a>
+                    <a href="./containers.html" class="sliderMobile__box--item">
+                        <img src="https://cdn.pnj.io/images/promo/222/1200x1200_Sandrio.jpg"
+                            class="sliderMobile__box--img" alt="Sanrio">
+                        <div class="bannerMobile__shortcut">
+                            <div class="bannerMobile__shortcut--item">
+                                <img src="https://cdn.pnj.io/images/2023/04/hello-kitty/sanrio1.svg" alt="Sanrio Logo">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="slider__controls">
+                <div class="slider__dots" id="mobileDots"></div>
+            </div>
+        </div>
+        <!-- end slider -->
+
+
+        <!-- container -->
+        <div class="grid wide">
+            <div id="container" class="container m-16 m-32">
+                <div class="content__title">
+                    <h2>Sản phẩm mới nhất</h2>
+                </div>
+                <div class="carousel-container">
+                    <button class="icon icon-prev" id="prev-btn" hidden>
+                        <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M12.0899 14.5899C11.7645 14.9153 11.2368 14.9153 10.9114 14.5899L5.91139 9.58991C5.58596 9.26447 5.58596 8.73683 5.91139 8.4114L10.9114 3.41139C11.2368 3.08596 11.7645 3.08596 12.0899 3.41139C12.4153 3.73683 12.4153 4.26447 12.0899 4.58991L7.67916 9.00065L12.0899 13.4114C12.4153 13.7368 12.4153 14.2645 12.0899 14.5899Z"
+                                fill="#5a5a5a"></path>
+                        </svg>
+                    </button>
+
+                    <div class="row__gap" id="product-row"></div>
+
+                    <button class="icon icon-next" id="next-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 18 18" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M5.91107 3.41107C6.23651 3.08563 6.76414 3.08563 7.08958 3.41107L12.0896 8.41107C12.415 8.73651 12.415 9.26415 12.0896 9.58958L7.08958 14.5896C6.76414 14.915 6.23651 14.915 5.91107 14.5896C5.58563 14.2641 5.58563 13.7365 5.91107 13.4111L10.3218 9.00033L5.91107 4.58958C5.58563 4.26414 5.58563 3.73651 5.91107 3.41107Z"
+                                fill="#5a5a5a"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="container__more mt-8 ">
+                    <div class="container__more--btn mb-16">
+                        <a href="./containers.html">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid wide">
+            <div id="container__newitem" class="container__newitem m-16 m-32">
+                <a href="./containers.html" class="container__newitem--img">
+                    <img src="https://cdn.pnj.io/images/promo/253/BANNER_AWI__1200x450_-Hang_moi.jpg" alt="">
+                </a>
+                <div class="content__title content__title--center">
+                    <h2>Sản phẩm bán chạy</h2>
+                </div>
+                <div class="row">
+
+                </div>
+                <div class="container__more mt-8">
+                    <div class="container__more--btn">
+                        <a href="./containers.html">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- end container -->
+
+        <!-- Footer -->
+        <div class="footer__shop m-16 m-32">
+            <div class="footer__imgitem">
+                <img src="https://cdn.pnj.io/images/2024/rebuild/Frame%2055926%20(4).png?1731491049647" alt="">
+            </div>
+            <div class="footer__video">
+                <video class="video" controls style=" width: 100% ; height: 100%">
+                    <source src="https://cdn.pnj.io/images/2024/16x9_35s_BrandFilm.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="footer__cotact">
+                <div class="footer__header">
+                    <h1>Tại sao nên chọn pnj ?</h1>
+                </div>
+                <div class="footer__blist">
+                    <div class="footer__bitem">
+                        <div class="footer__bitem--img">
+                            <img src="https://cdn.pnj.io/images/image-update/2020/key_points/icon-circle-tragop.svg"
+                                alt="">
+                        </div>
+                        <div class="footer__bitem--name">
+                            <span>Trả góp 0% lãi suất</span>
+                        </div>
+                        <div class="footer__bitem--desc">
+                            <span> Áp dụng dễ dàng <br> qua thẻ tín dụng <br> của hơn 20 ngân <br> hàng </span>
+                        </div>
+                    </div>
+                    <div class="footer__bitem">
+                        <div class="footer__bitem--img">
+                            <img src="https://cdn.pnj.io/images/image-update/2022/10/pnjfast/PNJfast-Giaotrong3h-circleicon.svg"
+                                alt="">
+                        </div>
+                        <div class="footer__bitem--name">
+                            <span>Giao hàng 3h</span>
+                        </div>
+                        <div class="footer__bitem--desc">
+                            <span> Sở hữu ngay món <br> trang sức yêu thích <br> chỉ trong vòng 3 giờ</span>
+                        </div>
+                    </div>
+                    <div class="footer__bitem">
+                        <div class="footer__bitem--img">
+                            <img src="https://cdn.pnj.io/images/image-update/2020/key_points/icon-circle-nbv.svg"
+                                alt="">
+                        </div>
+                        <div class="footer__bitem--name">
+                            <span>Người bạn vàng</span>
+                        </div>
+                        <div class="footer__bitem--desc">
+                            <span>Giải pháp tài chính <br> cầm đồ; thu mua <br> kim cương, túi hiệu <br> và đồng hồ
+                                cơ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer"></div>
+        <!-- Footer -->
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/AnimationSlider.js"></script>
+    <script src="./assets/js/Search.js"></script>
+    <script src="./assets/js/account-sync.js"></script>
+    <script src="./assets/js/CartMini.js"></script>
+    <script src="./assets/js/CartMiniUtils.js"></script>
+    <!-- Load component -->
+    <script>
+        function refreshUserUI() {
+            const user = JSON.parse(localStorage.getItem('userInfo'));
+            UserSync.updateAccountInfo(user);
+            UserSync.loadCategories();
+            CartMiniUtils.refresh();
+        }
+
+        function initializePageComponents() {
+            $(document).trigger('headerLoaded');
+        }
+
+        $(document).on('click', '.navbar__tablet--list .has-children > span', function (e) {
+            e.preventDefault(); // chặn link nhảy
+            const parentLi = $(this).parent();
+            parentLi.toggleClass('open');
+        });
+
+        CartMiniUtils.onCartUpdated(function (cart, summary) {
+            console.log('Cart đã được cập nhật:', summary);
+        });
+
+        $(() => {
+            $('#popup-banner-placeholder').load('./assets/layout/Banner.html');
+            $('#header').load('./assets/layout/HeaderPc.html', function () {
+                refreshUserUI();
+                initializePageComponents();
+            });
+            $('#header_tablet').load('./assets/layout/HeaderTabletAndMobile.html', refreshUserUI);
+            $('#footer').load('./assets/layout/Footer.html');
+            $('#chatbot-placeholder').load('./assets/layout/Chatbot.html');
+        });
+
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://localhost:8080/api/v1/product/latest',
+                method: 'GET',
+                success: function (res) {
+                    if (res.data && res.data.length > 0) {
+                        const container = $('#product-row');
+                        container.empty();
+
+                        res.data.forEach(product => {
+                            const primaryImage = product.primaryImageUrl || 'https://mucinmanhtai.com/wp-content/themes/BH-WebChuan-032320/assets/images/default-thumbnail-400.jpg';
+                            const subImage = (product.images && product.images.length > 1) ? product.images[1].imageUrl : primaryImage;
+                            const name = product.displayName || 'Sản phẩm chưa có tên';
+                            const price = product.price ? product.price.toLocaleString('vi-VN') + 'đ' : 'Sản phẩm chưa có giá';
+                            const totalQuantitySold = product.soldQuantity || 0;
+
+                            let soldHtml = '';
+                            if (totalQuantitySold > 0) {
+                                soldHtml = `<p id="totalQuantitySold">${totalQuantitySold} đã bán</p>`;
+                            }
+
+                            const productHtml = `
+                                 <a href="product-detailed.html?id=${product.id}" class="container__block">
+                                    <div class="container__block--item">
+                                        <div class="container__img">
+                                            <img src="${primaryImage}"
+                                                class="container__img--w" id="primaryImageUrl" alt="Ảnh vòng tay">
+                                            <img src="${subImage}"
+                                                class="container__img--h" id="isSub" alt="Ảnh vòng tay">
+                                            <span class="container__right">
+                                                <img src="https://cdn.pnj.io/images/image-update/tag-product/new-icon-3-w29.svg"
+                                                    alt="Ảnh icon">
+                                            </span>
+                                            <div class="container__left">
+                                                <img src="https://cdn.pnj.io/images/image-update/2022/10/pnjfast/PNJfast-Giaotrong3h.svg"
+                                                    alt="Ảnh sale">
+                                            </div>
+                                            <div class="container__rb">
+                                                <img src="https://cdn.pnj.io/images/image-update/tag-product/icon-tragop-2.svg"
+                                                    alt="Ảnh sale">
+                                            </div>
+                                        </div>
+                                        <div class="container__name">
+                                            <p id="name">${name}</p>
+                                        </div>
+                                        <div class="container__price">
+                                            <p id="price">${price}</p>
+                                        </div>
+                                        <div class="container__like">
+                                            <p>Quà tặng Trang Sức</p>
+                                        </div>
+                                        <div class="container__sales">
+                                            ${soldHtml}
+                                        </div>
+                                    </div>
+                                </a>
+                            `;
+                            container.append(productHtml);
+                        });
+                        setTimeout(() => {
+                            if (window.initProductCarousel) {
+                                window.initProductCarousel();
+                            }
+                        }, 100);
+                    }
+                },
+                error: function (xhr) {
+                    let errorMessage = 'Tải danh sách sản phẩm thất bại.'
+                    switch (xhr.status) {
+                        case 500:
+                            errorMessage = 'Lỗi máy chủ. Vui lòng thử lại sau.'
+                            window.location.href = 'exception.html?code=500';
+                            break;
+                    }
+                    alert(errorMessage);
+                }
+            });
+        });
+
+
+        // Hàm format giá tiền
+        function formatPrice(price) {
+            return new Intl.NumberFormat('vi-VN').format(price) + 'đ';
+        }
+
+        // Hàm format số lượng đã bán
+        function formatSoldQuantity(quantity) {
+            return quantity + ' đã bán';
+        }
+
+        // Hàm tạo HTML cho một sản phẩm
+        function createProductHTML(product) {
+            // Lấy ảnh primary làm ảnh chính
+            const primaryImage = product.images.find(img => img.isPrimary) || product.images[0];
+            // Lấy ảnh thứ 2 làm ảnh hover (nếu có)
+            const hoverImage = product.images.find(img => !img.isPrimary) || primaryImage;
+
+            return `
+                <a href="product-detailed.html?id=${product.productId}" class="col l-2-9 m-3-9 c-5-9 container__block__new">
+                    <div class="container__blocknew--item">
+                        <div class="container__img">
+                            <img src="${primaryImage.imageUrl}"
+                                class="container__imgnew--w" alt="${product.name}">
+                            <img src="${hoverImage.imageUrl}"
+                                class="container__img--h" alt="${product.name}">
+                            <span class="container__rightnew">
+                                <img src="https://cdn.pnj.io/images/image-update/tag-product/new-icon-3-w29.svg"
+                                    alt="Ảnh icon">
+                            </span>
+                            <div class="container__leftnew">
+                                <img src="https://cdn.pnj.io/images/image-update/2022/10/pnjfast/PNJfast-Giaotrong3h.svg"
+                                    alt="Ảnh sale">
+                            </div>
+                        </div>
+
+                        <div class="container__namenew">
+                            <p>${product.name}</p>
+                        </div>
+                        <div class="container__pricenew">
+                            <p>${formatPrice(product.price)}</p>
+                        </div>
+                        <div class="container__sales">
+                            <p>${formatSoldQuantity(product.totalQuantitySold)}</p>
+                        </div>
+                    </div>
+                </a>
+            `;
+        }
+
+        // Hàm call API và render sản phẩm
+        async function loadTopSellingProducts(topN = 4) {
+            try {
+                const productContainer = document.querySelector('#container__newitem .row');
+                if (productContainer) {
+                    productContainer.innerHTML = '<div class="col-12 text-center w-100"><p>Đang tải...</p></div>';
+                }
+
+                const response = await fetch(`http://localhost:8080/api/v1/product/top-selling?topN=${topN}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const apiResponse = await response.json();
+
+                if (apiResponse.data && Array.isArray(apiResponse.data)) {
+                    const products = apiResponse.data;
+
+                    const productsHTML = products.map(product => createProductHTML(product)).join('');
+
+                    if (productContainer) {
+                        productContainer.innerHTML = productsHTML;
+                    }
+                } else {
+                    throw new Error('Dữ liệu API không hợp lệ');
+                }
+
+            } catch (error) {
+                console.error('Lỗi khi tải sản phẩm bán chạy:', error);
+
+                const productContainer = document.querySelector('#container__newitem .row');
+                if (productContainer) {
+                    productContainer.innerHTML = `
+                        <div class="col-12 text-center w-100">
+                            <p class="text-danger">Không thể tải sản phẩm. Vui lòng thử lại sau!</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadTopSellingProducts(4);
+        });
+
+        function refreshTopProducts(topN) {
+            loadTopSellingProducts(topN);
+        }
+    </script>
+</body>
+
+</html>

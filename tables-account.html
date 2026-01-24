@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/Icon.webp">
+  <link rel="icon" type="image/png" href="./assets/img/Icon.webp">
+  <title>
+    Quản lý tài khoản
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+  <!-- Nucleo Icons -->
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Material Icons -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/icon/fontawesome-free-6.6.0-web/css/all.min.css">
+  <link rel="stylesheet" href="./assets/css/modal-create-account.css">
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2"
+    id="sidenav-main">
+    <div id="sidenav"></div>
+    </div>
+  </aside>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur"
+      data-scroll="true">
+      <div id="sidenav"></div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-2">
+
+      <!-- Search Filters -->
+      <div class="row">
+        <div class="col-12">
+          <div class="search-filters">
+            <h6><i class="fa-solid fa-filter me-2"></i>Tìm kiếm và lọc tài khoản</h6>
+            <div class="row">
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><i class="fa-solid fa-phone me-1"></i>Số điện thoại</label>
+                  <input type="text" class="form-control" placeholder="Nhập số điện thoại">
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><i class="fa-solid fa-user-tag me-1"></i>Vai trò</label>
+                  <select class="form-select">
+                    <option value="">Tất cả</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><i class="fa-solid fa-venus-mars me-1"></i>Giới tính</label>
+                  <select class="form-select">
+                    <option value="">Tất cả</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><i class="fa-solid fa-circle-info me-1"></i>Trạng thái</label>
+                  <select class="form-select">
+                    <option value="">Tất cả</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div
+                class="bg-gradient-dark d-flex align-items-center justify-content-space-between shadow-dark border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Danh sách tài khoản</h6>
+                <a href="#" class="btn-create text-secondary font-weight-bold text-xs" onclick="openModal()">
+                  <i class="fa-regular fa-user"></i>
+                  <span>Tạo tài khoản</span>
+                </a>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Id</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Full Name</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Date of birth</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Gender</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Phone</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Address</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Role</th>
+                      <th
+                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Status
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Last Login</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Created At</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Updated at</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colspan="12" class="text-center text-muted py-4"><i
+                          class="fa-solid fa-circle-exclamation me-2"></i>Không có bản ghi nào phù hợp</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="row">
+        <div class="col-12">
+          <div class="pagination-wrapper">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="pagination-info">
+                <i class="fa-solid fa-info-circle me-2"></i>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="text-secondary" style="font-size: 14px;">Hiển thị:</span>
+                <select class="entries-select">
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                <span class="text-secondary" style="font-size: 14px;">mục/trang</span>
+              </div>
+            </div>
+
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Form -->
+      <div id="accountModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2><i class="fas fa-user-plus"></i> <span id="modalTitle">Tạo tài khoản</span></h2>
+            <span class="close" onclick="closeModal()">&times;</span>
+          </div>
+
+          <div class="form-container">
+            <form id="accountForm">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">Họ <span class="required">*</span></label>
+                  <input type="text" id="firstName" name="firstName" maxlength="50" required>
+                  <div class="error-message" id="firstNameError"></div>
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Tên <span class="required">*</span></label>
+                  <input type="text" id="lastName" name="lastName" maxlength="50" required>
+                  <div class="error-message" id="lastNameError"></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">Email <span class="required">*</span></label>
+                  <input type="email" id="email" name="email" required>
+                  <div class="error-message" id="emailError"></div>
+                </div>
+                <div class="form-group">
+                  <label for="dateOfBirth">Ngày sinh</label>
+                  <input type="date" id="dateOfBirth" name="dateOfBirth">
+                  <div class="error-message" id="dateOfBirthError"></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Giới tính</label>
+                  <div class="gender-options">
+                    <div class="radio-option">
+                      <input type="radio" id="male" name="gender" value="MALE">
+                      <label for="male">Nam</label>
+                    </div>
+                    <div class="radio-option">
+                      <input type="radio" id="female" name="gender" value="FEMALE">
+                      <label for="female">Nữ</label>
+                    </div>
+                    <div class="radio-option">
+                      <input type="radio" id="other" name="gender" value="OTHER">
+                      <label for="other">Khác</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="phone">Số điện thoại</label>
+                  <input type="tel" id="phone" name="phone" placeholder="Ví dụ: 0123456789">
+                  <div class="error-message" id="phoneError"></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group full-width">
+                  <label for="address">Địa chỉ</label>
+                  <textarea id="address" name="address" maxlength="255" placeholder="Nhập địa chỉ của bạn"></textarea>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group full-width">
+                  <label for="avatar">Avatar</label>
+                  <div class="file-input-wrapper">
+                    <img src="" alt="" id="avatarPreview"
+                      style="width:60px; height:60px; object-fit:cover; border-radius:50%; border: 1px solid #f2f2f2;">
+                    <input type="file" id="avatar" name="avatar" accept="image/*">
+                    <label for="avatar" class="file-input-label">
+                      <i class="fas fa-cloud-upload-alt"></i>
+                      <span>Chọn ảnh đại diện</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group full-width">
+                  <label for="userName">Tài khoản <span class="required">*</span></label>
+                  <input type="text" id="userName" name="userName" minlength="4" maxlength="30" required
+                    placeholder="4-30 ký tự, chỉ chữ, số, dấu chấm, gạch dưới và gạch ngang">
+                  <div class="error-message" id="userNameError"></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="password">Mật khẩu <span class="required">*</span></label>
+                  <div class="password-wrapper">
+                    <input type="password" id="password" name="password" minlength="8" maxlength="16" required
+                      placeholder="8-16 ký tự, có chữ hoa, chữ thường, số và ký tự đặc biệt">
+                    <i class="fas fa-eye-slash password-toggle" onclick="togglePassword('password')"></i>
+                  </div>
+                  <div class="error-message" id="passwordError"></div>
+                </div>
+                <div class="form-group">
+                  <label for="confirmPassword">Xác nhận mật khẩu <span class="required">*</span></label>
+                  <div class="password-wrapper">
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <i class="fas fa-eye-slash password-toggle" onclick="togglePassword('confirmPassword')"></i>
+                  </div>
+                  <div class="error-message" id="confirmPasswordError"></div>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn-cancel" onclick="closeModal()">Hủy</button>
+                <button type="submit" class="btn-submit">
+                  <i class="fas fa-user-plus"></i> <span id="submitButtonText">Đăng ký</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer py-4" id="footer">
+      </footer>
+    </div>
+  </main>
+
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./assets/js/sidenav.js"></script>
+  <script>
+    let isEditMode = false;
+    let editingAccountId = null;
+
+    // Smooth scrollbar initialization
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = { damping: '0.5' };
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+
+    // xử lý tạo tài khoản
+    function openModal(mode = 'create', accountId = null) {
+      isEditMode = mode === 'edit';
+      editingAccountId = isEditMode ? accountId : null;
+
+      // Update modal title and button text
+      $('#modalTitle').text(isEditMode ? 'Sửa tài khoản' : 'Tạo tài khoản');
+      $('#submitButtonText').text(isEditMode ? 'Cập nhật' : 'Đăng ký');
+
+      // Disable fields in edit mode
+      $('#userName').prop('disabled', isEditMode);
+      $('#password').prop('disabled', isEditMode);
+      $('#confirmPassword').prop('disabled', isEditMode);
+
+      // Show modal
+      $('#accountModal').css('display', 'block');
+    }
+
+    function closeModal() {
+      $('#accountModal').css('display', 'none');
+      clearForm();
+      isEditMode = false;
+      editingAccountId = null;
+    }
+
+    function clearForm() {
+      $('#accountForm').trigger('reset');
+      $('#avatarPreview').attr('src', '');
+      $('.error-message').hide().text('');
+      $('#userName').prop('disabled', false);
+      $('#password').prop('disabled', false);
+      $('#confirmPassword').prop('disabled', false);
+    }
+
+    // Đóng modal khi click bên ngoài
+    window.onclick = function (event) {
+      const modal = document.getElementById('accountModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+
+    // Toggle password visibility
+    function togglePassword(fieldId) {
+      const passwordField = document.getElementById(fieldId);
+      const toggleIcon = passwordField.parentElement.querySelector('.password-toggle');
+
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      } else {
+        passwordField.type = 'password';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      }
+    }
+
+    $(document).ready(function () {
+      // ================= XEM TRƯỚC AVATAR =================
+      $('#avatar').on('change', function (e) {
+        var file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            $('#avatarPreview').attr('src', e.target.result);
+          };
+          reader.readAsDataURL(file);
+        } else {
+          $('#avatarPreview').attr('src', '');
+        }
+      });
+
+      // ================= HÀM VALIDATE =================
+      function validateUserName(userName) {
+        const regex = /^[a-zA-Z0-9._-]{4,30}$/;
+        if (!userName) return "Tài khoản không được bỏ trống";
+        if (!regex.test(userName)) return "Tài khoản phải có 4-30 ký tự, chỉ chứa chữ, số, dấu chấm, gạch dưới và gạch ngang";
+        return null;
+      }
+
+      function validatePassword(password) {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+        if (!password) return "Mật khẩu không được bỏ trống";
+        if (!regex.test(password)) return "Mật khẩu phải có 8-16 ký tự, chứa ít nhất: 1 chữ thường, 1 chữ hoa, 1 số, 1 ký tự đặc biệt (@$!%*?&)";
+        return null;
+      }
+
+      function validatePhone(phone) {
+        if (!phone) return null;
+        const regex = /^(0[0-9]{9}|\+84[0-9]{9})$/;
+        if (!regex.test(phone)) return "Số điện thoại không hợp lệ (bắt đầu bằng 0 hoặc +84 và có 10 chữ số)";
+        return null;
+      }
+
+      function validateEmail(email) {
+        if (!email) return "Email không được bỏ trống";
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) return "Email không hợp lệ";
+        return null;
+      }
+
+      function validateDateOfBirth(date) {
+        if (!date) return null;
+        const today = new Date();
+        const birthDate = new Date(date);
+        if (birthDate >= today) return "Ngày sinh phải là ngày trong quá khứ";
+        return null;
+      }
+
+      function showError(fieldId, message) {
+        $(`#${fieldId}Error`).text(message).show();
+      }
+
+      function hideError(fieldId) {
+        $(`#${fieldId}Error`).hide();
+      }
+
+      // ================= VALIDATE REALTIME =================
+      $('#userName').on('blur', function () {
+        if (!isEditMode) {
+          const error = validateUserName($(this).val());
+          error ? showError('userName', error) : hideError('userName');
+        }
+      });
+
+      $('#password').on('blur', function () {
+        if (!isEditMode) {
+          const error = validatePassword($(this).val());
+          error ? showError('password', error) : hideError('password');
+        }
+      });
+
+      $('#confirmPassword').on('blur', function () {
+        if (!isEditMode) {
+          const password = $('#password').val();
+          if ($(this).val() && $(this).val() !== password) {
+            showError('confirmPassword', 'Mật khẩu xác nhận không khớp');
+          } else {
+            hideError('confirmPassword');
+          }
+        }
+      });
+
+      $('#phone').on('blur', function () {
+        const error = validatePhone($(this).val());
+        error ? showError('phone', error) : hideError('phone');
+      });
+
+      $('#email').on('blur', function () {
+        const error = validateEmail($(this).val());
+        error ? showError('email', error) : hideError('email');
+      });
+
+      $('#dateOfBirth').on('blur', function () {
+        const error = validateDateOfBirth($(this).val());
+        error ? showError('dateOfBirth', error) : hideError('dateOfBirth');
+      });
+
+      // ================= XỬ LÝ SUBMIT =================
+      $('#accountForm').on('submit', function (e) {
+        e.preventDefault();
+        let hasError = false;
+
+        const firstName = $('#firstName').val();
+        const lastName = $('#lastName').val();
+        const email = $('#email').val();
+        const userName = $('#userName').val();
+        const password = $('#password').val();
+        const confirmPassword = $('#confirmPassword').val();
+        const phone = $('#phone').val();
+        const dateOfBirth = $('#dateOfBirth').val();
+
+        // Validate từng field
+        if (!firstName) { showError('firstName', 'Họ không được bỏ trống'); hasError = true; }
+        else if (firstName.length > 50) { showError('firstName', 'Họ không được dài quá 50 ký tự'); hasError = true; }
+        else hideError('firstName');
+
+        if (!lastName) { showError('lastName', 'Tên không được bỏ trống'); hasError = true; }
+        else if (lastName.length > 50) { showError('lastName', 'Tên không được dài quá 50 ký tự'); hasError = true; }
+        else hideError('lastName');
+
+        const emailError = validateEmail(email);
+        if (emailError) { showError('email', emailError); hasError = true; } else hideError('email');
+
+        if (!isEditMode) {
+          const userNameError = validateUserName(userName);
+          if (userNameError) { showError('userName', userNameError); hasError = true; } else hideError('userName');
+
+          const passwordError = validatePassword(password);
+          if (passwordError) { showError('password', passwordError); hasError = true; } else hideError('password');
+
+          if (!confirmPassword) { showError('confirmPassword', 'Xác nhận mật khẩu không được bỏ trống'); hasError = true; }
+          else if (password !== confirmPassword) { showError('confirmPassword', 'Mật khẩu xác nhận không khớp'); hasError = true; }
+          else hideError('confirmPassword');
+        }
+
+        const phoneError = validatePhone(phone);
+        if (phoneError) { showError('phone', phoneError); hasError = true; } else hideError('phone');
+
+        const dateError = validateDateOfBirth(dateOfBirth);
+        if (dateError) { showError('dateOfBirth', dateError); hasError = true; } else hideError('dateOfBirth');
+
+        if (hasError) return;
+
+        // ================= GỌI API =================
+        var formData = new FormData();
+        formData.append('firstName', firstName);
+        formData.append('lastName', lastName);
+        formData.append('email', email);
+        formData.append('dateOfBirth', dateOfBirth);
+        formData.append('gender', $('input[name="gender"]:checked').val() || '');
+        formData.append('phone', phone);
+        formData.append('address', $('#address').val());
+        if (!isEditMode) {
+          formData.append('userName', userName);
+          formData.append('password', password);
+          formData.append('confirmPassword', confirmPassword);
+        }
+        var avatarFile = $('#avatar')[0].files[0];
+        if (avatarFile) formData.append('avatar', avatarFile);
+
+        const auth = localStorage.getItem('auth');
+        const method = isEditMode ? 'PUT' : 'POST';
+        const url = isEditMode ? `http://localhost:8080/api/v1/account/${editingAccountId}` : 'http://localhost:8080/api/v1/register';
+
+        $.ajax({
+          url: url,
+          type: method,
+          headers: { 'Authorization': 'Basic ' + auth },
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function () {
+            alert(isEditMode ? 'Cập nhật tài khoản thành công!' : 'Tạo tài khoản thành công!');
+            closeModal();
+            loadAccounts();
+          },
+          error: function (xhr) {
+            if (xhr.status === 400) {
+              try {
+                var response = JSON.parse(xhr.responseText);
+                var errorCode = response.errorMessage;
+                switch (errorCode) {
+                  case '400019':
+                    alert("Email đã tồn tại trong hệ thống!");
+                    break;
+                  case '400020':
+                    alert("Tài khoản đã tồn tại trong hệ thống!");
+                    break;
+                  case '400025':
+                    alert("Số điện thoại đã tồn tại trong hệ thống!");
+                    break;
+                  default:
+                    alert("Lỗi: " + (response.message || 'Thông tin đã tồn tại!'));
+                }
+              } catch (e) {
+                alert("Dữ liệu phản hồi lỗi không hợp lệ!");
+              }
+            } else if (xhr.status === 500) {
+              alert("Lỗi máy chủ! Vui lòng thử lại sau.");
+            } else {
+              alert('Hệ thống đang bảo trì. Vui lòng thử lại sau!.');
+            }
+          }
+        });
+      });
+
+      // sửa thông tin
+      $(document).on('click', '.btn-edit', function () {
+        const accountId = $(this).data('id');
+        const auth = localStorage.getItem('auth');
+
+        $.ajax({
+          url: `http://localhost:8080/api/v1/account/${accountId}`,
+          method: 'GET',
+          headers: { 'Authorization': 'Basic ' + auth },
+          success: function (response) {
+            const account = response.data;
+            openModal('edit', accountId);
+            $('#firstName').val(account.firstName);
+            $('#lastName').val(account.lastName);
+            $('#dateOfBirth').val(account.dateOfBirth);
+            $('input[name="gender"][value="' + account.gender + '"]').prop('checked', true);
+            $('#phone').val(account.phone);
+            $('#address').val(account.address);
+            $('#email').val(account.email);
+            $('#userName').val(account.userName);
+            $('#avatarPreview').attr('src', account.avatar || '../assets/img/default-avatar.jpg');
+          },
+          error: function (xhr) {
+            console.error('API error:', xhr.responseText);
+            alert("Không lấy được dữ liệu tài khoản: " + xhr.responseText);
+          }
+        });
+      });
+
+      // filter
+
+      function callApi(url, method = 'GET', data = null, successCallback) {
+        const auth = localStorage.getItem('auth');
+        const config = {
+          url: url,
+          method: method,
+          headers: { 'Authorization': 'Basic ' + auth },
+          success: function (response) {
+            if (response.errorMessage) {
+              console.error('API Error:', response.errorMessage);
+              alert('Lỗi: ' + response.errorMessage);
+              return;
+            }
+            if (typeof successCallback === 'function') {
+              successCallback(response.data);
+            }
+          },
+          error: function (xhr) {
+            let errorMessage = '';
+            switch (xhr.status) {
+              case 401:
+                errorMessage = 'Phiên đăng nhập đã hết hạn hoặc không hợp lệ, vui lòng đăng nhập lại.';
+                localStorage.removeItem('auth');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userInfo');
+                window.location.href = 'login.html';
+                break;
+              case 400:
+                try {
+                  const response = JSON.parse(xhr.responseText);
+                  alert("Lỗi cập nhật status: " + response.message);
+                } catch (e) {
+                  alert("Lỗi cập nhật status: " + xhr.responseText);
+                }
+                break;
+              case 403:
+                errorMessage = 'Bạn không có quyền truy cập tài nguyên này.';
+                window.location.href = 'exception.html?code=403';
+                break;
+              case 404:
+                errorMessage = 'Không tìm thấy thông tin tài khoản.';
+                window.location.href = 'exception.html?code=404';
+                break;
+              case 500:
+                errorMessage = 'Lỗi máy chủ. Vui lòng thử lại sau.';
+                window.location.href = 'exception.html?code=500';
+                break;
+              default:
+                errorMessage = 'Lỗi không xác định: ' + xhr.statusText;
+                alert(errorMessage);
+            }
+            console.error(errorMessage);
+          }
+        };
+        if (data) {
+          config.data = JSON.stringify(data);
+          config.contentType = 'application/json';
+        }
+        $.ajax(config);
+      }
+
+      function fillSelect(selector, list) {
+        const $select = $(selector);
+        $select.empty().append('<option value="">Tất cả</option>');
+        $.each(list, function (index, value) {
+          $select.append(`<option value="${value}">${value}</option>`);
+        });
+      }
+
+      function loadSelectOptions() {
+        callApi('http://localhost:8080/api/v1/account/role', 'GET', null, function (data) {
+          fillSelect('.filter-group select:eq(0)', data);
+        });
+        callApi('http://localhost:8080/api/v1/account/gender', 'GET', null, function (data) {
+          fillSelect('.filter-group select:eq(1)', data);
+        });
+        callApi('http://localhost:8080/api/v1/account/status', 'GET', null, function (data) {
+          fillSelect('.filter-group select:eq(2)', data);
+        });
+      }
+
+      let currentPage = 1;
+
+      function renderPagination(totalPages) {
+        const $pagination = $('.pagination');
+        $pagination.empty();
+        $pagination.append(`
+          <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="#" data-page="${currentPage - 1}">
+              <i class="fa-solid fa-angle-left"></i>
+            </a>
+          </li>
+        `);
+        for (let i = 1; i <= totalPages; i++) {
+          $pagination.append(`
+            <li class="page-item ${currentPage === i ? 'active' : ''}">
+              <a class="page-link" href="#" data-page="${i}">${i}</a>
+            </li>
+          `);
+        }
+        $pagination.append(`
+          <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+            <a class="page-link" href="#" data-page="${currentPage + 1}">
+              <i class="fa-solid fa-angle-right"></i>
+            </a>
+          </li>
+        `);
+      }
+
+      function loadAccounts() {
+        const phone = $('.filter-group input[type="text"]').val() || '';
+        const role = $('.filter-group select:eq(0)').val() || '';
+        const gender = $('.filter-group select:eq(1)').val() || '';
+        const status = $('.filter-group select:eq(2)').val() || '';
+        const pageSize = $('.entries-select').val() || 10;
+
+        // Luôn truyền pageNumber bắt đầu từ 0
+        const url = `http://localhost:8080/api/v1/account/filter?phone=${encodeURIComponent(phone)}&role=${encodeURIComponent(role)}&status=${encodeURIComponent(status)}&gender=${encodeURIComponent(gender)}&pageSize=${pageSize}&pageNumber=${currentPage - 1}`;
+
+        callApi(url, 'GET', null, function (data) {
+          const $tbody = $('table tbody');
+          $tbody.empty();
+
+          if (!data.content || data.content.length === 0) {
+            $tbody.append(`
+              <tr>
+                <td colspan="12" class="text-center text-muted py-4">
+                  <i class="fa-solid fa-circle-exclamation me-2"></i>
+                  Không có bản ghi nào phù hợp
+                </td>
+              </tr>
+            `);
+            $('.pagination-info').text(`Hiển thị 0 trong tổng số ${data.totalElements} tài khoản`);
+            renderPagination(0);
+            return;
+          }
+
+          const formatDateTime = (dateString) => {
+            return dateString ? dateString.replace('T', ' ') : 'Not login';
+          };
+
+          $.each(data.content, function (index, account) {
+            const fullName = `${account.firstName} ${account.lastName}`;
+            const statusClass = account.status.toLowerCase() + '-status';
+            const roleClass = account.role.toLowerCase() + '-role';
+            $tbody.append(`
+              <tr>
+                <td class="align-middle text-center">
+                  <span class="text-secondary text-xs font-weight-bold">#${account.id}</span>
+                </td>
+                <td>
+                  <div class="d-flex px-2 py-1">
+                    <div>
+                      <img src="${account.avatar || '../assets/img/default-avatar.jpg'}" class="avatar avatar-sm me-3 border-radius-lg" alt="user">
+                    </div>
+                    <div class="d-flex flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm">${fullName}</h6>
+                      <p class="text-xs text-secondary mb-0">${account.email}</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="align-middle text-center">
+                  <span class="text-secondary text-xs font-weight-bold">${account.dateOfBirth}</span>
+                </td>
+                <td class="align-middle text-center">
+                  <span class="text-secondary text-xs font-weight-bold">${account.gender}</span>
+                </td>
+                <td class="align-middle text-center">
+                  <span class="text-secondary text-xs font-weight-bold">${account.phone}</span>
+                </td>
+                <td class="align-middle text-center">
+                  <span class="text-secondary text-xs font-weight-bold">${account.address}</span>
+                </td>
+                <td class="align-middle text-center">
+                  <select class="role-select ${roleClass}" data-id="${account.id}">
+                    <option value="USER" ${account.role === 'USER' ? 'selected' : ''}>USER</option>
+                    <option value="STAFF" ${account.role === 'STAFF' ? 'selected' : ''}>STAFF</option>
+                    <option value="ADMIN" ${account.role === 'ADMIN' ? 'selected' : ''}>ADMIN</option>
+                  </select>
+                </td>
+                <td class="align-middle text-center">
+                  <select class="status-select ${statusClass}" data-id="${account.id}">
+                    <option value="ACTIVE" ${account.status === 'ACTIVE' ? 'selected' : ''}>ACTIVE</option>
+                    <option value="INACTIVE" ${account.status === 'INACTIVE' ? 'selected' : ''}>INACTIVE</option>
+                    <option value="BANNED" ${account.status === 'BANNED' ? 'selected' : ''}>BANNED</option>
+                    <option value="PENDING" ${account.status === 'PENDING' ? 'selected' : ''}>PENDING</option>
+                  </select>
+                </td>
+                <td class="align-middle text-center">
+                  <span class="text-secondary text-xs font-weight-bold">${formatDateTime(account.lastLoginAt) || 'Not login'}</span>
+                </td> 
+                <td class="align-middle text-center">
+                  <span class="text-secondary text-xs font-weight-bold">${formatDateTime(account.createdAt)}</span>
+                </td>
+                <td class="align-middle text-center">
+                  <span class="text-secondary text-xs font-weight-bold">${formatDateTime(account.updatedAt)}</span>
+                </td>
+                <td class="align-middle text-center">
+                  <a href="javascript:;" class="text-secondary font-weight-bold text-xs btn-edit" data-id="${account.id}">
+                    <i class="fa-solid fa-pen-to-square me-1" title="Sửa thông tin"></i>
+                  </a>
+                </td>
+              </tr>
+            `);
+          });
+
+          renderPagination(data.totalPages);
+          $('.pagination-info').text(`Hiển thị ${(currentPage - 1) * pageSize + 1}-${Math.min(currentPage * pageSize, data.totalElements)} trong tổng số ${data.totalElements} tài khoản`);
+        });
+      }
+
+
+      // Khi đổi ROLE
+      $(document).on('change', '.role-select', function () {
+        const auth = localStorage.getItem('auth');
+        let id = $(this).data('id');
+        let role = $(this).val();
+
+        $.ajax({
+          url: `http://localhost:8080/api/v1/account/role/${id}`,
+          method: "PUT",
+          headers: { 'Authorization': 'Basic ' + auth },
+          contentType: "application/json",
+          data: JSON.stringify({ role: role }),
+          success: function () {
+            alert("Cập nhật role thành công!");
+            loadAccounts();
+          },
+          error: function (xhr) {
+            try {
+              const response = JSON.parse(xhr.responseText);
+              alert("Lỗi cập nhật status: " + response.message);
+            } catch (e) {
+              alert("Lỗi cập nhật status: " + xhr.responseText);
+            }
+          }
+        });
+      });
+
+      // Khi đổi STATUS
+      $(document).on('change', '.status-select', function () {
+        const auth = localStorage.getItem('auth');
+        let id = $(this).data('id');
+        let status = $(this).val();
+
+        $.ajax({
+          url: `http://localhost:8080/api/v1/account/status/${id}`,
+          method: "PUT",
+          headers: { 'Authorization': 'Basic ' + auth },
+          contentType: "application/json",
+          data: JSON.stringify({ status: status }),
+          success: function () {
+            alert("Cập nhật status thành công!");
+            loadAccounts();
+          },
+          error: function (xhr) {
+            try {
+              const response = JSON.parse(xhr.responseText);
+              alert("Lỗi cập nhật status: " + response.message);
+            } catch (e) {
+              alert("Lỗi cập nhật status: " + xhr.responseText);
+            }
+          }
+        });
+      });
+
+      // end filter
+
+      // Initialize filter options and accounts
+      loadSelectOptions();
+      loadAccounts();
+
+      $('.filter-group select, .entries-select').on('change', function () {
+        currentPage = 1;
+        loadAccounts();
+      });
+
+      $('.filter-group input[type="text"]').on('input', function () {
+        currentPage = 1;
+        loadAccounts();
+      });
+
+      $(document).on('click', '.pagination a', function (e) {
+        e.preventDefault();
+        const page = parseInt($(this).attr('data-page'));
+        if (!isNaN(page) && page > 0) {
+          currentPage = page;
+          loadAccounts();
+        }
+      });
+    });
+
+    // end tạo tài khoản
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+
+</html>

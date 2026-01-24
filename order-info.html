@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Normalize css cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="shortcut icon" href="./assets/img/Icon.webp" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/grid.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <link rel="stylesheet" href="./assets/css/order-info.css">
+    <link rel="stylesheet" href="./assets/icon/fontawesome-free-6.6.0-web/css/all.min.css">
+    <!-- google roboto font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/component/ResetBoostrap.css">
+    <title>Thông tin đặt hàng</title>
+</head>
+
+<body>
+
+    <!-- header -->
+    <div id="header" class="header"></div>
+
+    <div id="header_tablet" class="tablet__navbar"></div>
+
+    <!-- end header -->
+
+    <div class="order-container">
+        <!-- Header -->
+        <div class="category__block">
+            <a href="./category.html" class="category__back">
+                <img src="https://www.pnj.com.vn/site/assets/images/previous.svg" width="20" height="20" alt="">
+                <p>Quay lại</p>
+            </a>
+        </div>
+        <h2 class="or-header-center" style="display: flex; justify-content: center; color: var(--text-blue);">Thông tin
+            đặt hàng</h2>
+
+        <!-- Static product example -->
+        <div class="order-list">
+            <div class="order-item">
+                <img src="https://cdn.pnj.io/images/detailed/247/on-gmsvxmy000004-mat-day-chuyen-vang-10k-dinh-da-tsavorite-pnj-1.jpg"
+                    alt="Product Image">
+                <div class="item-details">
+                    <h4>Product Name</h4>
+                    <p>Mã: SAMPLE123</p>
+                    <p>Đơn giá: <strong>1,000,000 đ</strong></p>
+                    <div class="qty-control">
+                        Số lượng: <span>1</span>
+                    </div>
+                    <div class="qty-control">
+                        Kích cỡ: <span>1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary-section">
+            <table class="summary-table">
+                <tr>
+                    <td>Tạm tính</td>
+                    <td style="color:#b84b54;">1,000,000 đ</td>
+                </tr>
+                <tr>
+                    <td>Giao hàng</td>
+                    <td>Miễn phí</td>
+                </tr>
+                <tr>
+                    <td><strong style="color:var(--text-color);">Tổng tiền</strong></td>
+                    <td><strong style="color:#b84b54;">1,000,000 đ</strong></td>
+                </tr>
+            </table>
+            <p style="font-size: 12px; color: var(--text-color); float: right;
+        margin: 0; font-style: italic;">(Giá tham khảo đã bao gồm VAT)</p>
+        </div>
+        <form id="order-form" method="POST">
+            <!-- Thông tin người mua -->
+            <div class="buyer-info">
+                <span>Thông tin người mua</span>
+
+                <div>
+                    <input type="text" name="fullname" id="fullname" placeholder="Họ và tên *" value="">
+                    <div class="error-message" id="fullname-error"></div>
+                </div>
+
+                <div>
+                    <input type="text" name="phone" id="phone" placeholder="Số điện thoại *" value="">
+                    <div class="error-message" id="phone-error"></div>
+                </div>
+
+                <div>
+                    <input type="text" name="address" id="address" placeholder="Địa chỉ *" value="">
+                    <div class="error-message" id="address-error"></div>
+                </div>
+
+            </div>
+
+            <!-- Hình thức nhận hàng -->
+            <div class="delivery-method">
+                <div class="delivery-option">
+                    <div class="option" style="background: #fff6e5; display: flex; justify-content: center;"><img
+                            src="https://www.pnj.com.vn/site/assets/images/delivery-bike.svg" alt="Giao hàng"><span
+                            style="font-size:1.2rem;">
+                            Giao hàng tận
+                            nơi<br><small>Miễn phí toàn
+                                quốc</small>
+                        </span>
+                    </div>
+                </div>
+                <div class="delivery-option">
+                    <div class="option" style="display: flex; justify-content: center; font-size:1.2rem;"><img
+                            src="./assets/img/in_store.png" alt="Nhận tại cửa hàng"> Nhận
+                        tại
+                        cửa hàng</div>
+                </div>
+            </div>
+
+            <!-- Phương thức thanh toán -->
+            <div class="payment-methods-section" style="margin-top: 20px;">
+                <h4>Phương thức thanh toán</h4>
+
+                <div
+                    style="border: 1px solid #ccc; padding: 10px;  margin-bottom: 10px; border-radius: 6px; color: var(--text-color);">
+                    <strong><i class="fa-solid fa-money-bill"></i> Thanh toán tiền mặt khi nhận hàng (COD)</strong>
+                </div>
+
+                <div
+                    style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 6px; color: var(--text-color);">
+                    <strong><i class="fa-solid fa-building-columns"></i> Thanh toán chuyển khoản</strong>
+                </div>
+
+                <div
+                    style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 6px; color: var(--text-color);">
+                    <strong><i class="fa-brands fa-cc-visa"></i> Thanh toán thẻ quốc tế</strong>
+                    <br><small>(VISA, Master, JCB)</small>
+                </div>
+
+                <div
+                    style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 6px; color: var(--text-color);">
+                    <strong>Trả góp thẻ tín dụng 0%</strong>
+                </div>
+
+                <div
+                    style="border: 1px solid #ccc; background: #f2f2f2; padding: 10px; margin-bottom: 10px; border-radius: 6px; color: var(--text-color);">
+                    <strong>Thanh toán ZaloPay</strong>
+                </div>
+
+                <div style="border: 1px solid #ccc; padding: 10px; border-radius: 6px; color: var(--text-color);">
+                    <strong>Quét mã QR</strong>
+                </div>
+            </div>
+
+            <button type="submit" class="order-button enabled">ĐẶT HÀNG</button>
+        </form>
+    </div>
+    <!-- Địa chỉ chi tiết + phương thức thanh toán -->
+    <div id="footer"></div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/Search.js"></script>
+    <script src="./assets/js/account-sync.js"></script>
+    <script src="./assets/js/CartMini.js"></script>
+    <script src="./assets/js/CartMiniUtils.js"></script>
+
+    <script>
+        function refreshUserUI() {
+            const user = JSON.parse(localStorage.getItem('userInfo'));
+            UserSync.updateAccountInfo(user);
+            UserSync.loadCategories();
+            CartMiniUtils.refresh();
+        }
+
+        function initializePageComponents() {
+            $(document).trigger('headerLoaded');
+        }
+
+        $(document).on('click', '.navbar__tablet--list .has-children > span', function (e) {
+            e.preventDefault(); // chặn link nhảy
+            const parentLi = $(this).parent();
+            parentLi.toggleClass('open');
+        });
+
+        CartMiniUtils.onCartUpdated(function (cart, summary) {
+            console.log('Cart đã được cập nhật:', summary);
+        });
+
+        $(() => {
+            $('#header').load('./assets/layout/HeaderPc.html', function () {
+                refreshUserUI();
+                initializePageComponents();
+            });
+            $('#header_tablet').load('./assets/layout/HeaderTabletAndMobile.html', refreshUserUI);
+            $('#footer').load('./assets/layout/Footer.html');
+        });
+
+        $(document).ready(function () {
+            const checkoutItems = JSON.parse(localStorage.getItem('checkoutItems')) || [];
+            const $orderList = $('.order-list');
+            let total = 0;
+
+            console.log('Checkout items from localStorage:', checkoutItems);
+
+
+            $orderList.empty();
+
+            if (checkoutItems.length === 0) {
+                $orderList.append(`
+                    <div class="empty-cart">
+                        <p>Giỏ hàng trống</p>
+                    </div>
+                `);
+                return;
+            }
+
+            checkoutItems.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                console.log('Processing item:', item);
+
+                $orderList.append(`
+                    <div class="order-item">
+                        <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/100x100?text=No+Image'">
+                        <div class="item-details">
+                            <h4>${item.name}</h4>
+                            <p>Mã: ${item.sku}</p>
+                            <p>Đơn giá: <strong>${item.price.toLocaleString('vi-VN')} đ</strong></p>
+                            <div class="qty-control">Số lượng: <span>${item.quantity}</span></div>
+                            ${item.size && item.size.toString().trim() !== '' ? `<div class="qty-control">Kích cỡ: <span>${item.size}</span></div>` : ''}
+                        </div>
+                    </div>
+                `);
+            });
+
+            console.log('Total calculated:', total);
+
+            $('.summary-section .summary-table tr:first-child td:last-child').text(total.toLocaleString('vi-VN') + ' đ');
+            $('.summary-section .summary-table tr:last-child td:last-child strong').text(total.toLocaleString('vi-VN') + ' đ');
+
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            if (userInfo) {
+                $('#fullname').val(`${userInfo.firstName} ${userInfo.lastName}` || '');
+                $('#phone').val(userInfo.phone || '');
+                $('#address').val(userInfo.address || '');
+            }
+
+            $('#order-form').on('submit', function (e) {
+                e.preventDefault();
+
+                function isValidForm() {
+                    let isValid = true;
+
+                    const fullname = $('#fullname').val().trim();
+                    const phone = $('#phone').val().trim();
+                    const address = $('#address').val().trim();
+                    const phoneRegex = /^(0|\+84)[0-9]{9}$/;
+
+                    $('.error-message').text('');
+
+                    if (fullname === '') {
+                        $('#fullname-error').text('Vui lòng nhập họ và tên.');
+                        isValid = false;
+                    }
+
+                    if (phone === '') {
+                        $('#phone-error').text('Vui lòng nhập số điện thoại.');
+                        isValid = false;
+                    } else if (!phoneRegex.test(phone)) {
+                        $('#phone-error').text('Số điện thoại không hợp lệ.');
+                        isValid = false;
+                    }
+
+                    if (address === '') {
+                        $('#address-error').text('Vui lòng nhập địa chỉ.');
+                        isValid = false;
+                    }
+
+                    return isValid;
+                }
+
+                if (!isValidForm()) {
+                    return;
+                }
+
+                const checkoutItems = JSON.parse(localStorage.getItem('checkoutItems')) || [];
+
+                if (checkoutItems.length === 0) {
+                    alert('Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi đặt hàng.');
+                    return;
+                }
+
+                const orderData = {
+                    customerName: $('#fullname').val().trim(),
+                    customerPhone: $('#phone').val().trim(),
+                    customerAddress: $('#address').val().trim(),
+                    items: checkoutItems.map(item => ({
+                        productId: item.productId,
+                        quantity: item.quantity,
+                        size: item.size
+                    }))
+                };
+
+
+                const submitBtn = $('#order-form button[type="submit"]');
+                const originalText = submitBtn.text();
+                submitBtn.text('Đang xử lý...').prop('disabled', true);
+
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8080/api/v1/order',
+                    headers: {
+                        'Authorization': 'Basic ' + localStorage.getItem('auth'),
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify(orderData),
+                    timeout: 10000,
+                    success: function (res) {
+                        localStorage.setItem('lastOrder', JSON.stringify(res.data));
+
+                        localStorage.removeItem('checkoutItems');
+                        localStorage.removeItem('cart');
+
+                        window.location.href = 'order-success.html';
+                    },
+                    error: function (xhr, status, error) {
+                        submitBtn.text(originalText).prop('disabled', false);
+
+                        let errorMessage = 'Đặt hàng thất bại!';
+                        let errorCode = '';
+                        let shouldRedirectToException = false;
+
+                        let responseData = null;
+                        try {
+                            responseData = JSON.parse(xhr.responseText);
+                            errorCode = responseData.errorCode || responseData.code || '';
+                        } catch (e) {
+                            console.log('Could not parse error response');
+                        }
+
+                        if (errorCode) {
+                            switch (errorCode) {
+                                case '404003':
+                                    errorMessage = 'Sản phẩm không tồn tại hoặc đã bị xóa';
+                                    shouldRedirectToException = true;
+                                    break;
+                                case '400015':
+                                    errorMessage = 'Sản phẩm đã hết hàng';
+                                    shouldRedirectToException = true;
+                                    break;
+                                case '400034':
+                                    errorMessage = 'Một số sản phẩm trong đơn hàng đã hết hàng';
+                                    shouldRedirectToException = true;
+                                    break;
+                                default:
+                                    errorMessage = responseData.message || 'Có lỗi xảy ra khi đặt hàng';
+                                    shouldRedirectToException = true;
+                                    break;
+                            }
+                        }
+                        else {
+                            switch (xhr.status) {
+                                case 400:
+                                    errorMessage = 'Thông tin đơn hàng không hợp lệ.';
+                                    shouldRedirectToException = true;
+                                    break;
+                                case 401:
+                                    errorMessage = 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.';
+                                    setTimeout(() => {
+                                        window.location.href = 'login.html';
+                                    }, 1500);
+                                    break;
+                                case 403:
+                                    errorMessage = 'Bạn không có quyền thực hiện thao tác này.';
+                                    shouldRedirectToException = true;
+                                    break;
+                                case 404:
+                                    errorMessage = 'Không tìm thấy API đặt hàng. Vui lòng liên hệ hỗ trợ.';
+                                    shouldRedirectToException = true;
+                                    break;
+                                case 422:
+                                    errorMessage = 'Dữ liệu đơn hàng không hợp lệ.';
+                                    shouldRedirectToException = true;
+                                    break;
+                                case 500:
+                                case 502:
+                                case 503:
+                                    errorMessage = 'Lỗi server. Vui lòng thử lại sau.';
+                                    shouldRedirectToException = true;
+                                    break;
+                                case 0:
+                                    errorMessage = 'Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng.';
+                                    shouldRedirectToException = true;
+                                    break;
+                                default:
+                                    if (status === 'timeout') {
+                                        errorMessage = 'Kết nối bị timeout. Vui lòng thử lại.';
+                                        shouldRedirectToException = true;
+                                    } else if (status === 'abort') {
+                                        errorMessage = 'Request bị hủy.';
+                                    } else {
+                                        errorMessage = `Lỗi HTTP ${xhr.status}. Vui lòng thử lại.`;
+                                        shouldRedirectToException = true;
+                                    }
+                                    break;
+                            }
+                        }
+
+                        localStorage.removeItem('lastError');
+
+                        if (shouldRedirectToException) {
+                            const finalErrorCode = errorCode || xhr.status || '500';
+
+                            const errorInfo = {
+                                message: errorMessage,
+                                code: finalErrorCode,
+                                timestamp: new Date().toISOString(),
+                                action: 'order_submission',
+                                details: {
+                                    status: xhr.status,
+                                    statusText: xhr.statusText,
+                                    customCode: errorCode,
+                                    originalError: error,
+                                    responseText: xhr.responseText
+                                }
+                            };
+
+                            localStorage.setItem('lastError', JSON.stringify(errorInfo));
+
+                            setTimeout(() => {
+                                window.location.href = `exception.html?code=${finalErrorCode}`;
+                            }, 1000);
+                        }
+
+                        if (xhr.status !== 401) {
+                            alert(errorMessage);
+                        }
+
+                        console.error('Order submission error:', {
+                            status: xhr.status,
+                            statusText: xhr.statusText,
+                            customCode: errorCode,
+                            response: responseData,
+                            originalError: error,
+                            fullResponse: xhr.responseText
+                        });
+                    }
+                })
+            });
+        });
+    </script>
+</body>
+
+
+</html>

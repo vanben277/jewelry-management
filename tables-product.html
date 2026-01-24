@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/Icon.webp" />
+  <link rel="icon" type="image/png" href="./assets/img/Icon.webp" />
+  <title>Danh sách sản phẩm</title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+  <!-- Nucleo Icons -->
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Material Icons -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/icon/fontawesome-free-6.6.0-web/css/all.min.css" />
+  <link rel="stylesheet" href="./assets/css/modal-create-product.css" />
+</head>
+
+<body class="g-sidenav-show bg-gray-100">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2 bg-white my-2"
+    id="sidenav-main">
+    <div id="sidenav"></div>
+  </aside>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur"
+      data-scroll="true">
+      <div id="sidenav"></div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-2">
+      <!-- Search Filters -->
+      <div class="row">
+        <div class="col-12">
+          <div class="search-filters">
+            <h6>
+              <i class="fa-solid fa-filter me-2"></i>Tìm kiếm và lọc sản phẩm
+            </h6>
+            <div class="row">
+              <div class="col-12 col-md-12">
+                <div class="filter-group">
+                  <label><img src="https://cdn-icons-png.flaticon.com/512/4059/4059951.png" class="opacity-5"
+                      width="18px" alt="" style="margin-right: 8px" />Tên sản phẩm</label>
+                  <input type="text" class="form-control" id="name" placeholder="Nhập tên sản phẩm" />
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><img src="https://cdn-icons-png.flaticon.com/512/3405/3405828.png" width="16" alt="" />
+                    Danh mục</label>
+                  <select class="form-select" id="selectCategoryId">
+                    <option value="">Tất cả</option>
+                    <option value="1">Nhẫn</option>
+                    <!-- ví dụ với id là 1 -->
+                  </select>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><img src="https://cdn-icons-png.flaticon.com/512/2487/2487014.png" width="20" alt="" />
+                    Tuổi vàng</label>
+                  <select class="form-select" id="selectGoldType">
+                    <option value="">Tất cả</option>
+                    <option value="GOLD_24K">24K</option>
+                    <option value="GOLD_18K">18K</option>
+                    <option value="GOLD_14K">14K</option>
+                    <option value="GOLD_10K">10K</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><img src="https://cdn-icons-png.flaticon.com/512/3022/3022148.png" width="16" alt="" />
+                    Trạng thái</label>
+                  <select class="form-select" id="selectStatus">
+                    <option value="">Tất cả</option>
+                    <option value="IN_STOCK">Còn hàng</option>
+                    <option value="SOLD_OUT">Hết hàng</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><img src="https://cdn-icons-png.flaticon.com/512/3892/3892511.png" width="16" alt="" />
+                    Tình trạng</label>
+                  <select class="form-select" id="selectIsDeleted">
+                    <option value="">Tất cả</option>
+                    <option value="0">Hiện</option>
+                    <!-- hiện truyền là 0 / ẩn là 1  -->
+                    <option value="1">Ẩn</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div
+                class="bg-gradient-dark d-flex align-items-center justify-content-space-between shadow-dark border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">
+                  Danh sách sản phẩm
+                </h6>
+                <div style="display: flex">
+                  <a href="#" class="btn-create text-secondary font-weight-bold text-xs" onclick="openModal()">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4059/4059951.png" style="margin-right: 8px"
+                      class="opacity-5" width="18px" alt="" /><span>Tạo sản phẩm </span>
+                  </a>
+                  <button id="deleteAll" class="btn-delete" title="Xóa tất cả">
+                    <i class="fa-solid fa-trash text-xs"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        <input type="checkbox" name="" id="selectAll" title="Chọn tất cả" />
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Id
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Name
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Price
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Quantity
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Date Of Entry
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Status
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Show/Hide
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colspan="12" class="text-center text-muted py-4"><i
+                          class="fa-solid fa-circle-exclamation me-2"></i>Không có bản ghi nào phù hợp</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="row">
+        <div class="col-12">
+          <div class="pagination-wrapper">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="pagination-info">
+                <i class="fa-solid fa-info-circle me-2"></i>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="text-secondary" style="font-size: 14px">Hiển thị:</span>
+                <select class="entries-select" name="pageSize">
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                <span class="text-secondary" style="font-size: 14px">mục/trang</span>
+              </div>
+            </div>
+
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <div id="createProductModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>
+              <i class="fas fa-user-plus"></i>
+              <span id="modalTitle">Tạo sản phẩm</span>
+            </h2>
+            <span class="close" onclick="closeModal()">&times;</span>
+          </div>
+
+          <div class="form-container">
+            <form id="createProductForm">
+              <!-- Phần chọn loại sản phẩm -->
+              <div class="product-type-selector">
+                <div class="product-type-title">Chọn loại sản phẩm</div>
+                <div class="product-type-options">
+                  <div class="product-type-option active" onclick="selectProductType('no-size')">
+                    <input type="radio" id="noSizeProduct" name="productType" value="no-size" checked />
+                    <label for="noSizeProduct">Sản phẩm không có kích cỡ</label>
+                  </div>
+                  <div class="product-type-option" onclick="selectProductType('with-size')">
+                    <input type="radio" id="withSizeProduct" name="productType" value="with-size" />
+                    <label for="withSizeProduct">Sản phẩm có kích cỡ</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Thông tin cơ bản -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="sku">Mã sản phẩm <span class="required">*</span></label>
+                  <input type="text" id="sku" name="sku" />
+                  <div class="error-message" id="skuError"></div>
+                </div>
+                <div class="form-group">
+                  <label for="name">Tên <span class="required">*</span></label>
+                  <input type="text" id="name" name="name" />
+                  <div class="error-message" id="nameError"></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="price">Giá <span class="required">*</span></label>
+                  <input type="text" id="price" name="price" />
+                  <div class="error-message" id="priceError"></div>
+                </div>
+                <div class="form-group quantity-section">
+                  <label for="quantity">Số lượng <span class="required">*</span></label>
+                  <input type="number" id="quantity" name="quantity" min="0" />
+                  <div class="error-message" id="quantityError"></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="dateOfEntry">Ngày nhập trang sức <span class="required">*</span></label>
+                  <input type="date" id="dateOfEntry" name="dateOfEntry" />
+                  <div class="error-message" id="dateOfEntryError"></div>
+                </div>
+                <div class="form-group">
+                  <label for="goldType">Tuổi vàng</label>
+                  <select name="goldType" id="goldType">
+                    <option value="">Không có</option>
+                    <option value="GOLD_24K">24K</option>
+                    <option value="GOLD_18K">18K</option>
+                    <option value="GOLD_14K">14K</option>
+                    <option value="GOLD_10K">10K</option>
+                  </select>
+                  <div class="success-message" id="goldTypeSuccess"></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="categoryId">Danh mục <span class="required">*</span></label>
+                  <select name="categoryId" id="categoryId">
+                    <option value="">Chọn danh mục</option>
+                  </select>
+                  <div class="error-message" id="categoryIdError"></div>
+                </div>
+              </div>
+
+              <!-- Phần size (chỉ hiển thị khi chọn sản phẩm có size) -->
+              <div class="size-section" id="sizeSection">
+                <div class="size-header">
+                  <div class="size-title">Quản lý kích cỡ <span class="required">*</span></div>
+                  <button type="button" class="btn-add-size" id="addSizeBtn" onclick="addSizeItem()">
+                    <i class="fas fa-plus"></i>
+                    Thêm kích cỡ
+                  </button>
+                </div>
+                <div class="size-list" id="sizeContainer">
+                  <!-- Size items sẽ được thêm động ở đây -->
+                </div>
+                <div class="total-quantity-display" id="totalQuantityDisplay">
+                  Tổng số lượng: <span id="totalQuantity">0</span>
+                </div>
+                <div class="error-message" id="sizesError"></div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group full-width">
+                  <label for="description">Mô tả</label>
+                  <textarea id="description" name="description" maxlength="255"
+                    placeholder="Nhập mô tả của bạn"></textarea>
+                  <div class="error-message" id="descriptionError"></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group full-width">
+                  <label for="images">Ảnh sản phẩm</label>
+                  <div class="file-input-wrapper">
+                    <input type="file" id="images" name="images" accept="image/*" multiple />
+                    <label for="images" class="file-input-label">
+                      <i class="fas fa-cloud-upload-alt"></i>
+                      <span>Chọn ảnh sản phẩm (có thể chọn nhiều)</span>
+                    </label>
+                  </div>
+                  <div class="image-preview-container" id="imagePreview">
+                    <!-- Preview images sẽ hiển thị ở đây -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn-cancel" onclick="closeModal()">
+                  Hủy
+                </button>
+                <button type="submit" class="btn-submit">
+                  <i class="fas fa-plus"></i> Tạo sản phẩm
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- view -->
+      <div id="productModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>
+              <i class="fas fa-info-circle"></i>
+              <span>Chi tiết sản phẩm</span>
+            </h2>
+            <span class="close" onclick="closeModalView()">&times;</span>
+          </div>
+
+          <div class="form-container">
+            <div class="product-info" id="productInfo">
+              <!-- Product information will be loaded here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal hiển thị ảnh lớn -->
+      <div id="imageModal" class="image-modal">
+        <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
+        <img class="image-modal-content" id="modalImage" />
+      </div>
+
+      <footer class="footer py-4" id="footer"></footer>
+    </div>
+  </main>
+
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./assets/js/sidenav.js"></script>
+  <script src="./assets/js/table-product.js"></script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+
+</html>

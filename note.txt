@@ -1,0 +1,1859 @@
+category
+
+ <div class="cart-row">
+                        <div class="cart-col cart-col-main">
+                            <input type="checkbox">
+                            <img class="cart-img"
+                                src="https://cdn.pnj.io/images/detailed/253/on-gnddddw014747-nhan-kim-cuong-vang-trang-14k-pnj-timeless-diamond-1.jpg"
+                                alt="Bông tai Kim cương Vàng trắng 14K PNJ Timeless Diamond">
+                            <div class="cart-info">
+                                <div class="cart-name">Bông tai Kim cương Vàng trắng 14K PNJ Timeless Diamond
+                                    DDDDW004595</div>
+                                <div class="cart-code">Mã: GBDDDDW004595</div>
+                                <div class="cart-row-size-group">
+                                    <div class="cart-col cart-col-qty">
+                                        <div class="cart-qty-group">
+                                            <button class="cart-qty-btn">-</button>
+                                            <input class="cart-qty-input" type="text" value="1" readonly>
+                                            <button class="cart-qty-btn">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="cart-col cart-col-action">
+                                        <button class="cart-remove"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                </div>
+                                <div class="cart-col cart-col-price">
+                                    <span class="cart-price">18.787.000 ₫</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="cart-row">
+                        <div class="cart-col cart-col-main">
+                            <input type="checkbox">
+                            <img class="cart-img"
+                                src="https://cdn.pnj.io/images/detailed/253/on-gnddddw014747-nhan-kim-cuong-vang-trang-14k-pnj-timeless-diamond-2.jpg"
+                                alt="Nhẫn Kim cương Vàng Trắng 14K PNJ Timeless Diamond">
+                            <div class="cart-info">
+                                <div class="cart-name">Nhẫn Kim cương Vàng Trắng 14K PNJ Timeless Diamond DDDDW014747
+                                </div>
+                                <div class="cart-code">Mã: GNDDDDW014747</div>
+                                <div class="cart-row-size-group">
+
+                                    <div class="cart-col cart-col-qty">
+                                        <div class="cart-size-group">
+                                            <select id="sizeSelect" class="cart-size-select">
+                                                <option>11</option>
+                                                <option>12</option>
+                                                <option>13</option>
+                                            </select>
+                                        </div>
+                                        <div class="cart-qty-group">
+                                            <button class="cart-qty-btn">-</button>
+                                            <input class="cart-qty-input" type="text" value="1" readonly>
+                                            <button class="cart-qty-btn">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="cart-col cart-col-action">
+                                        <button class="cart-remove"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                </div>
+                                <div class="cart-col cart-col-price">
+                                    <span class="cart-price">18.787.000 ₫</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+------------------------------------
+
+
+boxsearch 
+<!-- <a class="header__boxsearch--item">
+                <img src="https://cdn.pnj.io/images/thumbnails/485/485/detailed/57/nhan-cuoi-kim-cuong-pnj-vang-son-vang-18k-ya47448.0a0-ya47449.5a0.png"
+                    alt="">
+                <div class="header__boxsearch--right">
+                    <span>Cặp nhẫn cưới Kim cương Vàng 18K PNJ Vàng Son 00619-00300</span>
+                    <div class="header__boxsearch--number">
+                        <span>15.624.000 đ</span>
+                        <div class="vote-star">
+                            <i class="fa-solid fa-star"></i>
+                            <h5>5</h5>
+                        </div>
+                        <label for="">25 đã bán</label>
+                    </div>
+                </div>
+            </a> -->
+----------------------
+
+
+
+cart-con 
+ <div class="cart__cont">
+                                    <div class="cart__img">
+                                        <img src="https://cdn.pnj.io/images/detailed/140/gbctxmy000019-bong-tai-vang-18k-dinh-da-citrine-pnj-1.png"
+                                            alt="">
+                                    </div>
+                                    <div class="cart__name">
+                                        <div class="cart__block">
+                                            <span class="cart__desc">Bông tai Vàng 18K đính đá Citrine PNJ
+                                                CTXMY000019</span>
+                                            <div class="cart__icon">
+                                                <i class="fa-solid fa-delete-left"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cart__size">
+                                            <span>Chất liệu: Vàng 18K</span>
+                                        </div>
+                                        <div class="cart__num">
+                                            <div class="cart__quantity">
+                                                <button class="cart__quantity--left">-</button>
+                                                <span class="cart__quantity--center">1</span>
+                                                <button class="cart__quantity--right">+</button>
+                                            </div>
+                                            <div class="cart__price">7.459.000 đ</div>
+                                        </div>
+                                    </div>
+                                </div>
+-------------------------------
+
+
+---------------- tables-account
+
+
+  <div class="row">
+        <div class="col-12">
+          <div class="search-filters">
+            <h6><i class="fa-solid fa-filter me-2"></i>Tìm kiếm và lọc tài khoản</h6>
+            <div class="row">
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><i class="fa-solid fa-phone me-1"></i>Số điện thoại</label>
+                  <input type="text" class="form-control" placeholder="Nhập số điện thoại">
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><i class="fa-solid fa-user-tag me-1"></i>Vai trò</label>
+                  <select class="form-select">
+                    <option value="">Tất cả</option>
+                    <option value="USER">USER</option>
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="MODERATOR">MODERATOR</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><i class="fa-solid fa-venus-mars me-1"></i>Giới tính</label>
+                  <select class="form-select">
+                    <option value="">Tất cả</option>
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                    <option value="Khác">Khác</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><i class="fa-solid fa-circle-info me-1"></i>Trạng thái</label>
+                  <select class="form-select">
+                    <option value="">Tất cả</option>
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="INACTIVE">INACTIVE</option>
+                    <option value="BANNED">BANNED</option>
+                    <option value="PENDING">PENDING</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div
+                class="bg-gradient-dark d-flex align-items-center justify-content-space-between shadow-dark border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Danh sách tài khoản</h6>
+                <a href="#" class="btn-create text-secondary font-weight-bold text-xs" onclick="openModal()">
+                  <i class="fa-regular fa-user"></i>
+                  <span>Tạo tài khoản</span>
+                </a>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Id</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Full Name</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Date of birth</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Gender</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Phone</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Address</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Role</th>
+                      <th
+                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Status
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Last Login</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Created At</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Updated at</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">#1</span>
+                      </td>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3 border-radius-lg"
+                              alt="user2">
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Alexa Liras</h6>
+                            <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">27/07/2004</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">Nam</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">0364398622</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">Vân Dương - Bắc Ninh</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">USER</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <select class="status-select active-status" name="" id="">
+                          <option value="ACTIVE" selected>ACTIVE</option>
+                          <option value="INACTIVE">INACTIVE</option>
+                          <option value="BANNED">BANNED</option>
+                          <option value="PENDING">PENDING</option>
+                        </select>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">2025-08-09 15:59:55</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">2025-08-09 15:59:55</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">2025-08-09 15:59:55</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                          data-original-title="Edit user">
+                          <i class="fa-solid fa-pen-to-square me-1"></i>Edit
+                        </a>
+                      </td>
+                    </tr>
+                    <!-- Sample additional rows -->
+                    <tr>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">#2</span>
+                      </td>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg"
+                              alt="user1">
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">John Michael</h6>
+                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">15/03/1995</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">Nam</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">0912345678</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">Hà Nội</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">ADMIN</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <select class="status-select pending-status" name="" id="">
+                          <option value="ACTIVE">ACTIVE</option>
+                          <option value="INACTIVE">INACTIVE</option>
+                          <option value="BANNED">BANNED</option>
+                          <option value="PENDING" selected>PENDING</option>
+                        </select>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">2025-08-10 10:30:22</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">2025-08-08 09:15:33</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">2025-08-10 14:22:11</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs">
+                          <i class="fa-solid fa-pen-to-square me-1"></i>Edit
+                        </a>
+                      </td>
+                    </tr>
+                    <!-- Thêm row với banned status để demo -->
+                    <tr>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">#3</span>
+                      </td>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <img src="../assets/img/team-1.jpg" class="avatar avatar-sm me-3 border-radius-lg"
+                              alt="user3">
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Sarah Wilson</h6>
+                            <p class="text-xs text-secondary mb-0">sarah@creative-tim.com</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">22/11/1988</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">Nữ</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">0987654321</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">TP.HCM</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">USER</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <select class="status-select banned-status" name="" id="">
+                          <option value="ACTIVE">ACTIVE</option>
+                          <option value="INACTIVE">INACTIVE</option>
+                          <option value="BANNED" selected>BANNED</option>
+                          <option value="PENDING">PENDING</option>
+                        </select>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">2025-08-05 08:15:30</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">2025-08-01 12:30:45</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">2025-08-12 16:45:12</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs">
+                          <i class="fa-solid fa-pen-to-square me-1"></i>Edit
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="row">
+        <div class="col-12">
+          <div class="pagination-wrapper">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="pagination-info">
+                <i class="fa-solid fa-info-circle me-2"></i>Hiển thị 1-10 trong tổng số 125 tài khoản
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="text-secondary" style="font-size: 14px;">Hiển thị:</span>
+                <select class="entries-select">
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                <span class="text-secondary" style="font-size: 14px;">mục/trang</span>
+              </div>
+            </div>
+
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">
+                    <i class="fa-solid fa-angle-left"></i>
+                  </a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">4</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">5</a>
+                </li>
+                <li class="page-item">
+                  <span class="page-link">...</span>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">13</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">
+                    <i class="fa-solid fa-angle-right"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+-------------------------------
+
+
+------------------- table-category
+
+
+  <tbody>
+                    <tr>
+                      <td class="align-middle text-center">
+                        <input type="checkbox" name="" id="selectItem" title="Chọn">
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">#1</span>
+                      </td>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <img src="../assets/img/team-3.jpg" style="width: 120px !important; height: 60px"
+                              class="banner banner-sm me-3 border-radius-lg" alt="user2">
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Nhẫn</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold"></span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">#1</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">2025-08-09 15:59:55</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">2025-08-09 15:59:55</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <select class="is-deleted-select" name="" id="selectIsDeleted">
+                          <option value="TRUE">Hide</option>
+                          <option value="FALSE">Show</option>
+                        </select>
+                      <td class="align-middle text-center action">
+                        <a href="javascript:;" onclick="editCategory(1)" title="Sửa">
+                          <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        |
+                        <a href="javascript:;" onclick="deleteCategory(1)" title="Xóa" style="color: #dc3545;">
+                          <i class="fa-solid fa-trash"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+
+-----------------------------------
+
+
+
+---------------------submit 
+
+  // Form Submission
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+
+            // Build data object để truyền cho validateForm
+            const productType = form.querySelector('input[name="productType"]:checked').value;
+            const data = {
+                sku: form.querySelector('input[name="sku"]').value,
+                name: form.querySelector('input[name="name"]').value,
+                price: form.querySelector('input[name="price"]').value,
+                quantity: form.querySelector('input[name="quantity"]').value,
+                dateOfEntry: form.querySelector('input[name="dateOfEntry"]').value,
+                categoryId: form.querySelector('select[name="categoryId"]').value,
+                goldType: form.querySelector('select[name="goldType"]').value,
+                description: form.querySelector('textarea[name="description"]').value,
+                sizes: []
+            };
+
+            if (productType === 'with-size') {
+                document.querySelectorAll('.size-row').forEach((row, index) => {
+                    const size = row.querySelector(`input[name="sizes[${index}].size"]`).value;
+                    const quantity = row.querySelector(`input[name="sizes[${index}].quantity"]`).value;
+                    data.sizes.push({ size, quantity });
+                });
+            }
+
+            // ✅ Gọi validateForm
+            const isValid = validateForm(data, productType);
+            if (!isValid) {
+                return; // Dừng không submit nữa nếu form không hợp lệ
+            }
+
+            // Nếu hợp lệ thì build FormData để gửi
+            const formData = new FormData();
+            formData.append('sku', data.sku);
+            formData.append('name', data.name);
+            formData.append('price', data.price);
+            formData.append('quantity', data.quantity);
+            formData.append('dateOfEntry', data.dateOfEntry);
+            formData.append('categoryId', data.categoryId);
+            formData.append('goldType', data.goldType);
+            formData.append('description', data.description);
+
+            if (productType === 'with-size') {
+                formData.append('sizes', JSON.stringify(data.sizes));
+            }
+
+            selectedImages.forEach((img, index) => {
+                if (img.file) {
+                    formData.append('images', img.file);
+                    formData.append(`images[${index}].isPrimary`, img.isPrimary);
+                }
+            });
+
+            try {
+                if (editingProductId) {
+                    await updateProduct(editingProductId, formData);
+                    showSuccessMessage('Cập nhật sản phẩm thành công');
+                } else {
+                    await createProduct(formData);
+                    showSuccessMessage('Tạo sản phẩm thành công');
+                }
+                closeCreateProductModal();
+                loadProducts();
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
+            }
+        }
+
+------------------- table-product chưa có be 
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/Icon.webp">
+  <link rel="icon" type="image/png" href="./assets/img/Icon.webp">
+  <title>
+    Danh sách sản phẩm
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+  <!-- Nucleo Icons -->
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Material Icons -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/icon/fontawesome-free-6.6.0-web/css/all.min.css">
+  <link rel="stylesheet" href="./assets/css/modal-create-product.css">
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2"
+    id="sidenav-main">
+    <div id="sidenav"></div>
+    </div>
+  </aside>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur"
+      data-scroll="true">
+      <div id="sidenav"></div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-2">
+
+      <!-- Search Filters -->
+      <div class="row">
+        <div class="col-12">
+          <div class="search-filters">
+            <h6><i class="fa-solid fa-filter me-2"></i>Tìm kiếm và lọc sản phẩm</h6>
+            <div class="row">
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><img src="https://cdn-icons-png.flaticon.com/512/4059/4059951.png" class="opacity-5"
+                      width="18px" alt="" style="margin-right: 8px;">Tên sản phẩm</label>
+                  <input type="text" class="form-control" placeholder="Nhập tên sản phẩm">
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><img src="https://cdn-icons-png.flaticon.com/512/3405/3405828.png" width="16" alt=""> Danh
+                    mục</label>
+                  <select class="form-select" id="selectCategoryId">
+                    <option value="">Tất cả</option>
+                    <option value="1">Nhẫn</option><!-- ví dụ với id là 1 -->
+                  </select>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><img src="https://cdn-icons-png.flaticon.com/512/2487/2487014.png" width="20" alt=""> Tuổi
+                    vàng</label>
+                  <select class="form-select" id="selectGoldType">
+                    <option value="">Tất cả</option>
+                    <option value="GOLD_24K">24K</option>
+                    <option value="GOLD_18K">18K</option>
+                    <option value="GOLD_14K">14K</option>
+                    <option value="GOLD_10K">10K</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><img src="https://cdn-icons-png.flaticon.com/512/3022/3022148.png" width="16" alt=""> Trạng
+                    thái</label>
+                  <select class="form-select" id="selectStatus">
+                    <option value="">Tất cả</option>
+                    <option value="IN_STOCK">Còn hàng</option>
+                    <option value="SOLD_OUT">Hết hàng</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6 col-md-3">
+                <div class="filter-group">
+                  <label><img src="https://cdn-icons-png.flaticon.com/512/3892/3892511.png" width="16" alt=""> Tình
+                    trạng</label>
+                  <select class="form-select" id="selectIsDeleted">
+                    <option value="">Tất cả</option>
+                    <option value="0">Hiện</option> <!-- hiện truyền là 0 / ẩn là 1  -->
+                    <option value="1">Ẩn</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div
+                class="bg-gradient-dark d-flex align-items-center justify-content-space-between shadow-dark border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Danh sách sản phẩm</h6>
+                <div style="display: flex;">
+                  <a href="#" class="btn-create text-secondary font-weight-bold text-xs" onclick="openModal()">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4059/4059951.png" style="margin-right: 8px;"
+                      class="opacity-5" width="18px" alt=""><span>Tạo sản phẩm
+                    </span> </a>
+                  <button id="deleteAll" class="btn-delete" title="Xóa tất cả"><i
+                      class="fa-solid fa-trash text-xs"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        <input type="checkbox" name="" id="selectAll" title="Chọn tất cả">
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Id</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Name</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Price</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Quantity</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Date Of Entry</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Status</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Show/Hide</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="align-middle text-center">
+                        <input type="checkbox" name="" id="selectItem" title="Chọn">
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">#1</span>
+                      </td>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <img src="../assets/img/team-3.jpg" style="width: 60px !important; height: 60px"
+                              class="banner banner-sm me-3 border-radius-lg" alt="user2">
+                          </div>
+                          <div class="d-flex flex-column justify-content-center hidden-letter">
+                            <h6 class="mb-0 text-sm">Cặp nhẫn cưới Kim cương Vàng 18K PNJ Tình Hồng</h6>
+                            <p class="text-xs text-secondary mb-0">SD0004924028</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">25.000.000 VND</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">110</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">2025-08-09 15:59:55</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <select class="is-deleted-select" name="" id="selectStatus">
+                          <option value="IN_STOCK">IN STOCK</option>
+                          <option value="SOLD_OUT">SOLD OUT</option>
+                        </select>
+                      </td>
+                      <td class="align-middle text-center">
+                        <select class="is-deleted-select" name="" id="selectIsDeleted">
+                          <option value="TRUE">Hide</option>
+                          <option value="FALSE">Show</option>
+                        </select>
+                      </td>
+                      <td class="align-middle text-center action">
+                        <a href="javascript:;" onclick="openModalView(40)" title="Xem chi tiết">
+                          <i class="fa-solid fa-eye"></i>
+                        </a>
+                        |
+                        <a href="javascript:;" onclick="editCategory(1)" title="Sửa">
+                          <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        |
+                        <a href="javascript:;" onclick="deleteCategory(1)" title="Xóa" style="color: #dc3545;">
+                          <i class="fa-solid fa-trash"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="row">
+        <div class="col-12">
+          <div class="pagination-wrapper">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="pagination-info">
+                <i class="fa-solid fa-info-circle me-2"></i>Hiển thị 1-10 trong tổng số 125 sản phẩm
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="text-secondary" style="font-size: 14px;">Hiển thị:</span>
+                <select class="entries-select">
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                <span class="text-secondary" style="font-size: 14px;">mục/trang</span>
+              </div>
+            </div>
+
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">
+                    <i class="fa-solid fa-angle-left"></i>
+                  </a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">4</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">5</a>
+                </li>
+                <li class="page-item">
+                  <span class="page-link">...</span>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">13</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">
+                    <i class="fa-solid fa-angle-right"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <div id="registerModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2><i class="fas fa-user-plus"></i> <span id="modalTitle">Tạo sản phẩm</span></h2>
+            <span class="close" onclick="closeModal()">&times;</span>
+          </div>
+
+          <div class="form-container">
+            <form id="registerForm">
+              <!-- Phần chọn loại sản phẩm -->
+              <div class="product-type-selector">
+                <div class="product-type-title">Chọn loại sản phẩm</div>
+                <div class="product-type-options">
+                  <div class="product-type-option active" onclick="selectProductType('no-size')">
+                    <input type="radio" id="noSizeProduct" name="productType" value="no-size" checked>
+                    <label for="noSizeProduct">Sản phẩm không có kích cỡ</label>
+                  </div>
+                  <div class="product-type-option" onclick="selectProductType('with-size')">
+                    <input type="radio" id="withSizeProduct" name="productType" value="with-size">
+                    <label for="withSizeProduct">Sản phẩm có kích cỡ</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Thông tin cơ bản -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="sku">Mã sản phẩm <span class="required">*</span></label>
+                  <input type="text" id="sku" name="sku" maxlength="50" required>
+                  <div class="error-message" id="skuError"></div>
+                </div>
+                <div class="form-group">
+                  <label for="name">Tên <span class="required">*</span></label>
+                  <input type="text" id="name" name="name" maxlength="50" required>
+                  <div class="error-message" id="nameError"></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="price">Giá <span class="required">*</span></label>
+                  <input type="text" id="price" name="price" required>
+                  <div class="error-message" id="priceError"></div>
+                </div>
+                <div class="form-group quantity-section">
+                  <label for="quantity">Số lượng <span class="required">*</span></label>
+                  <input type="number" id="quantity" name="quantity" min="0">
+                  <div class="error-message" id="quantityError"></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="dateOfEntry">Ngày nhập trang sức</label>
+                  <input type="date" id="dateOfEntry" name="dateOfEntry">
+                  <div class="error-message" id="dateOfEntryError"></div>
+                </div>
+                <div class="form-group">
+                  <label for="goldType">Tuổi vàng</label>
+                  <select name="goldType" id="goldType">
+                    <option value="">Không có</option>
+                    <option value="GOLD_24K">24K</option>
+                    <option value="GOLD_18K">18K</option>
+                    <option value="GOLD_14K">14K</option>
+                    <option value="GOLD_10K">10K</option>
+                  </select>
+                  <div class="success-message" id="goldTypeSuccess"></div>
+                </div>
+              </div>
+
+              <!-- Phần size (chỉ hiển thị khi chọn sản phẩm có size) -->
+              <div class="size-section" id="sizeSection">
+                <div class="size-header">
+                  <div class="size-title">Quản lý kích cỡ</div>
+                  <button type="button" class="btn-add-size" onclick="addSizeItem()">
+                    <i class="fas fa-plus"></i>
+                    Thêm kích cỡ
+                  </button>
+                </div>
+                <div class="size-list" id="sizeList">
+                  <!-- Size items sẽ được thêm động ở đây -->
+                </div>
+                <div class="total-quantity-display" id="totalQuantityDisplay">
+                  Tổng số lượng: <span id="totalQuantity">0</span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group full-width">
+                  <label for="description">Mô tả</label>
+                  <textarea id="description" name="description" maxlength="255"
+                    placeholder="Nhập mô tả của bạn"></textarea>
+                  <div class="error-message" id="descriptionError"></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group full-width">
+                  <label for="images">Ảnh sản phẩm</label>
+                  <div class="file-input-wrapper">
+                    <input type="file" id="images" name="images" accept="image/*" multiple>
+                    <label for="images" class="file-input-label">
+                      <i class="fas fa-cloud-upload-alt"></i>
+                      <span>Chọn ảnh sản phẩm (có thể chọn nhiều)</span>
+                    </label>
+                  </div>
+                  <div class="image-preview-container" id="imagePreviewContainer">
+                    <!-- Preview images sẽ hiển thị ở đây -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn-cancel" onclick="closeModal()">Hủy</button>
+                <button type="submit" class="btn-submit">
+                  <i class="fas fa-plus"></i> Tạo sản phẩm
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- view -->
+      <div id="productModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2><i class="fas fa-info-circle"></i> <span id="modalTitle">Chi tiết sản phẩm</span></h2>
+            <span class="close" onclick="closeModalView()">&times;</span>
+          </div>
+
+          <div class="form-container">
+            <div class="product-info" id="productInfo">
+              <!-- Product information will be loaded here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal hiển thị ảnh lớn -->
+      <div id="imageModal" class="image-modal">
+        <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
+        <img class="image-modal-content" id="modalImage">
+      </div>
+
+      <footer class="footer py-4" id="footer">
+      </footer>
+    </div>
+  </main>
+
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./assets/js/sidenav.js"></script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = { damping: '0.5' };
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+
+
+    let sizeCounter = 0;
+    let selectedImages = [];
+
+    function openModal() {
+      document.getElementById('registerModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('registerModal').style.display = 'none';
+      clearForm();
+    }
+
+    function clearForm() {
+      document.getElementById('registerForm').reset();
+      const errorMessages = document.querySelectorAll('.error-message');
+      errorMessages.forEach(error => {
+        error.style.display = 'none';
+        error.textContent = '';
+      });
+
+      // Reset size section
+      document.getElementById('sizeList').innerHTML = '';
+      sizeCounter = 0;
+      updateTotalQuantity();
+
+      // Reset images
+      selectedImages = [];
+      document.getElementById('imagePreviewContainer').innerHTML = '';
+
+      // Reset product type
+      selectProductType('no-size');
+    }
+
+    // Đóng modal khi click bên ngoài
+    window.onclick = function (event) {
+      const modal = document.getElementById('registerModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+
+    function selectProductType(type) {
+      // Update radio buttons
+      const options = document.querySelectorAll('.product-type-option');
+      options.forEach(option => option.classList.remove('active'));
+
+      if (type === 'no-size') {
+        options[0].classList.add('active');
+        document.getElementById('noSizeProduct').checked = true;
+        document.getElementById('sizeSection').classList.remove('show');
+        document.querySelector('.quantity-section').classList.remove('hide');
+      } else {
+        options[1].classList.add('active');
+        document.getElementById('withSizeProduct').checked = true;
+        document.getElementById('sizeSection').classList.add('show');
+        document.querySelector('.quantity-section').classList.add('hide');
+      }
+    }
+
+    function addSizeItem() {
+      sizeCounter++;
+      const sizeList = document.getElementById('sizeList');
+
+      const sizeItem = document.createElement('div');
+      sizeItem.className = 'size-item';
+      sizeItem.id = `sizeItem${sizeCounter}`;
+
+      sizeItem.innerHTML = `
+                <div class="form-group size-input">
+                    <label for="size${sizeCounter}">Kích cỡ <span class="required">*</span></label>
+                    <input type="text" id="size${sizeCounter}" name="sizes[${sizeCounter}][size]" 
+                           min="1" max="50" step="0.5" required onchange="updateTotalQuantity()">
+                </div>
+                <div class="form-group quantity-input">
+                    <label for="sizeQuantity${sizeCounter}">Số lượng <span class="required">*</span></label>
+                    <input type="text" id="sizeQuantity${sizeCounter}" name="sizes[${sizeCounter}][quantity]" 
+                           min="0" required onchange="updateTotalQuantity()">
+                </div>
+                <button type="button" class="btn-remove-size" onclick="removeSizeItem(${sizeCounter})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            `;
+
+      sizeList.appendChild(sizeItem);
+      updateTotalQuantity();
+    }
+
+    function removeSizeItem(id) {
+      const sizeItem = document.getElementById(`sizeItem${id}`);
+      if (sizeItem) {
+        sizeItem.remove();
+        updateTotalQuantity();
+      }
+    }
+
+    function updateTotalQuantity() {
+      const sizeQuantities = document.querySelectorAll('input[name*="[quantity]"]');
+      let total = 0;
+
+      sizeQuantities.forEach(input => {
+        const value = parseInt(input.value) || 0;
+        total += value;
+      });
+
+      document.getElementById('totalQuantity').textContent = total;
+    }
+
+    // Xử lý upload ảnh
+    document.getElementById('images').addEventListener('change', function (e) {
+      const files = Array.from(e.target.files);
+      const previewContainer = document.getElementById('imagePreviewContainer');
+
+      files.forEach((file, index) => {
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const imageData = {
+              file: file,
+              url: e.target.result,
+              isPrimary: selectedImages.length === 0 && index === 0 // Ảnh đầu tiên sẽ là primary
+            };
+
+            selectedImages.push(imageData);
+            renderImagePreviews();
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    });
+
+    function renderImagePreviews() {
+      const container = document.getElementById('imagePreviewContainer');
+      container.innerHTML = '';
+
+      selectedImages.forEach((imageData, index) => {
+        const previewDiv = document.createElement('div');
+        previewDiv.className = 'image-preview';
+
+        previewDiv.innerHTML = `
+                    <img src="${imageData.url}" alt="Preview ${index + 1}">
+                    <button type="button" class="remove-image" onclick="removeImage(${index})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    ${imageData.isPrimary ? '<div class="primary-badge">Chính</div>' : ''}
+                `;
+
+        // Thêm sự kiện click để set làm ảnh chính
+        if (!imageData.isPrimary) {
+          previewDiv.style.cursor = 'pointer';
+          previewDiv.title = 'Click để đặt làm ảnh chính';
+          previewDiv.addEventListener('click', () => setPrimaryImage(index));
+        }
+
+        container.appendChild(previewDiv);
+      });
+    }
+
+    function removeImage(index) {
+      selectedImages.splice(index, 1);
+
+      // Nếu xóa ảnh chính và còn ảnh khác, đặt ảnh đầu tiên làm chính
+      if (selectedImages.length > 0) {
+        const hasPrimary = selectedImages.some(img => img.isPrimary);
+        if (!hasPrimary) {
+          selectedImages[0].isPrimary = true;
+        }
+      }
+
+      renderImagePreviews();
+    }
+
+    function setPrimaryImage(index) {
+      // Bỏ primary của tất cả ảnh
+      selectedImages.forEach(img => img.isPrimary = false);
+      // Đặt ảnh được chọn làm primary
+      selectedImages[index].isPrimary = true;
+      renderImagePreviews();
+    }
+
+    // Khởi tạo với 1 size item khi chọn sản phẩm có size
+    function initializeSizeSection() {
+      const sizeList = document.getElementById('sizeList');
+      if (sizeList.children.length === 0) {
+        addSizeItem();
+      }
+    }
+
+    // Form submission
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData();
+      const productType = document.querySelector('input[name="productType"]:checked').value;
+
+      // Thu thập dữ liệu cơ bản
+      const basicData = {
+        sku: document.getElementById('sku').value,
+        name: document.getElementById('name').value,
+        price: parseFloat(document.getElementById('price').value),
+        dateOfEntry: document.getElementById('dateOfEntry').value,
+        goldType: document.getElementById('goldType').value,
+        description: document.getElementById('description').value
+      };
+
+      if (productType === 'no-size') {
+        // Sản phẩm không có size
+        basicData.quantity = parseInt(document.getElementById('quantity').value);
+        basicData.sizes = [];
+      } else {
+        // Sản phẩm có size
+        const sizeItems = document.querySelectorAll('.size-item');
+        const sizes = [];
+        let totalQuantity = 0;
+
+        sizeItems.forEach(item => {
+          const sizeInput = item.querySelector('input[name*="[size]"]');
+          const quantityInput = item.querySelector('input[name*="[quantity]"]');
+
+          if (sizeInput.value && quantityInput.value) {
+            const sizeData = {
+              size: parseFloat(sizeInput.value),
+              quantity: parseInt(quantityInput.value)
+            };
+            sizes.push(sizeData);
+            totalQuantity += parseInt(quantityInput.value);
+          }
+        });
+        basicData.quantity = totalQuantity;
+        basicData.sizes = sizes;
+      }
+
+      // Validate form data
+      let isValid = validateForm(basicData, productType);
+
+      if (isValid) {
+        // Append basic data to formData
+        for (const [key, value] of Object.entries(basicData)) {
+          if (key !== 'sizes') {
+            formData.append(key, value);
+          }
+        }
+
+        // Append sizes data
+        if (productType === 'with-size') {
+          basicData.sizes.forEach((size, index) => {
+            formData.append(`sizes[${index}][size]`, size.size);
+            formData.append(`sizes[${index}][quantity]`, size.quantity);
+          });
+        }
+
+        // Append images
+        selectedImages.forEach((image, index) => {
+          formData.append('images', image.file);
+          if (image.isPrimary) {
+            formData.append('primaryImageIndex', index);
+          }
+        });
+
+        // Log form data for debugging
+        console.log('Form Data:');
+        for (let pair of formData.entries()) {
+          console.log(`${pair[0]}: ${pair[1]}`);
+        }
+
+        // Here you would typically send the formData to your server
+        // For example, using fetch:
+        /*
+        fetch('/api/products', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            showSuccessMessage();
+            closeModal();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showErrorMessage('Có lỗi xảy ra khi tạo sản phẩm');
+        });
+        */
+
+        // For demo purposes, show success message
+        showSuccessMessage();
+        closeModal();
+      }
+    });
+
+    function validateForm(data, productType) {
+      let isValid = true;
+      const errorMessages = document.querySelectorAll('.error-message');
+      errorMessages.forEach(error => {
+        error.style.display = 'none';
+        error.textContent = '';
+      });
+
+      // Validate SKU
+      if (!data.sku || data.sku.trim() === '') {
+        showError('skuError', 'Vui lòng nhập mã sản phẩm');
+        isValid = false;
+      } else if (data.sku.length > 50) {
+        showError('skuError', 'Mã sản phẩm không được vượt quá 50 ký tự');
+        isValid = false;
+      }
+
+      // Validate Name
+      if (!data.name || data.name.trim() === '') {
+        showError('nameError', 'Vui lòng nhập tên sản phẩm');
+        isValid = false;
+      } else if (data.name.length > 50) {
+        showError('nameError', 'Tên sản phẩm không được vượt quá 50 ký tự');
+        isValid = false;
+      }
+
+      // Validate Price
+      if (!data.price || isNaN(data.price) || data.price <= 0) {
+        showError('priceError', 'Vui lòng nhập giá hợp lệ');
+        isValid = false;
+      }
+
+      // Validate Quantity
+      if (productType === 'no-size') {
+        if (!data.quantity || isNaN(data.quantity) || data.quantity < 0) {
+          showError('quantityError', 'Vui lòng nhập số lượng hợp lệ');
+          isValid = false;
+        }
+      } else {
+        if (data.sizes.length === 0) {
+          showError('sizeSection', 'Vui lòng thêm ít nhất một kích cỡ');
+          isValid = false;
+        } else {
+          data.sizes.forEach((size, index) => {
+            if (!size.size || isNaN(size.size) || size.size <= 0) {
+              showError(`size${index + 1}Error`, 'Vui lòng nhập kích cỡ hợp lệ');
+              isValid = false;
+            }
+            if (!size.quantity || isNaN(size.quantity) || size.quantity < 0) {
+              showError(`sizeQuantity${index + 1}Error`, 'Vui lòng nhập số lượng hợp lệ');
+              isValid = false;
+            }
+          });
+        }
+      }
+
+      // Validate Images
+      if (selectedImages.length === 0) {
+        showError('imagesError', 'Vui lòng chọn ít nhất một ảnh sản phẩm');
+        isValid = false;
+      }
+
+      // Validate Description
+      if (data.description && data.description.length > 255) {
+        showError('descriptionError', 'Mô tả không được vượt quá 255 ký tự');
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    function showError(elementId, message) {
+      const errorElement = document.getElementById(elementId) || createErrorElement(elementId);
+      errorElement.textContent = message;
+      errorElement.style.display = 'block';
+    }
+
+    function createErrorElement(id) {
+      const errorDiv = document.createElement('div');
+      errorDiv.id = id;
+      errorDiv.className = 'error-message';
+      // Find appropriate element to append error message
+      const relatedInput = document.querySelector(`[name*="${id.replace('Error', '')}"]`);
+      if (relatedInput) {
+        relatedInput.parentElement.appendChild(errorDiv);
+      } else {
+        document.getElementById('sizeSection').appendChild(errorDiv);
+      }
+      return errorDiv;
+    }
+
+    function showSuccessMessage() {
+      const successMessage = document.createElement('div');
+      successMessage.className = 'success-message';
+      successMessage.textContent = 'Tạo sản phẩm thành công!';
+      successMessage.style.display = 'block';
+      successMessage.style.margin = '20px 0';
+      successMessage.style.textAlign = 'center';
+      document.querySelector('.form-container').prepend(successMessage);
+
+      // Remove success message after 3 seconds
+      setTimeout(() => {
+        successMessage.remove();
+      }, 3000);
+    }
+
+    // Initialize size section when selecting product with size
+    document.querySelectorAll('input[name="productType"]').forEach(radio => {
+      radio.addEventListener('change', function () {
+        selectProductType(this.value);
+        if (this.value === 'with-size') {
+          initializeSizeSection();
+        }
+      });
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function () {
+      selectProductType('no-size');
+    });
+
+
+    //View
+    const sampleProducts = {
+      40: {
+        "id": 40,
+        "name": "Nhẫn cưới Nam Vàng 24K PNJ",
+        "price": 55217000.00,
+        "quantity": 94,
+        "dateOfEntry": "2025-07-31",
+        "description": null,
+        "status": "IN_STOCK",
+        "createAt": "2025-08-01T00:00:00",
+        "updateAt": "2025-08-01T00:00:00",
+        "categoryId": 1,
+        "isDeleted": false,
+        "primaryImageUrl": "http://localhost:8080/uploads/products/71e371ed-5943-408a-842d-1486ca8a04d3_kim-long-truong-cuu-1.png",
+        "images": [
+          {
+            "imageUrl": "http://localhost:8080/uploads/products/71e371ed-5943-408a-842d-1486ca8a04d3_kim-long-truong-cuu-1.png",
+            "isPrimary": true
+          },
+          {
+            "imageUrl": "http://localhost:8080/uploads/products/320a233a-69d3-4361-b23c-6ffc26425dcf_kim-long-truong-cuu-2.png",
+            "isPrimary": false
+          },
+          {
+            "imageUrl": "http://localhost:8080/uploads/products/ac98ec80-254c-4674-a22c-69199ee796dc_kim-long-truong-cuu-3.png",
+            "isPrimary": false
+          },
+          {
+            "imageUrl": "http://localhost:8080/uploads/products/1e43b064-197f-408d-b940-65375daa7f8f_kim-long-truong-cuu-1.jpg",
+            "isPrimary": false
+          }
+        ],
+        "sizes": [
+          {
+            "size": 17,
+            "quantity": 22
+          },
+          {
+            "size": 18,
+            "quantity": 28
+          },
+          {
+            "size": 19,
+            "quantity": 23
+          },
+          {
+            "size": 20,
+            "quantity": 21
+          }
+        ],
+        "sku": "GN0000Y002374",
+        "goldType": "GOLD_24K",
+        "displayName": "Nhẫn cưới Nam Vàng 24K PNJ GN0000Y002374"
+      },
+      10: {
+        "id": 10,
+        "name": "Nhẫn Kim cương Vàng trắng 14K EZC PNJ",
+        "price": 40665000.00,
+        "quantity": 23,
+        "dateOfEntry": "2025-07-31",
+        "description": null,
+        "status": "IN_STOCK",
+        "createAt": "2025-08-01T00:00:00",
+        "updateAt": "2025-08-01T00:00:00",
+        "categoryId": 1,
+        "isDeleted": false,
+        "primaryImageUrl": "http://localhost:8080/uploads/products/72b7a658-c04f-4686-b17f-4a81be707664_vang-trang-14k-pnj-01.png",
+        "images": [
+          {
+            "imageUrl": "http://localhost:8080/uploads/products/72b7a658-c04f-4686-b17f-4a81be707664_vang-trang-14k-pnj-01.png",
+            "isPrimary": true
+          },
+          {
+            "imageUrl": "http://localhost:8080/uploads/products/907af3f9-3d7f-4175-afc0-3d46248055ab_vang-trang-14k-pnj-02.png",
+            "isPrimary": false
+          },
+          {
+            "imageUrl": "http://localhost:8080/uploads/products/98a73123-f08c-4257-be4d-5d4abe294d94_vang-trang-14k-pnj-03.png",
+            "isPrimary": false
+          }
+        ],
+        "sizes": [],
+        "sku": "DD00W004213",
+        "goldType": "GOLD_14K",
+        "displayName": "Nhẫn Kim cương Vàng trắng 14K EZC PNJ DD00W004213"
+      }
+    };
+
+    function openModalView(productId = 40) {
+      const product = sampleProducts[productId];
+      if (!product) {
+        alert('Không tìm thấy sản phẩm');
+        return;
+      }
+
+      displayProductInfo(product);
+      const modal = document.getElementById('productModal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModalView() {
+      const modal = document.getElementById('productModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      // Clear product info to prevent memory leaks
+      document.getElementById('productInfo').innerHTML = '';
+    }
+
+    function displayProductInfo(product) {
+      const productInfoDiv = document.getElementById('productInfo');
+
+      // Format price
+      const formattedPrice = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+      }).format(product.price);
+
+      // Format dates
+      const formatDate = (dateString) => {
+        return dateString ? new Date(dateString).toLocaleDateString('vi-VN') : 'N/A';
+      };
+
+      // Gold type display
+      const goldTypeMap = {
+        'GOLD_24K': '24K',
+        'GOLD_18K': '18K',
+        'GOLD_14K': '14K',
+        'GOLD_10K': '10K'
+      };
+
+      // Status display
+      const statusMap = {
+        'IN_STOCK': 'Còn hàng',
+        'OUT_OF_STOCK': 'Hết hàng',
+        'DISCONTINUED': 'Ngừng kinh doanh'
+      };
+
+      // Generate sizes HTML
+      const sizesHTML = product.sizes.length > 0 ? `
+                <div class="sizes-grid">
+                    ${product.sizes.map(size => `
+                        <div class="size-card">
+                            <div class="size-number">${size.size}</div>
+                            <div class="size-quantity">Số lượng: ${size.quantity}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            ` : `
+                <div class="no-sizes-message">Không có thông tin kích cỡ</div>
+            `;
+
+      // Generate images HTML
+      const imagesHTML = `
+                <div class="product-images">
+                    ${product.images.map(image => `
+                        <div class="product-image" onclick="openImageModal('${image.imageUrl}')">
+                            <img src="${image.imageUrl}" alt="Product Image">
+                            ${image.isPrimary ? '<div class="primary-image-badge">Chính</div>' : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+      productInfoDiv.innerHTML = `
+                <!-- Thông tin cơ bản -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>ID:</strong>
+                            <span>${product.id}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Mã sản phẩm:</strong>
+                            <span>${product.sku}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <div class="info-field">
+                            <strong>Tên sản phẩm:</strong>
+                            <span>${product.name}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <div class="info-field">
+                            <strong>Tên hiển thị:</strong>
+                            <span>${product.displayName}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Giá:</strong>
+                            <span class="price-display">${formattedPrice}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Số lượng:</strong>
+                            <span>${product.quantity}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Ngày nhập:</strong>
+                            <span>${formatDate(product.dateOfEntry)}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Tuổi vàng:</strong>
+                            <span>${product.goldType ? `<span class="gold-type-badge">${goldTypeMap[product.goldType]}</span>` : 'Không có'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Trạng thái:</strong>
+                            <span><span class="status-badge ${product.status === 'IN_STOCK' ? 'status-in-stock' : 'status-out-of-stock'}">${statusMap[product.status] || product.status}</span></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Danh mục ID:</strong>
+                            <span>${product.categoryId}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Ngày tạo:</strong>
+                            <span>${formatDate(product.createAt)}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="info-field">
+                            <strong>Ngày cập nhật:</strong>
+                            <span>${formatDate(product.updateAt)}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <div class="info-field">
+                            <strong>Mô tả:</strong>
+                            <span>${product.description || 'Không có mô tả'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kích cỡ -->
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <div class="info-field">
+                            <strong>Kích cỡ:</strong>
+                            <span>${sizesHTML}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ảnh sản phẩm -->
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <div class="info-field">
+                            <strong>Ảnh sản phẩm:</strong>
+                            <span>${imagesHTML}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+    }
+
+    function openImageModal(imageUrl) {
+      const modal = document.getElementById('imageModal');
+      const modalImage = document.getElementById('modalImage');
+      modalImage.src = imageUrl;
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeImageModal() {
+      const modal = document.getElementById('imageModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      // Clear image source to prevent memory leaks
+      document.getElementById('modalImage').src = '';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function (event) {
+      const productModal = document.getElementById('productModal');
+      const imageModal = document.getElementById('imageModal');
+      if (event.target === productModal) {
+        closeModalView();
+      } else if (event.target === imageModal) {
+        closeImageModal();
+      }
+    };
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function () {
+      // Ensure modals are hidden on page load
+      document.getElementById('productModal').style.display = 'none';
+      document.getElementById('imageModal').style.display = 'none';
+    });
+
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+
+</html>
+
+----------------------------------------------
+
+
+------------------------------dashboarh account new 
+   <div class="col-lg-12 col-md-12 mb-4 mt-4">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="row">
+                <div class="col-lg-12 col-12">
+                  <h6>Tài khoản đăng ký gần đây</h6>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Họ và Tên</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        Giới
+                        tính
+                      </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        Ngày
+                        sinh
+                      </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        Email
+                      </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Số
+                        điện thoại
+                      </th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                        Trạng
+                        thái
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <img src="../assets/img/small-logos/logo-xd.svg" class="avatar avatar-sm me-3" alt="xd">
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Material XD Version</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-xs font-weight-bold">Nam</span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-xs font-weight-bold">27/07/2004</span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-xs font-weight-bold">toducbn@gmail.com</span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-xs font-weight-bold">0364398622</span>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="text-xs font-weight-bold active">ACTIVE</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+----------------------------------------------------

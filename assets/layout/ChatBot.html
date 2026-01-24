@@ -1,0 +1,407 @@
+<!-- Chat Icon Button -->
+<a href="../../dashboard.html" class="setting" id="setting">
+    <img src="https://cdn-icons-png.flaticon.com/512/1835/1835948.png" width="30" height="30" alt="">
+</a>
+
+<div class="chat-icon" id="chat-icon">
+    <i class="fas fa-comments"></i>
+</div>
+
+<!-- Chat Container -->
+<div class="chat-container" id="chat-container">
+    <div class="chat-header">
+        <div class="bot-avatar">
+            <i class="fas fa-comments"></i>
+        </div>
+        <h3>PNJ hỗ trợ</h3>
+        <div class="close-button" id="close-chat">
+            <i class="fas fa-times"></i>
+        </div>
+    </div>
+
+    <div class="chat-messages" id="chat-messages">
+        <!-- Bot welcome message -->
+        <div class="message bot-message">
+            <div class="message-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="message-content">
+                👋 Xin chào! Tôi có thể giúp bạn tìm sản phẩm trang sức. Hãy nhập tên sản phẩm!
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-input">
+        <input type="text" id="message-input" placeholder="Nhập tin nhắn...">
+        <button class="send-button" id="send-button">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+
+<script>
+
+    const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
+    const settingButton = document.getElementById('setting');
+
+    if (userInfo.role === 'ADMIN') {
+        settingButton.style.display = 'flex';
+    } else {
+        settingButton.style.display = 'none';
+    }
+    // ✅ Avatar mặc định
+    function getUserAvatar() {
+        try {
+            // Lấy userInfo từ localStorage và parse JSON
+            const userInfoStr = localStorage.getItem("userInfo");
+            if (userInfoStr) {
+                const userInfo = JSON.parse(userInfoStr);
+                if (userInfo && userInfo.avatar) {
+                    return userInfo.avatar;
+                }
+            }
+        } catch (error) {
+            console.log('Error parsing userInfo from localStorage:', error);
+        }
+
+        // Fallback sang userAvatar key riêng
+        const localAvatar = localStorage.getItem("userAvatar");
+        if (localAvatar) {
+            return localAvatar;
+        }
+
+        // Default avatar
+        return "https://banobagi.vn/wp-content/uploads/2025/04/avatar-facebook-mac-dinh-5.jpeg";
+    }
+
+    const userAvatar = getUserAvatar();
+
+    function initializeChatbot() {
+        const chatIcon = document.getElementById('chat-icon');
+        const chatContainer = document.getElementById('chat-container');
+        const closeChat = document.getElementById('close-chat');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const chatMessages = document.getElementById('chat-messages');
+
+        if (!chatIcon || !chatContainer) return;
+
+        chatIcon.addEventListener('click', function () {
+            chatContainer.style.display = 'flex';
+            chatIcon.style.display = 'none';
+        });
+
+        closeChat.addEventListener('click', function () {
+            chatContainer.style.display = 'none';
+            chatIcon.style.display = 'flex';
+        });
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message !== '') {
+                addMessage(message, 'user');
+                messageInput.value = '';
+                messageInput.disabled = true;
+                sendButton.disabled = true;
+                sendToBackend(message);
+            }
+        }
+
+        function addMessage(text, sender, isLoading = false) {
+            const messageId = 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.id = messageId;
+
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'message-avatar';
+
+            if (sender === 'user') {
+                const img = document.createElement('img');
+                img.src = userAvatar;
+                img.alt = 'User Avatar';
+                img.onerror = function () {
+                    this.src = 'https://banobagi.vn/wp-content/uploads/2025/04/avatar-facebook-mac-dinh-5.jpeg';
+                };
+                avatarDiv.appendChild(img);
+                avatarDiv.classList.add('user-avatar');
+            } else {
+                const icon = document.createElement('i');
+                icon.className = isLoading ? 'fas fa-spinner fa-spin' : 'fas fa-robot';
+                avatarDiv.appendChild(icon);
+            }
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = text;
+
+            if (sender === 'user') {
+                messageDiv.appendChild(contentDiv);
+                messageDiv.appendChild(avatarDiv);
+            } else {
+                messageDiv.appendChild(avatarDiv);
+                messageDiv.appendChild(contentDiv);
+            }
+
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return messageId;
+        }
+
+        function removeMessage(messageId) {
+            const element = document.getElementById(messageId);
+            if (element) element.remove();
+        }
+
+        // ✅ Function to add product - FIXED để work với backend hiện tại
+        function addProduct(product) {
+            console.log('Adding product:', product); // Debug log
+
+            const messageId = 'product-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            const productDiv = document.createElement('div');
+            productDiv.className = 'message bot-message';
+            productDiv.id = messageId;
+
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'message-avatar';
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-gem';
+            avatarDiv.appendChild(icon);
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content product-card';
+            contentDiv.style.cssText = `
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            max-width: 230px;
+            margin: 5px 0;
+            margin-left: 12px;
+        `;
+
+            const productInfo = document.createElement('div');
+            productInfo.style.cssText = 'display: flex; flex-direction: column; gap: 12px;';
+
+            // ✅ Image với fallback
+            if (product.image && product.image !== "") {
+                const imageContainer = document.createElement('div');
+                imageContainer.style.cssText = 'text-align: center;';
+
+                const img = document.createElement('img');
+                img.src = product.image;
+                img.alt = product.name || 'Product Image';
+                img.style.cssText = `
+                width: 140px;
+                height: 140px;
+                object-fit: cover;
+                border-radius: 10px;
+                border: 3px solid #f0f0f0;
+            `;
+
+                img.onerror = function () {
+                    console.log('Image failed to load:', this.src);
+                    this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWxsPSIjZjBmMGYwIi8+Cjx0ZXh0IHg9IjcwIiB5PSI3NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OTk5OSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIj5Ow6Ag4bqjbmg8L3RleHQ+Cjwvc3ZnPgo=';
+                };
+
+                img.onload = function () {
+                    console.log('Image loaded successfully:', this.src);
+                };
+
+                imageContainer.appendChild(img);
+                productInfo.appendChild(imageContainer);
+            }
+
+            // ✅ Product details - ĐẢM BẢO LẤY ĐÚNG DATA
+            const detailsContainer = document.createElement('div');
+            detailsContainer.style.cssText = 'display: flex; flex-direction: column; gap: 8px;';
+
+            // Tên sản phẩm - ✅ FIXED
+            const name = document.createElement('h4');
+            const productName = product.displayName || product.name || 'Không có tên';
+            name.textContent = productName;
+            name.style.cssText = `
+            margin: 0;
+            font-size: 12px;
+            font-weight: 500;
+            color: #2c3e50;
+            line-height: 1.3;
+        `;
+            detailsContainer.appendChild(name);
+
+            // Giá - ✅ FIXED
+            const priceContainer = document.createElement('div');
+            priceContainer.style.cssText = 'display: flex; justify-content: space-between; align-items: center;';
+
+            const price = document.createElement('span');
+            const productPrice = product.price;
+            console.log('Product price:', productPrice, typeof productPrice); // Debug
+
+            if (productPrice && productPrice > 0) {
+                price.innerHTML = `<strong style="color: #e74c3c; font-size: 14px;">${Number(productPrice).toLocaleString('vi-VN')} VNĐ</strong>`;
+            } else {
+                price.innerHTML = `<strong style="color: #7f8c8d;">Liên hệ</strong>`;
+            }
+            priceContainer.appendChild(price);
+
+            // GoldType badge - ✅ FIXED
+            const goldType = product.goldType;
+            if (goldType) {
+                const goldBadge = document.createElement('span');
+                goldBadge.style.cssText = `
+                background: linear-gradient(135deg, #f39c12, #f1c40f);
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 11px;
+                font-weight: 600;
+            `;
+                goldBadge.textContent = goldType.replace('GOLD_', '');
+                priceContainer.appendChild(goldBadge);
+            }
+
+            detailsContainer.appendChild(priceContainer);
+
+            // Status và quantity - ✅ FIXED
+            const statusContainer = document.createElement('div');
+            statusContainer.style.cssText = 'display: flex; justify-content: space-between; align-items: center;';
+
+            const statusInfo = document.createElement('span');
+            const isInStock = product.status === 'IN_STOCK';
+            const statusColor = isInStock ? '#27ae60' : '#e74c3c';
+            const statusText = isInStock ? 'Còn hàng' : 'Hết hàng';
+            const productQuantity = product.quantity || 0;
+
+            statusInfo.innerHTML = `
+            <span style="color: ${statusColor};">● ${statusText}</span>
+            <span style="color: #7f8c8d; margin-left: 10px;">SL: ${productQuantity}</span>
+        `;
+
+            const soldInfo = document.createElement('span');
+            soldInfo.style.cssText = 'color: #95a5a6; font-size: 12px;';
+            soldInfo.textContent = `Đã bán: ${product.soldQuantity || 0}`;
+
+            statusContainer.appendChild(statusInfo);
+            statusContainer.appendChild(soldInfo);
+            detailsContainer.appendChild(statusContainer);
+
+            // SKU và Category - ✅ FIXED
+            const metaInfo = document.createElement('div');
+            metaInfo.style.cssText = 'border-top: 1px solid #ecf0f1; padding-top: 8px; margin-top: 8px;';
+
+            const productSku = product.sku || 'N/A';
+            const productCategory = product.category || 'N/A';
+
+            metaInfo.innerHTML = `
+            <div style="display: flex; justify-content: space-between; font-size: 12px; color: #7f8c8d;">
+                <span>Mã sản phẩm: <code style="background: #ecf0f1; padding: 2px 4px; border-radius: 3px;">${productSku}</code></span>
+                <span>Danh mục: <em>${productCategory}</em></span>
+            </div>
+        `;
+
+            detailsContainer.appendChild(metaInfo);
+            productInfo.appendChild(detailsContainer);
+            contentDiv.appendChild(productInfo);
+
+            productDiv.appendChild(avatarDiv);
+            productDiv.appendChild(contentDiv);
+            chatMessages.appendChild(productDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            return messageId;
+        }
+
+        // ✅ Function to send message to backend - COMPATIBLE với backend hiện tại
+        async function sendToBackend(message) {
+            let loadingId = null;
+
+            try {
+                loadingId = addMessage('Đang tìm kiếm...', 'bot', true);
+
+                const response = await fetch('http://127.0.0.1:5000/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+
+                if (loadingId) removeMessage(loadingId);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Backend response:', data); // Debug log
+
+                // ✅ XỬ LÝ TẤT CẢ CÁC TRƯỜNG HỢP
+                if (data.type === 'products' && data.data && data.data.products) {
+                    // New format: multiple products
+                    addProducts(data.data);
+                } else if (data.type === 'product' && data.data) {
+                    // Current format: single product
+                    console.log('Single product data:', data.data);
+                    addProduct(data.data);
+                } else if (data.type === 'text' && data.reply) {
+                    // Text response
+                    addMessage(data.reply, 'bot');
+                } else if (data.reply) {
+                    // Fallback - original format
+                    addMessage(data.reply, 'bot');
+                } else if (data.error) {
+                    addMessage(`❌ Lỗi: ${data.error}`, 'bot');
+                } else {
+                    console.log('Unknown response format:', data);
+                    addMessage('Xin lỗi, tôi không thể xử lý yêu cầu của bạn lúc này.', 'bot');
+                }
+
+            } catch (error) {
+                if (loadingId) removeMessage(loadingId);
+                console.error('Error fetching API:', error);
+                addMessage('❌ Có lỗi xảy ra. Vui lòng thử lại.', 'bot');
+            } finally {
+                messageInput.disabled = false;
+                sendButton.disabled = false;
+                messageInput.focus();
+            }
+        }
+
+        // ✅ Function for multiple products (future use)
+        function addProducts(data) {
+            const { products, total, query } = data;
+            const headerText = total > 1
+                ? `Tìm thấy ${total} sản phẩm cho "${query}":`
+                : `Tìm thấy 1 sản phẩm cho "${query}":`;
+            addMessage(headerText, 'bot');
+
+            products.slice(0, 3).forEach((product, index) => {
+                setTimeout(() => addProduct(product), (index + 1) * 200);
+            });
+
+            if (total > 3) {
+                setTimeout(() => {
+                    addMessage(`... và ${total - 3} sản phẩm khác.`, 'bot');
+                }, 800);
+            }
+        }
+
+        // Send handlers
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Welcome message
+        if (chatMessages.children.length === 0) {
+            setTimeout(() => {
+                addMessage('👋 Xin chào! Tôi có thể giúp bạn tìm sản phẩm trang sức. Hãy nhập tên sản phẩm!', 'bot');
+            }, 500);
+        }
+    }
+
+    $(document).ready(function () {
+        initializeChatbot();
+    });
+</script>

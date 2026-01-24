@@ -1,0 +1,137 @@
+<div class="grid wide">
+    <nav class="row header__nav">
+        <div class=" l-4 header__nav--div">
+            <ul class="header__nav--list">
+                <li class="header__nav--item">
+                    <a href="./DSCD.html">
+                        <img src="https://cdn.pnj.io/images/image-update/layout/icon-relationship-new.svg" width="19"
+                            height="14.23" alt="">
+                        Quan hệ cổ đông (IR)
+                    </a>
+                </li>
+                <li class="header__nav--item">
+                    <a href="./shop.html">
+                        <img src="https://cdn.pnj.io/images/image-update/layout/icon-stores-new.svg" width="19"
+                            height="18.97" alt="">
+                        Cửa hàng
+                    </a>
+                </li>
+                <li class="header__nav--item cursor">
+                    <img src="https://cdn.pnj.io/images/image-update/layout/icon-hotline-new.svg" alt="">
+                    03643986
+                </li>
+            </ul>
+        </div>
+        <div class=" l-4 m-2 c-3 header__nav--div center">
+            <a href="index.html"><img src="https://cdn.pnj.io/images/logo/pnj.com.vn.png" class="header__logo"
+                    alt="Ảnh logo"></a>
+        </div>
+
+        <div class="m-9 c-8 header__btn" onclick="openSearchBox()">
+            <input name=" txtSearch" type="text" class="header__with--input" maxlength="30" minlength="6"
+                placeholder="Tìm kiếm nhanh">
+            <div class="header__search">
+                <i class="fa-solid fa-magnifying-glass header__with--search"></i>
+            </div>
+        </div>
+
+        <div class=" l-4 m-1 c-1 header__nav--div right">
+            <ul class="header__nav--list">
+                <li class="header__nav--item" id="accountNav">
+                    <a href="./login.html">
+                        <img src="https://cdn.pnj.io/images/2023/user-regular.svg" class="opacity-50" width="19"
+                            height="19" alt="">
+                        <span id="accountText">Tài khoản của tôi</span>
+                    </a>
+                </li>
+                <li class="header__nav--item">
+                    <a href="./category.html" class="hidden">
+                        <img src="https://cdn.pnj.io/images/image-update/layout/icon-cart-new.svg" alt="">
+                        <span class="header__nav--icon">4</span>
+                    </a>
+                    <div class="cart__item">
+                        <img src="https://cdn.pnj.io/images/image-update/layout/icon-cart-new.svg" alt="">
+                        <span>Giỏ hàng</span>
+                        <span class="header__nav--icon">4</span>
+                        <div class="cart__h">
+                            <h2 class="cart__head">Giỏ hàng của bạn</h2>
+                            <div class="cart__list">
+                                <div class="cart__cont">
+                                    <div class="cart__img">
+                                        <img src="https://cdn.pnj.io/images/detailed/199/sp-gn0000y060481-nhan-nam-vang-18k-pnj-1.png"
+                                            alt="">
+                                    </div>
+                                    <div class="cart__name">
+                                        <div class="cart__block">
+                                            <span class="cart__desc">Nhẫn nam Vàng 18K MANCODE by PNJ Chữ Lộc
+                                                0000Y060481</span>
+                                            <div class="cart__icon">
+                                                <i class="fa-solid fa-delete-left"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cart__size">
+                                            <span>Chất liệu: Vàng</span>
+                                        </div>
+                                        <div class="cart__num">
+                                            <div class="cart__price">28.320.000 đ</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="cart__footer">
+                                <div class="cart__total">
+                                    <span class="cart__total--name">Tổng tiền:</span>
+                                    <span class="cart__total--price">237.513.000 đ</span>
+                                </div>
+                                <div class="cart__flink">
+                                    <a href="./category.html" class="cart__link">Xem giỏ hàng</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <!-- <li class="header__nav--item" id="dashboard">
+                    <a href="../../dashboard.html" class="">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4882/4882406.png" class="opacity-50" width="20"
+                            height="19" alt="">
+                        <span>Trang quản trị</span>
+                    </a>
+                </li> -->
+            </ul>
+        </div>
+    </nav>
+    <div class="row">
+        <nav class="header__narbar">
+            <ul class="header__narbar--list" id="category-menu"></ul>
+            <div class="header__btn" onclick="openSearchBox()">
+                <input type="text" class="header__with--input" maxlength="30" minlength="6"
+                    placeholder="Tìm kiếm nhanh">
+                <div class="header__search">
+                    <i class="fa-solid fa-magnifying-glass header__with--search"></i>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="search-overlay" id="searchOverlay" onclick="closeSearchBox()">
+    <div class="header__boxsearch">
+        <div class="header__boxsearch--list">
+            <button id="button-search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <input type="text" name="txtSearchName" class="outline-none" placeholder="Tìm kiếm nhanh">
+            <button onclick="closeSearchBox()"><svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                    viewBox="0 0 512 512" class="w-6 h-6" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"
+                        d="M368 368L144 144m224 0L144 368"></path>
+                </svg></button>
+        </div>
+        <div class="header__boxsearch--listproduct" style="overflow-y: scroll;">
+
+            <div class="no__result">
+                <img src="https://cdn.pnj.io/images/2025/rebuild/a60759ad1dabe909c46a817ecbf71878.png?1740973018637"
+                    alt="Không có kết quả">
+                <h3>Không tìm thấy kết quả</h3>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/Icon.webp">
+  <link rel="icon" type="image/png" href="./assets/img/Icon.webp">
+  <title>
+    Danh sách danh mục
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+  <!-- Nucleo Icons -->
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Material Icons -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/icon/fontawesome-free-6.6.0-web/css/all.min.css">
+  <link rel="stylesheet" href="./assets/css/modal-create-account.css">
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2"
+    id="sidenav-main">
+    <div id="sidenav"></div>
+    </div>
+  </aside>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur"
+      data-scroll="true">
+      <div id="sidenav"></div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-2">
+
+      <!-- Search Filters -->
+      <div class="row">
+        <div class="col-12">
+          <div class="search-filters">
+            <h6><i class="fa-solid fa-filter me-2"></i>Tìm kiếm và lọc danh mục</h6>
+            <div class="row">
+              <div class="col-12 col-md-12">
+                <div class="filter-group">
+                  <label><i class="fa-solid fa-list me-1"></i>Tên danh mục</label>
+                  <input type="text" class="form-control" placeholder="Nhập tên danh mục">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div
+                class="bg-gradient-dark d-flex align-items-center justify-content-space-between shadow-dark border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Danh sách danh mục</h6>
+                <div style="display: flex;">
+                  <a href="#" class="btn-create text-secondary font-weight-bold text-xs" onclick="openModal()">
+                    <i class="fa-solid fa-list"></i><span>Tạo danh mục
+                    </span> </a>
+                  <button id="deleteAll" class="btn-delete" title="Xóa tất cả"><i
+                      class="fa-solid fa-trash text-xs"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        <input type="checkbox" name="" id="selectAll" title="Chọn tất cả">
+                      </th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Id</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Name</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Description</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Parrent id</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Created At</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Updated at</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Show/Hide</th>
+                      <th
+                        class="text-uppercase text-secondary text-xxs font-weight-bolder text-aligns-center opacity-7">
+                        Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colspan="12" class="text-center text-muted py-4"><i
+                          class="fa-solid fa-circle-exclamation me-2"></i>Không có bản ghi nào phù hợp</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="row">
+        <div class="col-12">
+          <div class="pagination-wrapper">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="pagination-info">
+                <i class="fa-solid fa-info-circle me-2"></i>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span class="text-secondary" style="font-size: 14px;">Hiển thị:</span>
+                <select class="entries-select">
+                  <option value="10" selected>10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                <span class="text-secondary" style="font-size: 14px;">mục/trang</span>
+              </div>
+            </div>
+
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Form -->
+      <div id="accountModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2><i class="fa-solid fa-list"></i> <span id="modalTitle">Tạo danh mục</span></h2>
+            <span class="close" onclick="closeModal()">&times;</span>
+          </div>
+
+          <div class="form-container">
+            <form id="accountForm" novalidate>
+              <div class="form-group">
+                <label for="name">Tên danh mục <span class="required">*</span></label>
+                <input type="text" id="name" name="name" maxlength="50" required autocomplete="off">
+                <div class="error-message" id="nameError"></div>
+                <div class="success-message" id="nameSuccess"></div>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="description">Mô tả</label>
+                <textarea id="description" name="description" maxlength="255"
+                  placeholder="Nhập mô tả danh mục của bạn..."></textarea>
+                <div class="error-message" id="descriptionError"></div>
+              </div>
+              <div class="form-group full-width">
+                <label for="banner">Banner</label>
+                <div class="file-input-wrapper" id="fileWrapper">
+                  <img src="" alt="" id="avatarPreview"
+                    style="width:150px; height:60px; object-fit:cover; border: 1px solid #f2f2f2;">
+                  <input type="file" id="banner" name="banner" accept="*">
+                  <label for="banner" class="file-input-label">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>Chọn ảnh banner</span>
+                  </label>
+                  <div style="font-size: 12px; color: #666; margin-top: 10px;">
+                    Định dạng: JPG, PNG, GIF. Tối đa: 2MB
+                  </div>
+                </div>
+                <div class="error-message" id="bannerError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="parentId">Danh mục cha</label>
+                <select name="parentId" id="parentId">
+                  <option value="">Danh mục đơn</option>
+                </select>
+                <div class="success-message" id="parentIdSuccess"></div>
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn-cancel" onclick="closeModal()">
+                  <i class="fa-solid fa-times"></i>
+                  Hủy
+                </button>
+                <button type="submit" class="btn-submit" id="submitBtn">
+                  <div class="loading-spinner" id="loadingSpinner"></div>
+                  <i class="fa-solid fa-plus" id="submitIcon"></i>
+                  <span id="submitButtonText">Tạo mới</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer py-4" id="footer">
+      </footer>
+    </div>
+  </main>
+
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./assets/js/sidenav.js"></script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = { damping: '0.5' };
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+
+    let isEditMode = false;
+    let editingAccountId = null;
+    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+
+    // API Configuration
+    const API_BASE_URL = 'http://localhost:8080/api/v1/category';
+    let currentPage = 1;
+    let currentPageSize = 10;
+    let currentSearchName = '';
+
+    // Modal functions
+    function openModal(mode = 'create', accountId = null) {
+      isEditMode = mode === 'edit';
+      editingAccountId = accountId;
+      $('#modalTitle').text(isEditMode ? 'Cập nhật danh mục' : 'Tạo danh mục');
+      $('#submitButtonText').text(isEditMode ? 'Cập nhật' : 'Tạo mới');
+      if ($('#submitIcon').length) {
+        $('#submitIcon').removeClass(isEditMode ? 'fa-plus' : 'fa-save').addClass(isEditMode ? 'fa-save' : 'fa-plus');
+      }
+
+      // Load parent categories when opening modal
+      loadParentCategories();
+
+      $('#accountModal').css('display', 'block');
+      $('#name').focus();
+    }
+
+    function closeModal() {
+      $('#accountModal').css('display', 'none');
+      clearForm();
+      isEditMode = false;
+      editingAccountId = null;
+    }
+
+    function clearForm() {
+      $('#accountForm').trigger('reset');
+      $('#avatarPreview').attr('src', '').hide();
+      $('.error-message, .success-message').hide().text('');
+      $('input, textarea, select').removeClass('error success');
+      $('#parentId').val(''); // Reset parent category select
+    }
+
+    // Load categories from API
+    function loadCategories(page = 1, pageSize = 10, searchName = '') {
+      const auth = localStorage.getItem('auth');
+      let url = `${API_BASE_URL}/filter?pageNumber=${page - 1}&pageSize=${pageSize}`;
+
+      if (searchName.trim()) {
+        url += `&name=${encodeURIComponent(searchName.trim())}`;
+      }
+
+      $.ajax({
+        url: url,
+        method: 'GET',
+        headers: { 'Authorization': 'Basic ' + auth },
+        success: function (response) {
+          if (response.message === "Thành công" && response.data) {
+            renderCategoriesTable(response.data.content);
+            renderPagination(response.data);
+            updatePaginationInfo(response.data);
+          } else {
+            console.error('API response error:', response);
+            alert('Lỗi khi tải dữ liệu danh mục');
+          }
+        },
+        error: function (xhr) {
+          console.error('API error:', xhr);
+          if (xhr.status === 401) {
+            alert('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+          } else {
+            alert('Lỗi khi tải dữ liệu: ' + (xhr.responseJSON?.errorMessage || xhr.statusText));
+          }
+        }
+      });
+    }
+
+    // Render categories table
+    function renderCategoriesTable(categories) {
+      const tbody = $('tbody');
+      tbody.empty();
+
+      if (!categories || categories.length === 0) {
+        tbody.append(`
+             <tr>
+                <td colspan="12" class="text-center text-muted py-4">
+                  <i class="fa-solid fa-circle-exclamation me-2"></i>
+                  Không có bản ghi nào phù hợp
+                </td>
+              </tr>
+        `);
+        return;
+      }
+
+      categories.forEach(category => {
+        const row = `
+            <tr>
+                <td class="align-middle text-center">
+                    <input type="checkbox" name="selectItem" data-id="${category.id}" title="Chọn">
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">#${category.id}</span>
+                </td>
+                <td>
+                    <div class="d-flex px-2 py-1">
+                        <div>
+                            <img src="${category.bannerUrl || '../assets/img/team-3.jpg'}" 
+                                 style="width: 120px !important; height: 60px"
+                                 class="banner banner-sm me-3 border-radius-lg" 
+                                 alt="${category.name}"
+                                 onerror="this.src='../assets/img/team-3.jpg'">
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">${category.name}</h6>
+                        </div>
+                    </div>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">${category.description || ''}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">${category.parentId ? '#' + category.parentId : ''}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">${formatDateTime(category.createAt)}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">${formatDateTime(category.updateAt)}</span>
+                </td>
+                <td class="align-middle text-center">
+                    <select class="is-deleted-select" data-id="${category.id}" onchange="toggleCategoryStatus(${category.id}, this.value)">
+                        <option value="false" ${!category.isDeleted ? 'selected' : ''}>Show</option>
+                        <option value="true" ${category.isDeleted ? 'selected' : ''}>Hide</option>
+                    </select>
+                </td>
+                <td class="align-middle text-center action">
+                    <a href="javascript:;" onclick="editCategory(${category.id})" title="Sửa">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    |
+                    <a href="javascript:;" onclick="deleteCategory(${category.id})" title="Xóa" style="color: #dc3545;">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        `;
+        tbody.append(row);
+      });
+    }
+
+    // Render pagination
+    function renderPagination(data) {
+      const totalPages = data.totalPages;
+      const currentPage = data.number + 1; // API trả về từ 0
+      const pagination = $('.pagination');
+
+      pagination.empty();
+
+      // Previous button
+      pagination.append(`
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="javascript:;" onclick="changePage(${currentPage - 1})" tabindex="-1">
+                <i class="fa-solid fa-angle-left"></i>
+            </a>
+        </li>
+    `);
+
+      // Page numbers
+      let startPage = Math.max(1, currentPage - 2);
+      let endPage = Math.min(totalPages, currentPage + 2);
+
+      if (startPage > 1) {
+        pagination.append(`<li class="page-item"><a class="page-link" href="javascript:;" onclick="changePage(1)">1</a></li>`);
+        if (startPage > 2) {
+          pagination.append(`<li class="page-item"><span class="page-link">...</span></li>`);
+        }
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pagination.append(`
+            <li class="page-item ${i === currentPage ? 'active' : ''}">
+                <a class="page-link" href="javascript:;" onclick="changePage(${i})">${i}</a>
+            </li>
+        `);
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          pagination.append(`<li class="page-item"><span class="page-link">...</span></li>`);
+        }
+        pagination.append(`<li class="page-item"><a class="page-link" href="javascript:;" onclick="changePage(${totalPages})">${totalPages}</a></li>`);
+      }
+
+      // Next button
+      pagination.append(`
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+            <a class="page-link" href="javascript:;" onclick="changePage(${currentPage + 1})">
+                <i class="fa-solid fa-angle-right"></i>
+            </a>
+        </li>
+    `);
+    }
+
+    // Update pagination info
+    function updatePaginationInfo(data) {
+      const start = data.pageable.offset + 1;
+      const end = Math.min(data.pageable.offset + data.size, data.totalElements);
+      const total = data.totalElements;
+
+      $('.pagination-info').html(`
+        <i class="fa-solid fa-info-circle me-2"></i>Hiển thị ${start}-${end} trong tổng số ${total} danh mục
+    `);
+    }
+
+    // Change page
+    function changePage(page) {
+      if (page < 1) return;
+      currentPage = page;
+      loadCategories(currentPage, currentPageSize, currentSearchName);
+    }
+
+    // Change page size
+    function changePageSize(size) {
+      currentPageSize = size;
+      currentPage = 1; // Reset to first page
+      loadCategories(currentPage, currentPageSize, currentSearchName);
+    }
+
+    // Load parent categories for select dropdown
+    function loadParentCategories() {
+      const auth = localStorage.getItem('auth');
+      $.ajax({
+        url: `${API_BASE_URL}/name`,
+        method: 'GET',
+        headers: { 'Authorization': 'Basic ' + auth },
+        success: function (response) {
+          if (response.message === "Thành công" && response.data) {
+            const parentSelect = $('#parentId');
+            parentSelect.empty();
+            parentSelect.append('<option value="">Danh mục đơn</option>');
+
+            response.data.forEach(category => {
+              // Nếu đang edit, không hiển thị chính nó trong dropdown
+              if (isEditMode && editingAccountId && category.id == editingAccountId) {
+                return;
+              }
+              parentSelect.append(`<option value="${category.id}">${category.name}</option>`);
+            });
+          }
+        },
+        error: function (xhr) {
+          console.error('Error loading parent categories:', xhr);
+          alert('Lỗi khi tải danh sách danh mục cha: ' + (xhr.responseJSON?.errorMessage || xhr.statusText));
+        }
+      });
+    }
+
+    // Search categories
+    function searchCategories() {
+      const searchInput = $('input[placeholder="Nhập tên danh mục"]');
+      currentSearchName = searchInput.val().trim();
+      currentPage = 1; // Reset to first page
+      loadCategories(currentPage, currentPageSize, currentSearchName);
+    }
+
+    // Toggle category status (Show/Hide)
+    function toggleCategoryStatus(id, isDeleted) {
+      const auth = localStorage.getItem('auth');
+      const endpoint = isDeleted === 'true' ? 'soft-delete' : 'restore-delete';
+
+      $.ajax({
+        url: `${API_BASE_URL}/${endpoint}`,
+        method: isDeleted === 'true' ? 'DELETE' : 'PUT',
+        headers: {
+          'Authorization': 'Basic ' + auth,
+          'Content-Type': 'application/json'
+        },
+        data: JSON.stringify([id]),
+        success: function (response) {
+          if (response.message) {
+            console.log('Status changed successfully');
+            // Reload current page
+            loadCategories(currentPage, currentPageSize, currentSearchName);
+          }
+        },
+        error: function (xhr) {
+          alert('Lỗi khi thay đổi trạng thái: ' + (xhr.responseJSON?.errorMessage || xhr.statusText));
+          // Reload to revert the select
+          loadCategories(currentPage, currentPageSize, currentSearchName);
+        }
+      });
+    }
+
+    // Format datetime
+    function formatDateTime(dateString) {
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      return date.toLocaleString('vi-VN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+    }
+
+    // Document ready
+    $(document).ready(function () {
+      // Load initial data
+      loadCategories(currentPage, currentPageSize, currentSearchName);
+
+      // Search on Enter key
+      $('input[placeholder="Nhập tên danh mục"]').on('keypress', function (e) {
+        if (e.which === 13) {
+          searchCategories();
+        }
+      });
+
+      // Search on input change with debounce
+      let searchTimeout;
+      $('input[placeholder="Nhập tên danh mục"]').on('input', function () {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          searchCategories();
+        }, 500);
+      });
+
+      // Page size change
+      $('.entries-select').on('change', function () {
+        changePageSize(parseInt($(this).val()));
+      });
+
+      // Delete all selected button
+      $('#deleteAll, .btn-delete').on('click', function () {
+        deleteSelected();
+      });
+
+      // File handling for banner
+      $('#banner').on('change', function (e) {
+        handleFileSelect(e.target.files[0]);
+      });
+
+      // Drag & drop functionality
+      const fileWrapper = $('#fileWrapper');
+      if (fileWrapper.length) {
+        fileWrapper.on('dragover dragenter', function (e) {
+          e.preventDefault();
+          fileWrapper.addClass('dragover');
+        });
+        fileWrapper.on('dragleave dragend drop', function (e) {
+          e.preventDefault();
+          fileWrapper.removeClass('dragover');
+        });
+        fileWrapper.on('drop', function (e) {
+          e.preventDefault();
+          const files = e.originalEvent.dataTransfer.files;
+          if (files.length > 0) {
+            const dt = new DataTransfer();
+            dt.items.add(files[0]);
+            document.getElementById('banner').files = dt.files;
+            handleFileSelect(files[0]);
+          }
+        });
+      }
+
+      function handleFileSelect(file) {
+        if (!file) {
+          $('#avatarPreview').attr('src', '').hide();
+          return;
+        }
+        hideError('banner');
+        if (file.size > MAX_FILE_SIZE) {
+          showError('banner', 'Kích thước file vượt quá 2MB');
+          $('#avatarPreview').attr('src', '').hide();
+          return;
+        }
+        if (!file.type.startsWith('image/')) {
+          showError('banner', 'File không phải ảnh. Chỉ chấp nhận định dạng ảnh.');
+          $('#avatarPreview').attr('src', '').hide();
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          $('#avatarPreview').attr('src', e.target.result).show();
+        };
+        reader.onerror = function () {
+          showError('banner', 'Lỗi khi đọc file. Vui lòng thử lại.');
+          $('#avatarPreview').attr('src', '').hide();
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // Validation functions
+      function showError(fieldId, message) {
+        $(`#${fieldId}Error`).text(message).show();
+        $(`#${fieldId}`).addClass('error').removeClass('success');
+        $(`#${fieldId}Success`).hide();
+      }
+
+      function showSuccess(fieldId, message) {
+        if ($(`#${fieldId}Success`).length) {
+          $(`#${fieldId}Success`).text(message).show();
+          $(`#${fieldId}`).addClass('success').removeClass('error');
+          $(`#${fieldId}Error`).hide();
+        }
+      }
+
+      function hideError(fieldId) {
+        $(`#${fieldId}Error`).hide();
+        $(`#${fieldId}`).removeClass('error');
+      }
+
+      function validateName(name) {
+        if (!name) return 'Tên danh mục không được bỏ trống';
+        if (name.length < 2) return 'Tên danh mục phải có ít nhất 2 ký tự';
+        if (name.length > 50) return 'Tên danh mục không được dài quá 50 ký tự';
+        return null;
+      }
+
+      function validateDescription(description) {
+        if (description.length > 255) return 'Mô tả không được dài quá 255 ký tự';
+        return null;
+      }
+
+      function validateBanner(file) {
+        if (!file) return null;
+        if (file.size > MAX_FILE_SIZE) return 'Kích thước file vượt quá 2MB';
+        if (!file.type.startsWith('image/')) return 'File không phải ảnh. Chỉ chấp nhận định dạng ảnh.';
+        return null;
+      }
+
+      // Real-time validation
+      $('#name').on('blur', function () {
+        const error = validateName($(this).val().trim());
+        if (error) {
+          showError('name', error);
+        } else {
+          hideError('name');
+          showSuccess('name', 'Tên hợp lệ');
+        }
+      });
+
+      $('#description').on('blur', function () {
+        const error = validateDescription($(this).val().trim());
+        error ? showError('description', error) : hideError('description');
+      });
+
+      $('#banner').on('change', function () {
+        const error = validateBanner(this.files[0]);
+        error ? showError('banner', error) : hideError('banner');
+      });
+
+      // Submit form
+      $('#accountForm').on('submit', function (e) {
+        e.preventDefault();
+        let hasError = false;
+
+        const name = $('#name').val().trim();
+        const description = $('#description').val().trim();
+        const bannerFile = $('#banner')[0].files[0];
+
+        $('.error-message').hide();
+        $('input, textarea').removeClass('error');
+
+        // Validate all fields
+        const nameError = validateName(name);
+        if (nameError) {
+          showError('name', nameError);
+          hasError = true;
+        }
+
+        const descriptionError = validateDescription(description);
+        if (descriptionError) {
+          showError('description', descriptionError);
+          hasError = true;
+        }
+
+        const bannerError = validateBanner(bannerFile);
+        if (bannerError) {
+          showError('banner', bannerError);
+          hasError = true;
+        }
+
+        if (hasError) {
+          $('.error').first().focus();
+          return;
+        }
+
+        // Loading state
+        const submitBtn = $('#submitBtn');
+        const loadingSpinner = $('#loadingSpinner');
+        const submitIcon = $('#submitIcon');
+        const submitText = $('#submitButtonText');
+
+        submitBtn.prop('disabled', true);
+        loadingSpinner.show();
+        submitIcon.hide();
+        submitText.text('Đang xử lý...');
+
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('description', description);
+
+        // Add parentId if selected
+        const parentId = $('#parentId').val();
+        if (parentId) {
+          formData.append('parentId', parentId);
+        }
+
+        if (bannerFile) {
+          formData.append('bannerUrl', bannerFile);
+        }
+        if (isEditMode && editingAccountId) {
+          formData.append('id', editingAccountId);
+        }
+
+        const auth = localStorage.getItem('auth');
+        const method = isEditMode ? 'PUT' : 'POST';
+        const url = isEditMode ? `${API_BASE_URL}/${editingAccountId}` : API_BASE_URL;
+
+        $.ajax({
+          url: url,
+          type: method,
+          headers: { 'Authorization': 'Basic ' + auth },
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function () {
+            alert(isEditMode ? 'Cập nhật danh mục thành công!' : 'Tạo danh mục thành công!');
+            closeModal();
+            loadCategories(currentPage, currentPageSize, currentSearchName);
+          },
+          error: function (xhr) {
+            let errorMsg = 'Có lỗi xảy ra!';
+            if (xhr.status === 400) {
+              try {
+                const response = JSON.parse(xhr.responseText);
+                errorMsg = response.errorMessage || 'Thông tin đã tồn tại!';
+              } catch (e) {
+                errorMsg = 'Dữ liệu phản hồi lỗi không hợp lệ!';
+              }
+            } else if (xhr.status === 500) {
+              errorMsg = 'Lỗi máy chủ! Vui lòng thử lại sau.';
+            } else {
+              errorMsg = 'Hệ thống đang bảo trì. Vui lòng thử lại sau!';
+            }
+            alert('Lỗi: ' + errorMsg);
+          },
+          complete: function () {
+            submitBtn.prop('disabled', false);
+            loadingSpinner.hide();
+            submitIcon.show();
+            submitText.text(isEditMode ? 'Cập nhật' : 'Tạo mới');
+          }
+        });
+      });
+
+      // Select all functionality
+      $('#selectAll').on('change', function () {
+        $('input[name="selectItem"]').prop('checked', this.checked);
+      });
+
+      $(document).on('change', 'input[name="selectItem"]', function () {
+        const total = $('input[name="selectItem"]').length;
+        const checked = $('input[name="selectItem"]:checked').length;
+        $('#selectAll').prop('checked', total === checked);
+        $('#selectAll').prop('indeterminate', checked > 0 && checked < total);
+      });
+    });
+
+    // Global functions
+    window.editCategory = function (id) {
+      openModal('edit', id);
+      const auth = localStorage.getItem('auth');
+      $.ajax({
+        url: `${API_BASE_URL}/${id}`,
+        method: 'GET',
+        headers: { 'Authorization': 'Basic ' + auth },
+        success: function (response) {
+          if (response.data) {
+            const category = response.data;
+            $('#name').val(category.name);
+            $('#description').val(category.description || '');
+            $('#parentId').val(category.parentId || ''); // Set parent category
+            $('#avatarPreview').attr('src', category.bannerUrl || '').toggle(!!category.bannerUrl);
+          }
+        },
+        error: function (xhr) {
+          console.error('API error:', xhr.responseText);
+          alert('Không lấy được dữ liệu danh mục: ' + (xhr.responseJSON?.errorMessage || xhr.statusText));
+        }
+      });
+    };
+
+    window.deleteCategory = function (id) {
+      if (confirm('Bạn có chắc chắn muốn xóa cứng danh mục này? Thao tác này không thể hoàn tác!')) {
+        const auth = localStorage.getItem('auth');
+        $.ajax({
+          url: `${API_BASE_URL}/hard-delete`,
+          method: 'DELETE',
+          headers: {
+            'Authorization': 'Basic ' + auth,
+            'Content-Type': 'application/json'
+          },
+          data: JSON.stringify([id]),
+          success: function (response) {
+            alert('Xóa danh mục thành công!');
+            loadCategories(currentPage, currentPageSize, currentSearchName);
+          },
+          error: function (xhr) {
+            alert('Lỗi khi xóa danh mục: ' + (xhr.responseJSON?.errorMessage || xhr.statusText));
+          }
+        });
+      }
+    };
+
+    window.deleteSelected = function () {
+      const selected = $('input[name="selectItem"]:checked');
+      if (selected.length === 0) {
+        alert('Vui lòng chọn ít nhất một danh mục để xóa');
+        return;
+      }
+      if (confirm(`Bạn có chắc chắn muốn xóa cứng ${selected.length} danh mục đã chọn? Thao tác này không thể hoàn tác!`)) {
+        const ids = [];
+        selected.each(function () {
+          ids.push($(this).data('id'));
+        });
+        const auth = localStorage.getItem('auth');
+        $.ajax({
+          url: `${API_BASE_URL}/hard-delete`,
+          method: 'DELETE',
+          headers: {
+            'Authorization': 'Basic ' + auth,
+            'Content-Type': 'application/json'
+          },
+          data: JSON.stringify(ids),
+          success: function (response) {
+            alert('Xóa các danh mục thành công!');
+            loadCategories(currentPage, currentPageSize, currentSearchName);
+          },
+          error: function (xhr) {
+            alert('Lỗi khi xóa danh mục: ' + (xhr.responseJSON?.errorMessage || xhr.statusText));
+          }
+        });
+      }
+    };
+
+    // Đóng modal khi click bên ngoài
+    window.onclick = function (event) {
+      if (event.target === document.getElementById('accountModal')) {
+        closeModal();
+      }
+    }
+
+    // Đóng modal khi nhấn ESC
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && $('#accountModal').css('display') === 'block') {
+        closeModal();
+      }
+    });
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+
+</html>

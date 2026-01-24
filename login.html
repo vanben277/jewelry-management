@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="shortcut icon" href="./assets/img/Icon.webp" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/grid.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/login.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <link rel="stylesheet" href="./assets/icon/fontawesome-free-6.6.0-web/css/all.min.css">
+    <!-- google roboto font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="app">
+        <div class="form">
+            <div class="form__user">
+                <div class="category__block">
+                    <a href="./index.html" class="category__back">
+                        <img src="https://www.pnj.com.vn/site/assets/images/previous.svg" width="20" height="20" alt="">
+                        <p>Quay lại</p>
+                    </a>
+                </div>
+
+                <div class="logo">
+                    <a href="./index.html">
+                        <img src="https://www.pnj.com.vn/my_profile_asset/logo.svg" alt="">
+                    </a>
+                </div>
+
+                <form id="loginForm" class="form__block" method="POST" action="#" onsubmit="return validateForm()">
+                    <div class="form__slogan">Chào mừng bạn trở lại</div>
+                    <div class="form__name">Vui lòng đăng nhập để tiếp tục</div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Tài khoản</label>
+                        <input type="text" class="form-control" name="txtLogAccount" id="exampleInputEmail1">
+                        <div id="accountError" class="error-message">Tài khoản không được bỏ trống!</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Mật khẩu</label>
+                        <div class="password-container">
+                            <input type="password" class="form-control" name="txtLogPassword"
+                                id="exampleInputPassword1">
+                            <i class="fas fa-eye-slash toggle-password" data-target="exampleInputPassword1"></i>
+                        </div>
+                        <div id="passwordError" class="error-message">Mật khẩu không được bỏ trống!</div>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <div class="forgetRight">
+                            <a href="./forgot-password.html">Quên mật khẩu ?</a>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="mb-3 ">
+                        <div class="checkleft">
+                            <div class="g-recaptcha" data-sitekey="6Lfs-XwrAAAAAC6ZO7jygkQJOY7BTXhsqElTqvPA"></div>
+                            <div id="captchaError" class="error-message">Vui lòng xác nhận CAPTCHA!</div>
+                        </div>
+
+                    </div> -->
+
+                    <div class="form__align">
+                        <button type="submit" class="btn btn-primary" name="btnDangNhap">Đăng nhập</button>
+                    </div>
+
+                    <hr />
+
+                    <div class="mb-3 form__link">
+                        Chưa có tài khoản? <a href="register.html">Đăng ký</a> hoặc về <a href="index.html">Trang
+                            chủ</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- reCAPTCHA v2 -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePassword = document.querySelector('.toggle-password');
+
+            togglePassword.addEventListener('click', function () {
+                const targetId = this.getAttribute('data-target');
+                const passwordField = document.getElementById(targetId);
+
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                } else {
+                    passwordField.type = 'password';
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                }
+            });
+        });
+
+        function validateForm() {
+            let isValid = true;
+            const account = document.getElementById('exampleInputEmail1').value;
+            const password = document.getElementById('exampleInputPassword1').value;
+
+            if (account.trim() === '') {
+                document.getElementById('accountError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('accountError').style.display = 'none';
+            }
+
+            if (password.trim() === '') {
+                document.getElementById('passwordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('passwordError').style.display = 'none';
+            }
+
+            /*
+            if (grecaptcha.getResponse() === '') {
+                document.getElementById('captchaError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('captchaError').style.display = 'none';
+            }
+            */
+            return isValid;
+        }
+
+        $(document).ready(function () {
+            $('#loginForm').on('submit', function (e) {
+                e.preventDefault();
+                if (!validateForm()) {
+                    alert('Vui lòng điền đầy đủ thông tin!');
+                    return;
+                }
+
+                const formData = {
+                    userName: $('#exampleInputEmail1').val(),
+                    password: $('#exampleInputPassword1').val(),
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8080/api/v1/login',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        if (response.data) {
+                            const userInfo = response.data;
+                            if (userInfo.status) {
+                                switch (userInfo.status) {
+                                    case 'ACTIVE':
+                                        break;
+                                    case 'BANNED':
+                                        alert("Tài khoản đã bị cấm!");
+                                        localStorage.removeItem('auth');
+                                        localStorage.removeItem('userId');
+                                        localStorage.removeItem('userInfo');
+                                        window.location.href = 'exception.html?code=403'
+                                        break;
+                                    case 'INACTIVE':
+                                        alert("Tài khoản đã bị vô hiệu hóa!");
+                                        localStorage.removeItem('auth');
+                                        localStorage.removeItem('userId');
+                                        localStorage.removeItem('userInfo');
+                                        window.location.href = 'exception.html?code=403'
+                                        break;
+                                    case 'PENDING':
+                                        alert("Tài khoản đang chờ xác thực!");
+                                        localStorage.removeItem('auth');
+                                        localStorage.removeItem('userId');
+                                        localStorage.removeItem('userInfo');
+                                        window.location.href = 'exception.html?code=403'
+                                        break;
+                                    default:
+                                        alert("Lỗi không xác định");
+                                        window.location.href = 'exception.html?code=500'
+                                }
+                            }
+                            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+                            const basicAuth = btoa(formData.userName + ':' + formData.password);
+                            localStorage.setItem('auth', basicAuth);
+                            localStorage.setItem('userId', userInfo.id);
+
+                            window.userInfo = userInfo;
+                            window.auth = basicAuth;
+                            window.userId = userInfo.id;
+                        }
+
+                        alert(response.message || 'Đăng nhập thành công!');
+
+                        let redirectUrl = 'my-home.html';
+                        if (response.data.role === 'ADMIN') redirectUrl = 'dashboard.html';
+                        if (response.data.role === 'STAFF') redirectUrl = 'staff/home.html';
+                        window.location.href = redirectUrl;
+                    },
+                    error: function (xhr) {
+                        let errorMessage = "Đăng nhập thất bại: Vui lòng thử lại sau.";
+
+                        if (xhr.status === 400) {
+                            try {
+                                const response = JSON.parse(xhr.responseText);
+                                const errorMessages = {
+                                    '400021': "Tài Khoản hoặc Mật Khẩu không đúng. Vui lòng thử lại!",
+                                    '400022': 'Tài khoản đã bị vô hiệu hóa. Vui lòng liên hệ quản trị viên!',
+                                    '400023': 'Tài khoản đã bị khóa. Vui lòng liên hệ quản trị viên!',
+                                    '400024': 'Tài khoản chưa được xác thực. Vui lòng kiểm tra email!'
+                                };
+
+                                errorMessage = errorMessages[response.errorMessage] ||
+                                    ("Đăng nhập thất bại: " + (response.message || 'Sai thông tin đăng nhập!'));
+
+                                console.log("Lỗi:", response.message);
+                            } catch (e) {
+                                console.error("Lỗi khi parse response:", e);
+                                errorMessage = "Đăng nhập thất bại: Máy chủ không phản hồi.";
+                            }
+                        } else if (xhr.status === 500) {
+                            console.error("Lỗi máy chủ:", xhr.responseText);
+                            errorMessage = "Đăng nhập thất bại: Lỗi máy chủ. Vui lòng thử lại sau.";
+                            window.location.href = 'exception.html';
+                        } else {
+                            console.error('Hệ thống đang bảo trì. Vui lòng thử lại sau!.');
+                        }
+
+                        alert(errorMessage);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

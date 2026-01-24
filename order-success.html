@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Normalize css cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="shortcut icon" href="./assets/img/Icon.webp" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/grid.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <link rel="stylesheet" href="./assets/css/order-success.css">
+    <link rel="stylesheet" href="./assets/icon/fontawesome-free-6.6.0-web/css/all.min.css">
+    <!-- google roboto font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/component/ResetBoostrap.css">
+    <title>Chi tiết đơn hàng</title>
+    <style>
+        .app {
+            background: #fff;
+        }
+
+        .header {
+            margin-bottom: 20px;
+        }
+
+        .header-text {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .order-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .info-item {
+            padding: 5px 0;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .order-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f9f9f9;
+            font-weight: normal;
+            font-size: 14px;
+            color: #666;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        .product-cell {
+            width: 60%;
+        }
+
+        .price-cell {
+            width: 40%;
+            text-align: right;
+        }
+
+        .note {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .payment-method,
+        .total-amount,
+        .grand-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .grand-total {
+            font-weight: bold;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn {
+            background-color: #1a237e;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-back {
+            background-color: #1a237e;
+        }
+
+        .btn-continue {
+            background-color: #1a237e;
+        }
+
+        .btn-icon {
+            margin-right: 5px;
+        }
+
+        .qr-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .qr-container img {
+            border: 2px solid #ddd;
+            padding: 10px;
+            background: #fff;
+            max-width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+
+        <div class="grid wide">
+            <div class="row">
+                <div class="c-12 l-12 m-12">
+                    <div class="header">
+                        <div class="header-text">Hóa đơn bán hàng</div>
+                    </div>
+
+                    <div class="order-info">
+                        <div class="info-item">
+                            <div class="info-label">MÃ ĐƠN HÀNG</div>
+                            <div class="info-value">12345</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">NGÀY</div>
+                            <div class="info-value">09/08/2025 14:30</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">TỔNG CỘNG</div>
+                            <div class="info-value">2.500.000 VND</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">PHƯƠNG THỨC THANH TOÁN</div>
+                            <div class="info-value">Thanh toán qua ZaloPay</div>
+                        </div>
+                    </div>
+
+                    <div class="order-details">
+                        <div class="order-title">Chi tiết đơn hàng</div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="product-cell">Sản phẩm</th>
+                                    <th class="price-cell">Tổng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Nhẫn vàng PNJ × 1</td>
+                                    <td class="price-cell">1.200.000 VND</td>
+                                </tr>
+                                <tr>
+                                    <td>Dây chuyền bạc PNJ × 1</td>
+                                    <td class="price-cell">800.000 VND</td>
+                                </tr>
+                                <tr>
+                                    <td>Bông tai kim cương × 1</td>
+                                    <td class="price-cell">500.000 VND</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Tổng số phụ:</td>
+                                    <td class="price-cell">2.500.000 VND</td>
+                                </tr>
+                                <tr>
+                                    <td>Phương thức thanh toán:</td>
+                                    <td class="price-cell">Thanh toán qua ZaloPay</td>
+                                </tr>
+                                <tr>
+                                    <td>Tổng cộng:</td>
+                                    <td class="price-cell">2.500.000 VND</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="note">
+                            <strong>Lưu ý:</strong> Tôi sẽ nhận hàng vào giờ hành chính. Quý công ty lưu ý giúp tôi.
+                        </div>
+                    </div>
+
+                    <div class="qr-container">
+                        <h4>Thanh toán ZaloPay</h4>
+                        <a id="zalopay-btn" class="btn btn-primary" href="#">
+                            Thanh toán tại đây
+                        </a>
+                    </div>
+
+                    <div class="navigation">
+                        <a href="category.html" class="btn btn-back">
+                            Quay lại
+                        </a>
+                        <a href="index.html" class="btn btn-continue">
+                            Tiếp tục mua hàng
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            window.lastOrder = JSON.parse(localStorage.getItem('lastOrder') || '{}');
+
+            console.log('Last Order Data:', window.lastOrder);
+
+            if (!window.lastOrder.id) {
+                alert('Không tìm thấy thông tin đơn hàng');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            renderOrderInfo(window.lastOrder);
+
+            renderOrderDetails(window.lastOrder);
+
+            localStorage.removeItem('lastOrder');
+        });
+
+        function renderOrderInfo(order) {
+            const orderDate = new Date(order.createAt);
+            const formattedDate = orderDate.toLocaleString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const paymentMethod = order.paymentMethod || 'Thanh toán qua ZaloPay';
+
+            $('.order-info .info-item:nth-child(1) .info-value').text(order.id);
+            $('.order-info .info-item:nth-child(2) .info-value').text(formattedDate);
+            $('.order-info .info-item:nth-child(3) .info-value').text(order.totalPrice.toLocaleString('vi-VN') + ' VND');
+            $('.order-info .info-item:nth-child(4) .info-value').text(paymentMethod);
+        }
+
+        function renderOrderDetails(order) {
+            const $tbody = $('.order-details table tbody');
+
+            $tbody.empty();
+
+            let subtotal = 0;
+
+            order.items.forEach(item => {
+                subtotal += item.total;
+
+                $tbody.append(`
+                    <tr>
+                        <td>${item.productName} × ${item.quantity}${item.size ? ` (Size: ${item.size})` : ''}</td>
+                        <td class="price-cell">${item.total.toLocaleString('vi-VN')} VND</td>
+                    </tr>
+                `);
+            });
+
+            $tbody.append(`
+                <tr>
+                    <td><strong>Tổng số phụ:</strong></td>
+                    <td class="price-cell"><strong>${subtotal.toLocaleString('vi-VN')} VND</strong></td>
+                </tr>
+                <tr>
+                    <td>Phương thức thanh toán:</td>
+                    <td class="price-cell">${order.paymentMethod || 'Thanh toán qua ZaloPay'}</td>
+                </tr>
+                <tr style="border-top: 2px solid #333;">
+                    <td><strong>Tổng cộng:</strong></td>
+                    <td class="price-cell"><strong style="color: #b84b54;">${order.totalPrice.toLocaleString('vi-VN')} VND</strong></td>
+                </tr>
+            `);
+        }
+
+        function renderCustomerInfo(order) {
+            if (order.customerName) {
+                $('#customer-name').text(order.customerName);
+                $('#customer-phone').text(order.customerPhone);
+                $('#customer-address').text(order.customerAddress);
+            }
+        }
+
+        function updatePageTitle(orderId) {
+            document.title = `Đơn hàng #${orderId} - Cảm ơn bạn đã đặt hàng`;
+        }
+
+        $(document).on('click', '#zalopay-btn', function (e) {
+            e.preventDefault();
+
+            const token = localStorage.getItem("auth");
+            if (!token) {
+                alert("Bạn cần đăng nhập để thanh toán!");
+                window.location.href = "login.html";
+                return;
+            }
+
+
+            const order = window.lastOrder;
+            if (!order.id) {
+                return;
+            }
+
+            const amount = order.totalPrice;
+
+            // Gọi backend tạo đơn hàng
+            fetch("http://localhost:8080/api/v1/payment/zalopay/create", {
+                method: "POST",
+                headers: {
+                    'Authorization': 'Basic ' + localStorage.getItem('auth'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    amount: amount,
+                    description: "Thanh toán đơn hàng #" + lastOrder.id
+                })
+            })
+                .then(res => res.text())
+                .then(orderUrl => {
+                    console.log("Redirect tới ZaloPay:", orderUrl);
+                    window.location.href = orderUrl;
+                })
+                .catch(err => {
+                    console.error("Lỗi khi gọi API ZaloPay:", err);
+                    alert("Không thể tạo đơn thanh toán ZaloPay");
+                });
+        });
+    </script>
+</body>
+
+</html>

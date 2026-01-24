@@ -1,0 +1,60 @@
+:root {
+    --primary-color: #fff;
+    --text-color: #596b6b;
+    --text-blue: #003868;
+    --font-text: 1.4rem;
+    --text-yellow-brown: #C58C46;
+    --tw-gradient-from: #d9e9ff;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(217, 233, 255, 0));
+    --tw-gradient-to: #fcf1e6;
+}
+
+/* Pham tu con se ke thua tu phan tu cha neu su dung */
+* {
+    box-sizing: inherit;
+}
+
+.row>* {
+    flex-shrink: unset;
+    width: unset;
+
+    margin-top: unset;
+}
+
+html {
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+.m-500 {
+    margin-bottom: 500px;
+    padding-top: 16px;
+}
+
+.mt-8 {
+    margin-top: 8px;
+    padding-top: 8px;
+}
+
+.mb-8 {
+    margin-bottom: 8px;
+}
+
+.mb-16 {
+    margin-bottom: 16px;
+}
+
+.opacity-50 {
+    opacity: .5;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.w-100 {
+    width: 100%;
+}

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/Icon.webp">
+  <link rel="icon" type="image/png" href="./assets/img/Icon.webp">
+  <title>
+    Thông tin cá nhân
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
+  <!-- Nucleo Icons -->
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Material Icons -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <!-- CSS Files -->
+  <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/icon/fontawesome-free-6.6.0-web/css/all.min.css">
+  <link rel="stylesheet" href="./assets/css/profile.css">
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2"
+    id="sidenav-main">
+    <div id="sidenav"></div>
+    </div>
+  </aside>
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur"
+      data-scroll="true">
+      <div id="sidenav"></div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-2">
+
+      <!-- Account Management Section -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header pb-0">
+              <h6>Quản Lý Tài Khoản</h6>
+            </div>
+            <div class="card-body">
+
+              <!-- Account Action Buttons -->
+              <div class="account-actions">
+                <button class="account-action-btn action-active">
+                  <i class="fas fa-user me-2"></i>Thông tin tài khoản
+                </button>
+                <button class="account-action-btn">
+                  <i class="fas fa-key me-2"></i>Thay đổi mật khẩu
+                </button>
+              </div>
+
+              <!-- Account Info Section -->
+              <div id="accountInfo">
+                <div class="account-info-card">
+                  <div class="profile-header">
+                    <img id="account-image" src="https://cdn.pnj.io/images/customer/home/new_avatar_default.svg"
+                      alt="Avatar" class="profile-avatar">
+                    <div class="profile-info">
+                      <h3 id="account-full-name">Đang tải...</h3>
+                      <div class="user-id">
+                        <span id="account-id">ID: <span>----------</span></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="info-grid">
+                    <div class="info-item">
+                      <span class="info-label">Email</span>
+                      <span class="info-value" id="account-email">-</span>
+                    </div>
+                    <div class="info-item">
+                      <span class="info-label">Số điện thoại</span>
+                      <span class="info-value" id="account-phone">-</span>
+                    </div>
+                    <div class="info-item">
+                      <span class="info-label">Ngày sinh</span>
+                      <span class="info-value" id="account-date-of-birth">-</span>
+                    </div>
+                    <div class="info-item">
+                      <span class="info-label">Giới tính</span>
+                      <span class="info-value" id="account-gender">-</span>
+                    </div>
+                    <div class="info-item">
+                      <span class="info-label">Địa chỉ</span>
+                      <span class="info-value" id="account-address">-</span>
+                    </div>
+                  </div>
+
+                  <div class="action-buttons">
+                    <button class="btn-outline-primary edit-profile-btn">
+                      <i class="fas fa-edit me-2"></i>Chỉnh sửa thông tin
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Change Password Section -->
+              <div id="changePassword" style="display: none;">
+                <div class="account-info-card">
+                  <h4 style="margin-bottom: 20px; color: #333;">Thay Đổi Mật Khẩu</h4>
+
+                  <!-- Success Alert -->
+                  <div id="successAlert" class="alert alert-success">
+                    <i class="fas fa-check-circle me-2"></i>
+                    Đổi mật khẩu thành công!
+                  </div>
+
+                  <!-- Error Alert -->
+                  <div id="errorAlert" class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <span id="errorMessage">Có lỗi xảy ra. Vui lòng thử lại.</span>
+                  </div>
+
+                  <form id="changePasswordForm">
+                    <!-- Current Password -->
+                    <div class="form-group">
+                      <label for="currentPassword">Mật khẩu hiện tại *</label>
+                      <div class="password-input-wrapper">
+                        <input type="password" id="currentPassword" name="currentPassword"
+                          placeholder="Nhập mật khẩu hiện tại" required>
+                        <i class="fas fa-eye-slash toggle-password" data-target="currentPassword"></i>
+                      </div>
+                      <div id="currentPasswordError" class="error-message"></div>
+                    </div>
+
+                    <!-- New Password -->
+                    <div class="form-group">
+                      <label for="newPassword">Mật khẩu mới *</label>
+                      <div class="password-input-wrapper">
+                        <input type="password" id="newPassword" name="newPassword" placeholder="Nhập mật khẩu mới"
+                          required>
+                        <i class="fas fa-eye-slash toggle-password" data-target="newPassword"></i>
+                      </div>
+                      <div id="newPasswordError" class="error-message"></div>
+
+                      <!-- Password Strength -->
+                      <div id="passwordStrength" class="password-strength">
+                        <div class="strength-bar">
+                          <div id="strengthFill" class="strength-fill" style="width: 0%;"></div>
+                        </div>
+                        <div id="strengthText" class="strength-text">Độ mạnh: Rất yếu</div>
+                      </div>
+
+                      <!-- Password Requirements -->
+                      <div id="passwordRequirements" class="password-requirements">
+                        <div class="requirement" id="req-length">
+                          <i class="fas fa-times"></i>
+                          <span>8-16 ký tự</span>
+                        </div>
+                        <div class="requirement" id="req-lowercase">
+                          <i class="fas fa-times"></i>
+                          <span>Ít nhất 1 chữ thường (a-z)</span>
+                        </div>
+                        <div class="requirement" id="req-uppercase">
+                          <i class="fas fa-times"></i>
+                          <span>Ít nhất 1 chữ hoa (A-Z)</span>
+                        </div>
+                        <div class="requirement" id="req-number">
+                          <i class="fas fa-times"></i>
+                          <span>Ít nhất 1 số (0-9)</span>
+                        </div>
+                        <div class="requirement" id="req-special">
+                          <i class="fas fa-times"></i>
+                          <span>Ít nhất 1 ký tự đặc biệt (@$!%*?&)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                      <label for="confirmPassword">Xác nhận mật khẩu mới *</label>
+                      <div class="password-input-wrapper">
+                        <input type="password" id="confirmPassword" name="confirmPassword"
+                          placeholder="Nhập lại mật khẩu mới" required>
+                        <i class="fas fa-eye-slash toggle-password" data-target="confirmPassword"></i>
+                      </div>
+                      <div id="confirmPasswordError" class="error-message"></div>
+                      <div id="confirmPasswordSuccess" class="success-message" style="display: none;">
+                        <i class="fas fa-check me-1"></i>Mật khẩu khớp
+                      </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="saveBtn" class="btn-primary">
+                      <i class="fas fa-save me-2"></i>Đổi Mật Khẩu
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Navigation -->
+      <div id="home-bottom-nav"></div>
+
+      <footer class="footer py-4" id="footer">
+      </footer>
+    </div>
+  </main>
+
+  <!--   Core JS Files   -->
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./assets/js/sidenav.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Initialize page state
+      $('#accountInfo').show();
+      $('#changePassword').hide();
+
+      // Account action buttons event handlers
+      $('.account-action-btn').on('click', function () {
+        // Remove 'action-active' class from all buttons
+        $('.account-action-btn').removeClass('action-active');
+        // Add 'action-active' class to clicked button
+        $(this).addClass('action-active');
+
+        // Check button content to show appropriate section
+        if ($(this).text().includes('Thông tin tài khoản')) {
+          $('#accountInfo').show();
+          $('#changePassword').hide();
+        } else if ($(this).text().includes('Thay đổi mật khẩu')) {
+          $('#accountInfo').hide();
+          $('#changePassword').show();
+        }
+      });
+
+      // Toggle password visibility
+      $('.toggle-password').click(function () {
+        const targetId = $(this).data('target');
+        const targetInput = $(`#${targetId}`);
+        const type = targetInput.attr('type');
+
+        if (type === 'password') {
+          targetInput.attr('type', 'text');
+          $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+        } else {
+          targetInput.attr('type', 'password');
+          $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+        }
+      });
+
+      // Password validation functions
+      function validatePassword(password) {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+        return regex.test(password);
+      }
+
+      function getPasswordStrength(password) {
+        let score = 0;
+
+        // Length check (8-16 characters)
+        if (password.length >= 8 && password.length <= 16) score += 1;
+
+        // Lowercase check
+        if (/[a-z]/.test(password)) score += 1;
+
+        // Uppercase check
+        if (/[A-Z]/.test(password)) score += 1;
+
+        // Number check
+        if (/\d/.test(password)) score += 1;
+
+        // Special character check
+        if (/[@$!%*?&]/.test(password)) score += 1;
+
+        return score;
+      }
+
+      function updatePasswordRequirements(password) {
+        const requirements = {
+          'req-length': password.length >= 8 && password.length <= 16,
+          'req-lowercase': /[a-z]/.test(password),
+          'req-uppercase': /[A-Z]/.test(password),
+          'req-number': /\d/.test(password),
+          'req-special': /[@$!%*?&]/.test(password)
+        };
+
+        Object.keys(requirements).forEach(reqId => {
+          const $req = $(`#${reqId}`);
+          const $icon = $req.find('i');
+
+          if (requirements[reqId]) {
+            $req.addClass('valid').removeClass('invalid');
+            $icon.removeClass('fa-times').addClass('fa-check');
+          } else {
+            $req.addClass('invalid').removeClass('valid');
+            $icon.removeClass('fa-check').addClass('fa-times');
+          }
+        });
+      }
+
+      function updatePasswordStrength(password) {
+        const strength = getPasswordStrength(password);
+        const $strengthFill = $('#strengthFill');
+        const $strengthText = $('#strengthText');
+
+        let percentage = (strength / 5) * 100;
+        let strengthClass = '';
+        let strengthLabel = '';
+
+        if (strength <= 1) {
+          strengthClass = 'strength-weak';
+          strengthLabel = 'Rất yếu';
+        } else if (strength <= 2) {
+          strengthClass = 'strength-fair';
+          strengthLabel = 'Yếu';
+        } else if (strength <= 3) {
+          strengthClass = 'strength-good';
+          strengthLabel = 'Trung bình';
+        } else if (strength <= 4) {
+          strengthClass = 'strength-good';
+          strengthLabel = 'Mạnh';
+        } else {
+          strengthClass = 'strength-strong';
+          strengthLabel = 'Rất mạnh';
+        }
+
+        $strengthFill.removeClass('strength-weak strength-fair strength-good strength-strong')
+          .addClass(strengthClass)
+          .css('width', percentage + '%');
+
+        $strengthText.text(`Độ mạnh: ${strengthLabel}`);
+      }
+
+      // UI feedback functions
+      function showError(fieldId, message) {
+        $(`#${fieldId}`).addClass('error').removeClass('success');
+        $(`#${fieldId}Error`).text(message).show();
+        $(`#${fieldId}Success`).hide();
+      }
+
+      function showSuccess(fieldId, message = '') {
+        $(`#${fieldId}`).addClass('success').removeClass('error');
+        $(`#${fieldId}Error`).hide();
+        if (message) {
+          $(`#${fieldId}Success`).text(message).show();
+        }
+      }
+
+      function hideMessages(fieldId) {
+        $(`#${fieldId}`).removeClass('error success');
+        $(`#${fieldId}Error`).hide();
+        $(`#${fieldId}Success`).hide();
+      }
+
+      function hideAllAlerts() {
+        $('.alert').hide();
+      }
+
+      // Real-time validation event handlers
+      $('#currentPassword').on('input blur', function () {
+        const value = $(this).val().trim();
+
+        if (!value) {
+          showError('currentPassword', 'Vui lòng nhập mật khẩu cũ');
+        } else {
+          hideMessages('currentPassword');
+        }
+      });
+
+      $('#newPassword').on('input', function () {
+        const value = $(this).val();
+
+        if (value) {
+          $('#passwordStrength').show();
+          $('#passwordRequirements').show();
+          updatePasswordRequirements(value);
+          updatePasswordStrength(value);
+        } else {
+          $('#passwordStrength').hide();
+          $('#passwordRequirements').hide();
+        }
+
+        // Validate confirm password if it has value
+        const confirmValue = $('#confirmPassword').val();
+        if (confirmValue) {
+          if (value === confirmValue) {
+            showSuccess('confirmPassword');
+            $('#confirmPasswordSuccess').show();
+          } else {
+            showError('confirmPassword', 'Mật khẩu nhập lại không khớp');
+          }
+        }
+      });
+
+      $('#newPassword').on('blur', function () {
+        const value = $(this).val().trim();
+
+        if (!value) {
+          showError('newPassword', 'Vui lòng nhập mật khẩu mới');
+          $('#passwordStrength').hide();
+          $('#passwordRequirements').hide();
+        } else if (!validatePassword(value)) {
+          showError('newPassword', 'Mật khẩu không đúng định dạng yêu cầu');
+        } else {
+          hideMessages('newPassword');
+        }
+      });
+
+      $('#confirmPassword').on('input blur', function () {
+        const value = $(this).val().trim();
+        const newPassword = $('#newPassword').val().trim();
+
+        if (!value) {
+          showError('confirmPassword', 'Vui lòng nhập lại mật khẩu mới');
+        } else if (value !== newPassword) {
+          showError('confirmPassword', 'Mật khẩu nhập lại không khớp');
+        } else {
+          showSuccess('confirmPassword');
+          $('#confirmPasswordSuccess').show();
+        }
+      });
+
+      // Form submission handler
+      $('#changePasswordForm').submit(function (e) {
+        e.preventDefault();
+        hideAllAlerts();
+
+        // Get form data
+        const formData = {
+          currentPassword: $('#currentPassword').val().trim(),
+          newPassword: $('#newPassword').val().trim(),
+          confirmPassword: $('#confirmPassword').val().trim()
+        };
+
+        let hasErrors = false;
+
+        if (!formData.currentPassword) {
+          showError('currentPassword', 'Vui lòng nhập mật khẩu cũ');
+          hasErrors = true;
+        }
+
+        if (!formData.newPassword) {
+          showError('newPassword', 'Vui lòng nhập mật khẩu mới');
+          hasErrors = true;
+        } else if (!validatePassword(formData.newPassword)) {
+          showError('newPassword', 'Mật khẩu phải có 8-16 ký tự, chứa ít nhất: 1 chữ thường, 1 chữ hoa, 1 số, 1 ký tự đặc biệt (@$!%*?&)');
+          hasErrors = true;
+        } else if (formData.newPassword === formData.currentPassword) {
+          showError('newPassword', 'Mật khẩu mới phải khác mật khẩu cũ');
+          hasErrors = true;
+        }
+
+        if (!formData.confirmPassword) {
+          showError('confirmPassword', 'Vui lòng nhập lại mật khẩu mới');
+          hasErrors = true;
+        } else if (formData.confirmPassword !== formData.newPassword) {
+          showError('confirmPassword', 'Mật khẩu nhập lại không khớp');
+          hasErrors = true;
+        }
+
+        if (hasErrors) {
+          const firstError = $('.error').first();
+          if (firstError.length) {
+            firstError[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            firstError.focus();
+          }
+          return;
+        }
+
+        // Show loading state
+        const $saveBtn = $('#saveBtn');
+        $saveBtn.prop('disabled', true).addClass('loading').text('Đang xử lý...');
+
+        // Check auth before making request
+        const auth = localStorage.getItem('auth');
+        const userInfo = localStorage.getItem('userInfo');
+        const userId = localStorage.getItem('userId');
+
+        if (!auth || !userInfo) {
+          alert('Vui lòng đăng nhập.');
+          window.location.href = 'login.html';
+          return;
+        }
+
+        // Make AJAX request to change password
+        $.ajax({
+          url: 'http://localhost:8080/api/v1/account/change-password',
+          method: 'PUT',
+          headers: {
+            'Authorization': 'Basic ' + auth
+          },
+          data: JSON.stringify(formData),
+          contentType: 'application/json',
+          success: function (response, textStatus, xhr) {
+            // Kiểm tra HTTP status code để xác định thành công hay thất bại
+            if (xhr.status === 200) {
+              // Thành công - Status 200
+              $('#successAlert').show();
+              $('#changePasswordForm')[0].reset();
+              $('#passwordStrength').hide();
+              $('#passwordRequirements').hide();
+              $('.form-group input').removeClass('error success');
+              $('.error-message, .success-message').hide();
+
+              console.log('Password change successful:', formData);
+
+              localStorage.removeItem('auth');
+              localStorage.removeItem('userInfo');
+              localStorage.removeItem('userId');
+
+              alert('Đổi mật khẩu thành công. Vui lòng đăng nhập lại.');
+              window.location.href = 'login.html';
+            } else {
+              // Các status khác trong success callback (không thường xảy ra nhưng để đảm bảo)
+              alert('Phản hồi không mong đợi từ server');
+            }
+          },
+          error: function (xhr) {
+            let errorMsg = 'Có lỗi xảy ra';
+
+            // Xử lý các HTTP status codes
+            switch (xhr.status) {
+              case 400:
+                // Lỗi Bad Request - thường là sai thông tin
+                if (xhr.responseJSON) {
+                  const response = xhr.responseJSON;
+                  errorMsg = response.message || 'Dữ liệu không hợp lệ';
+
+                  // Xử lý các mã lỗi cụ thể
+                  switch (response.errorMessage) {
+                    case '400031':
+                      showError('currentPassword', 'Mật khẩu hiện tại không đúng');
+                      // Scroll đến field có lỗi
+                      $('#currentPassword')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      $('#currentPassword').focus();
+                      return; // Không hiển thị alert
+                    case '400032':
+                      showError('newPassword', 'Mật khẩu mới không hợp lệ');
+                      $('#newPassword')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      $('#newPassword').focus();
+                      return;
+                    default:
+
+                      break;
+                  }
+                } else {
+                  errorMsg = 'Dữ liệu không hợp lệ';
+                }
+                break;
+              case 401:
+                errorMsg = 'Phiên đăng nhập đã hết hạn';
+                localStorage.removeItem('auth');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userInfo');
+                alert(errorMsg);
+                window.location.href = 'login.html';
+                return;
+              case 403:
+                errorMsg = 'Không có quyền truy cập';
+                localStorage.removeItem('auth');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userInfo');
+                window.location.href = 'exception.html?code=403';
+                return;
+              case 500:
+                errorMsg = 'Lỗi máy chủ, vui lòng thử lại sau';
+                window.location.href = 'exception.html?code=500';
+                return;
+              default:
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                  errorMsg = xhr.responseJSON.message;
+                } else {
+                  errorMsg = `Lỗi không xác định (${xhr.status})`;
+                }
+            }
+
+            alert(errorMsg);
+          },
+          complete: function () {
+            $saveBtn.prop('disabled', false).removeClass('loading').text('Đổi Mật Khẩu');
+          }
+        });
+      });
+
+      /*  Account info + Logout   */
+      const auth = localStorage.getItem('auth');
+      const userId = localStorage.getItem('userId');
+
+      if (!auth || !userId) {
+        alert('Vui lòng đăng nhập');
+        window.location.href = 'login.html';
+      }
+
+      $.ajax({
+        url: `http://localhost:8080/api/v1/account/${userId}`,
+        method: 'GET',
+        headers: {
+          'Authorization': 'Basic ' + auth
+        },
+        success: function (res) {
+          // Safe check for response data
+          if (!res || !res.data) {
+            console.error('Invalid response format:', res);
+            alert('Lỗi dữ liệu từ server');
+            return;
+          }
+
+          const user = res.data;
+
+          // Safe check for user status
+          if (user.status) {
+            switch (user.status) {
+              case 'ACTIVE':
+                break;
+              case 'BANNED':
+                alert("Tài khoản đã bị cấm!");
+                localStorage.removeItem('auth');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userInfo');
+                window.location.href = 'exception.html?code=403';
+                return;
+              case 'INACTIVE':
+                alert("Tài khoản đã bị vô hiệu hóa!");
+                localStorage.removeItem('auth');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userInfo');
+                window.location.href = 'exception.html?code=403';
+                return;
+              case 'PENDING':
+                alert("Tài khoản đang chờ xác thực!");
+                localStorage.removeItem('auth');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userInfo');
+                window.location.href = 'exception.html?code=403';
+                return;
+              default:
+                alert("Lỗi không xác định");
+                window.location.href = 'exception.html?code=500';
+                return;
+            }
+          }
+
+          // Safe data extraction with fallbacks
+          const image = (user.avatar && user.avatar.trim()) || 'https://cdn.pnj.io/images/customer/home/new_avatar_default.svg';
+          const fullName = ((user.firstName || '') + ' ' + (user.lastName || '')).trim() || 'Khách hàng';
+          const id = user.id ? user.id.toString().padStart(10, '0') : '-';
+          const email = (user.email && user.email.trim()) || '-';
+          const phone = (user.phone && user.phone.trim()) || '-';
+
+          let dateOfBirth = '-';
+          if (user.dateOfBirth) {
+            const date = new Date(user.dateOfBirth);
+            if (!isNaN(date.getTime())) {
+              dateOfBirth = date.toLocaleDateString('vi-VN');
+            }
+          }
+
+          const genderMap = { MALE: 'Nam', FEMALE: 'Nữ', OTHER: 'Khác' };
+          const gender = genderMap[user.gender] || '-';
+          const address = (user.address && user.address.trim()) || '-';
+
+          // Update UI elements safely
+          $('#account-image').attr('src', image);
+          $('#account-full-name').contents().first()[0].textContent = fullName;
+          $('#account-id span').text(id);
+          $('#account-email').text(email);
+          $('#account-phone').text(phone);
+          $('#account-date-of-birth').text(dateOfBirth);
+          $('#account-gender').text(gender);
+          $('#account-address').text(address);
+        },
+        error: function (xhr) {
+          let errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
+
+          switch (xhr.status) {
+            case 400:
+              try {
+                const response = JSON.parse(xhr.responseText);
+                alert("Lỗi cập nhật status: " + (response.message || 'Bad Request'));
+              } catch (e) {
+                alert("Lỗi cập nhật status: " + xhr.responseText);
+              }
+              break;
+            case 401:
+              errorMessage = 'Phiên đăng nhập đã hết hạn hoặc không hợp lệ vui lòng đăng nhập lại.';
+              localStorage.removeItem('auth');
+              localStorage.removeItem('userId');
+              localStorage.removeItem('userInfo');
+              window.location.href = 'login.html';
+              return;
+            case 403:
+              errorMessage = 'Bạn không có quyền truy cập tài nguyên này';
+              window.location.href = 'exception.html?code=403';
+              return;
+            case 404:
+              errorMessage = 'Không tìm thấy thông tin tài khoản.';
+              window.location.href = 'exception.html?code=404';
+              return;
+            case 500:
+              errorMessage = 'Lỗi máy chủ. Vui lòng thử lại sau.';
+              window.location.href = 'exception.html?code=500';
+              return;
+          }
+          alert(errorMessage);
+        }
+      });
+
+      // Update user interface with account data
+      function updateUserInterface(user) {
+        const image = user.avatar?.trim() || 'https://cdn.pnj.io/images/customer/home/new_avatar_default.svg';
+        const fullName = (user.firstName + ' ' + user.lastName).trim() || 'Khách hàng';
+        const id = user.id ? user.id.toString().padStart(10, '0') : '-';
+        const email = user.email?.trim() || '-';
+        const phone = user.phone?.trim() || '-';
+        const date = user.dateOfBirth ? new Date(user.dateOfBirth) : null;
+        const dateOfBirth = date && !isNaN(date) ? date.toLocaleDateString('vi-VN') : '-';
+        const genderMap = { MALE: 'Nam', FEMALE: 'Nữ', OTHER: 'Khác' };
+        const gender = genderMap[user.gender] || '-';
+        const address = user.address?.trim() || '-';
+
+        // Update DOM elements
+        $('#account-image').attr('src', image);
+        $('#account-full-name').contents().first()[0].textContent = fullName;
+        $('#account-id span').text(id);
+        $('#account-email').text(email);
+        $('#account-phone').text(phone);
+        $('#account-date-of-birth').text(dateOfBirth);
+        $('#account-gender').text(gender);
+        $('#account-address').text(address);
+      }
+
+      // Handle API errors
+      function handleApiError(xhr) {
+        let errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
+
+        switch (xhr.status) {
+          case 400:
+            try {
+              const response = JSON.parse(xhr.responseText);
+              alert("Lỗi cập nhật status: " + response.message);
+            } catch (e) {
+              alert("Lỗi cập nhật status: " + xhr.responseText);
+            }
+            break;
+          case 401:
+            errorMessage = 'Phiên đăng nhập đã hết hạn hoặc không hợp lệ vui lòng đăng nhập lại.';
+            clearAuthAndRedirect('login.html');
+            break;
+          case 403:
+            errorMessage = 'Bạn không có quyền truy cập tài nguyên này';
+            window.location.href = 'exception.html?code=403';
+            break;
+          case 404:
+            errorMessage = 'Không tìm thấy thông tin tài khoản.';
+            window.location.href = 'exception.html?code=404';
+            break;
+          case 500:
+            errorMessage = 'Lỗi máy chủ. Vui lòng thử lại sau.';
+            window.location.href = 'exception.html?code=500';
+            break;
+        }
+
+        if (xhr.status !== 401) {
+          alert(errorMessage);
+        }
+      }
+
+      // Edit profile button handler
+      $('.edit-profile-btn').on('click', function () {
+        const user = JSON.parse(localStorage.getItem('userInfo'));
+        const userId = localStorage.getItem('userId');
+        const auth = localStorage.getItem('auth');
+
+        if (!user || !userId || !auth) {
+          alert('Vui lòng đăng nhập.');
+          window.location.href = 'login.html';
+          return;
+        }
+
+        localStorage.setItem('editAccount', JSON.stringify(user));
+        window.location.href = 'edit-personal-info.html?from=profile';
+      });
+
+      // Hide alerts when user starts typing
+      $('input').on('input', function () {
+        hideAllAlerts();
+      });
+
+    });
+  </script>
+</body>
+
+</html>

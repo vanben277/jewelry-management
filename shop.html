@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="shortcut icon" href="./assets/img/Icon.webp" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/grid.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <link rel="stylesheet" href="./assets/icon/fontawesome-free-6.6.0-web/css/all.min.css">
+    <!-- google roboto font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <title>Cửa hàng</title>
+
+    <style>
+
+        .header .row>* {
+            flex-shrink: 0;
+            width: 100%;
+            max-width: 100%;
+            padding-right: unset;
+            padding-left: unset;
+        }
+
+        .m-2 {
+            margin: 0 !important;
+        }
+
+        dl, ol, ul {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        ol, ul {
+            padding-left: 0;
+        }
+
+
+        .header__nav--item .header__nav--icon {
+            top: 11px;
+            font-weight: 500;
+        }
+
+        .container {
+            padding: 0 0;
+        }
+
+        .content .row>*:last-child {
+            width: unset;
+            max-width: unset;
+        }
+
+        .footer--text .row>*  {
+            width: unset;
+            padding: 0;
+        }
+
+        .no-gutters {
+            width: 100%;
+        }
+
+        .footer__container .no-gutters .col {
+            padding: 0 10px;
+        }
+
+        .text-uppercase {
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            margin: 41.940px 0;
+        }
+
+        .text-uppercase ~ p {
+            margin: 14px 0;
+        }
+
+
+        .category__color {
+            width: 100%;
+            background-color: #f1f0f1;
+        }
+
+        .category__block {
+            display: flex;
+        }
+
+        .category__now {
+            padding-top: 10px;
+            margin-left: 12px;
+        }
+
+        .category__now span{
+            font-size: 1.4rem;
+            color: var(--text-color);
+        }
+
+        .category__back {
+            text-decoration: none;
+            font-size: 1.4rem;
+            padding-top: 10px;
+            color: #a0a0a0;
+            margin-left: 5px;
+        } 
+
+        .category__back:hover {
+            color: var(--text-color);
+        }
+
+        .category__back span {
+            color: #a0a0a0;
+        }
+
+
+        .shop__list {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 16px 0;
+        }
+
+        .shop__item {
+            flex: 0 0 auto;
+            border-radius: 15px;
+            background-color: #fbf9f1;
+            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+            padding: 15px 10px;
+            box-sizing: border-box;
+            text-align: center;
+            width: 520px;
+        }
+
+        .shop__item:first-child {
+            margin-right: 50px;
+        }
+
+        .shop__item--name {
+            font-size: 1.5rem; 
+            color: var(--text-blue);
+            font-weight: 600;
+        }
+
+        .shop__item--desc {
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        .shop__item--block {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .shop__item--oclock {
+            margin-right: 5px;
+        }
+
+        .shop__item--oclock img {
+            width: 225px;
+        }
+
+        .shop__item--call img {
+            width: 66px;
+        }
+
+        .shop__item--block ~ .shop__item--desc {
+            margin: 4px;
+        }
+
+
+        .shop__container {
+            width: 100%;
+        }
+
+        .shop__title h1 {
+            font-size: 2.5rem;
+            color: var(--text-blue);
+            font-weight: 400;
+            width: 100%;
+        }
+
+
+
+        .shop__city {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shop__cityname {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-color);
+            padding: 7.5px 0;
+        }
+
+        .shop__cityblock select, option {
+            padding: 10px 10px;
+            color: var(--text-color);
+            font-size: 1.4rem;
+            margin-left: 15px;
+            font-weight: 300;
+            width: 350px;
+            border-radius: 7px;
+            border: 1px solid rgba(178, 178, 178, 1);
+        }
+
+        .shop__quantity {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 7.5px 0;
+        }
+
+        .shop__quantity .shop__cityname {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-color);
+        }
+
+        .shop__quantity .shop__cityblock select, option {
+            width: 500px;
+        }
+
+        .shop__container--title h2 {
+            font-size: 2.2rem;
+            color: var(--text-blue);
+            font-weight: 400;
+            margin-top: 13px;
+            width: 100%;
+        }
+
+        .shop__map--item {
+            display: flex;
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-color);
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .shop__map--box {
+            display: flex;
+        }
+
+        .shop__map--icon {
+            font-size: 2rem;
+            color: var(--text-blue);
+        }
+
+        .shop__map--name {
+            padding-left: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .shop__map--icon .fa-caret-down {
+            font-size: 1.7rem;
+            position: absolute;
+            right: 30px;
+        }
+    
+        .footer--text {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- header -->
+        <div id="header" class="header">
+            <div class="grid wide">
+                <nav class="row header__nav">
+                    <div class=" l-4 header__nav--div">
+                        <ul class="header__nav--list">
+                            <li class="header__nav--item">
+                                <a href="./DSCD.html">
+                                    <i class="fa-solid fa-user-group"></i>
+                                    Quan hệ cổ đông (IR)
+                                </a>
+                            </li>
+                            <li class="header__nav--item">
+                                <a href="./mainrenance.html">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                    Cửa hàng
+                                </a>
+                            </li>
+                            <li class="header__nav--item cursor">
+                                <i class="fa-solid fa-headset"></i>
+                                03643986
+                            </li>
+                        </ul>
+                    </div>
+                    <div class=" l-4 m-2 c-3 header__nav--div center">
+                        <a href="./index.html"><img src="https://cdn.pnj.io/images/logo/pnj.com.vn.png" class="header__logo" alt="Ảnh logo"></a>
+                    </div>
+
+                    <div class=" m-8 c-6 header__btn">
+                        <input type="text" class="header__with--input" maxlength="30" minlength="6"  placeholder="Tìm kiếm nhanh" >
+                        <div class="header__search">
+                            <i class="fa-solid fa-magnifying-glass header__with--search"></i>
+                        </div>
+                    </div>
+
+                    <div class=" l-4 m-2 c-3 header__nav--div right">
+                        <ul class="header__nav--list">
+                            <li class="header__nav--item">
+                                <a href="./formLogin.html">
+                                    <i class="fa-solid fa-user"></i>
+                                    Tài khoản của tôi
+                                </a>
+                            </li>
+                            <li class="header__nav--item">
+                                <a href="./category.html" class="hidden">
+                                    <i class="fa-solid fa-cart-shopping "></i>
+                                    Giỏ hàng
+                                    <span class="header__nav--icon">4</span>
+                                </a>
+                                <div class="cart__item">
+                                    <i class="fa-solid fa-cart-shopping "></i>
+                                    <span>Giỏ hàng</span>
+                                    <span class="header__nav--icon">4</span>
+                                    <div class="cart__h">
+                                        <h2 class="cart__head">Giỏ hàng của bạn</h2>
+                                        <div class="cart__cont">
+                                            <div class="cart__img">
+                                                <img src="https://cdn.pnj.io/images/detailed/199/sp-gn0000y060481-nhan-nam-vang-18k-pnj-1.png" alt="">
+                                            </div>
+                                            <div class="cart__name">
+                                                <div class="cart__block">
+                                                    <span class="cart__desc">Nhẫn nam Vàng 18K MANCODE by PNJ Chữ Lộc 0000Y060481</span>
+                                                    <div class="cart__icon">
+                                                        <i class="fa-solid fa-delete-left"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="cart__size">
+                                                    <span>Chất liệu: Vàng</span>
+                                                </div>
+                                                <div class="cart__num">
+                                                    <div class="cart__quantity">
+                                                        <span class="cart__quantity--left">-</span>
+                                                        <span class="cart__quantity--center">1</span>
+                                                        <span class="cart__quantity--right">+</span>
+                                                    </div>
+                                                    <div class="cart__price">28.320.000 đ</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cart__cont">
+                                            <div class="cart__img">
+                                                <img src="https://cdn.pnj.io/images/detailed/126/gmddddw001802-mat-day-chuyen-kim-cuong-vang-trang-14k-pnj-01.png" alt="">
+                                            </div>
+                                            <div class="cart__name">
+                                                <div class="cart__block">
+                                                    <span class="cart__desc">Mặt dây chuyền Kim cương Vàng trắng 14K PNJ DDDDW002631</span>
+                                                    <div class="cart__icon">
+                                                        <i class="fa-solid fa-delete-left"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="cart__size">
+                                                    <span>Chất liệu: Vàng trắng</span>
+                                                </div>
+                                                <div class="cart__num">
+                                                    <div class="cart__quantity">
+                                                        <span class="cart__quantity--left">-</span>
+                                                        <span class="cart__quantity--center2">2</span>
+                                                        <span class="cart__quantity--right2">+</span>
+                                                    </div>
+                                                    <div class="cart__price">161.238.000 đ</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cart__cont">
+                                            <div class="cart__img">
+                                                <img src="https://cdn.pnj.io/images/detailed/222/sp-gvxmxmw001271-vong-tay-vang-10k-dinh-da-ecz-pnj-1.png" alt="">
+                                            </div>
+                                            <div class="cart__name">
+                                                <div class="cart__block">
+                                                    <span class="cart__desc">Vòng tay Vàng trắng 10K Đính đá ECZ PNJ XMXM001271</span>
+                                                    <div class="cart__icon">
+                                                        <i class="fa-solid fa-delete-left"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="cart__size">
+                                                    <span>Chất liệu: Vàng trắng</span>
+                                                </div>
+                                                <div class="cart__num">
+                                                    <div class="cart__quantity">
+                                                        <span class="cart__quantity--left">-</span>
+                                                        <span class="cart__quantity--center3">2</span>
+                                                        <span class="cart__quantity--right3">+</span>
+                                                    </div>
+                                                    <div class="cart__price">40.496.000 đ</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cart__cont">
+                                            <div class="cart__img">
+                                                <img src="https://cdn.pnj.io/images/detailed/140/gbctxmy000019-bong-tai-vang-18k-dinh-da-citrine-pnj-1.png" alt="">
+                                            </div>
+                                            <div class="cart__name">
+                                                <div class="cart__block">
+                                                    <span class="cart__desc">Bông tai Vàng 18K đính đá Citrine PNJ CTXMY000019</span>
+                                                    <div class="cart__icon">
+                                                        <i class="fa-solid fa-delete-left"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="cart__size">
+                                                    <span>Chất liệu: Vàng 18K</span>
+                                                </div>
+                                                <div class="cart__num">
+                                                    <div class="cart__quantity">
+                                                        <span class="cart__quantity--left">-</span>
+                                                        <span class="cart__quantity--center4">1</span>
+                                                        <span class="cart__quantity--right4">+</span>
+                                                    </div>
+                                                    <div class="cart__price">7.459.000 đ</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cart__footer">
+                                            <div class="cart__total">
+                                                <span class="cart__total--name">Tổng tiền:</span>
+                                                <span class="cart__total--price">237.513.000 đ</span>
+                                            </div>
+                                            <div class="cart__flink">
+                                                <a  href="./category.html" class="cart__link">Xem giỏ hàng</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="row">
+                    <nav class="header__narbar">
+                        <ul class="header__narbar--list">
+                            <a href="#container"><li class="header__narbar--item">Trang sức</li></a>
+                            <a href="#container"><li class="header__narbar--item">Dây truyền</li></a>
+                            <a href="#container"><li class="header__narbar--item">Nhẫn</li></a>
+                            <li class="header__narbar--item">Quà Tặng
+                                <ul>
+                                    <li><a href="#container">Nhẫn</a></li>
+                                    <li><a href="#container">Dây truyền</a></li>
+                                    <li><a href="#container">Đồng hồ</a></li>
+                                </ul>
+
+                            </li>
+                            <a href="#slider"><li class="header__narbar--item">Thương Hiệu</li></a>
+                            <a href="./blog.html"><li class="header__narbar--item">Blog</li></a>
+                            <a href="./mainrenance.html"><li class="header__narbar--item color">Khuyến Mãi</li></a>
+                        </ul>
+                        <div class="header__btn">
+                            <input type="text" class="header__with--input" maxlength="30" minlength="6"  placeholder="Tìm kiếm nhanh" >
+                            <div class="header__search">
+                                <i class="fa-solid fa-magnifying-glass header__with--search"></i>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="tablet__navbar">
+            <div class="grid wide">
+                <div class="row">
+                    <div class="tablet__navbar--list">
+                        <a href="./index.html" class="tablet__navbar--item">
+                            <div class="icon">
+                                <i class="fa-solid fa-house"></i>
+                            </div>
+                            <div class="name">
+                                <p>Trang chủ</p>
+                            </div>
+                        </a>
+                        <a href="#container" class="tablet__navbar--item">
+                            <div class="icon">
+                                <i class="fa-solid fa-ticket"></i>
+                            </div>
+                            <div class="name">
+                                <p>Khuyến mãi</p>
+                            </div>
+                        </a>
+                        <a href="./formLogin.html" class="tablet__navbar--item">
+                            <div class="icon">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="name">
+                                <p>Cá nhân</p>
+                            </div>
+                        </a>
+                        <a href="#" class="tablet__navbar--item">
+                            <div class="icon">
+                                <i class="fa-regular fa-bell"></i>
+                            </div>
+                            <div class="name">
+                                <p>Thông báo</p>
+                            </div>
+                        </a>
+                        <div class="tablet__navbar--item">
+                            <div class="icon">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div class="name">
+                                <p>Tư vấn</p>
+                            </div>
+                            <ul>
+                                <li><a href="https://www.facebook.com/"><i class="fa-brands fa-facebook"></i></a></li>
+                                <li><a href="https://www.messenger.com/e2ee/t/6824947204238860/?locale=vi_VN"><i class="fa-brands fa-facebook-messenger"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="tablet__navbar--item">
+                            <label for="nav__input" class="icon">
+                                <i class="fa-solid fa-bars"></i>
+                            </label>
+                            <div class="name">
+                                <p>Danh mục</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="checkbox" hidden name="" class="nav__inputs" id="nav__input">
+
+                    <label for="nav__input" class="navbar__overlay"></label>
+                    <nav class="navbar__tablet">
+                        <label for="nav__input" class="narbar__tablet--close">
+                            <i class="fa-solid fa-xmark"></i>
+                        </label>
+                        <ul class="navbar__tablet--list">
+                            <li><a href="#container" class="navbar__tablet--link">Trang sức</a></li>
+                            <li><a href="#container" class="navbar__tablet--link">Dây truyền</a></li>
+                            <li><a href="#container" class="navbar__tablet--link">Nhẫn</a></li>
+                            <li><a href="#" class="navbar__tablet--link">Quà tặng</a></li>
+                            <li><a href="#slider" class="navbar__tablet--link">Thương hiệu</a></li>
+                            <li><a href="./blog.html" class="navbar__tablet--link">Blog</a></li>
+                            <li><a href="./mainrenance.html" class="navbar__tablet--link color">Khuyến mãi</a></li>
+                            <li><a href="./shop.html" class="navbar__tablet--link">Hệ thống cửa hàng</a></li>
+                            <li><a href="./DSCD.html" class="navbar__tablet--link">Quan hệ cổ đông (IR)</a></li>
+                            <li><a href="./mainrenance.html" class="navbar__tablet--link">Lịch sử đơn hàng</a></li>
+                            <li class="navbar__tablet--link cursor">Hotline: 0748187 (Miễn phí)</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- end header -->
+
+
+        <!-- shop -->
+        <div class="shop">
+            <div class="category__color">
+                <div class="grid wide category__block">
+                    <a href="./index.html" class="row category__back">
+                        <p>Trang chủ <span>/</span></p>
+                    </a>
+                    <div class="category__now">
+                        <span>Cửa hàng</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid wide">
+                <div class="row shop__list">
+                    <div class="shop__item">
+                        <span class="shop__item--name">Tư vấn online, nhận ngay ưu đãi</span>
+                        <p class="shop__item--desc">Chỉ cần một cuộc gọi miễn phí, <br> ưu đãi độc quyền online này dành riêng cho bạn </p>
+                    </div>
+                    <div class="shop__item">
+                        <a href="tel:0364398622" class="shop__item--block">
+                            <div class="shop__item--oclock">
+                                <img src="https://cdn.pnj.io/images/image-update/2023/hotline/htch-btn1-v2.svg" alt="Hotline 0364398622">
+                            </div>
+                            <div class="shop__item--call">
+                                <img src="https://cdn.pnj.io/images/image-update/2023/hotline/htch-btn2.svg" alt="Hotline 0364398622 gọi ngay">
+                            </div>
+                        </a>
+                        <p class="shop__item--desc"><i> (Vui lòng nhấn phím 1 để chọn ngôn ngữ tiếng việt, <br>  tiếp tục nhấn phím 1 để gặp ngay nhân viên tư vấn) </i> </p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid wide">
+                <div class="row shop__title">
+                    <h1>Hệ thống cửa hàng</h1>
+                </div>
+                <div class="row shop__container">
+                    <div class=" shop__city">
+                        <div class="shop__cityname">Tỉnh/Thành phố:</div>
+                        <div class="shop__cityblock">
+                            <select name="Thanhpho">
+                                <option value="">-Chọn Tỉnh/TP-</option>
+                                <option value="" selected>Hà Nội</option>
+                                <option value="">Hồ Chí Minh</option>
+                                <option value="">Cần Thơ</option>
+                                <option value="">Bắc Ninh</option>
+                                <option value="">Bắc Giang</option>
+                                <option value="">Phú Thọ</option>
+                                <option value="">Hải Phòng</option>
+                                <option value="">Nghệ An</option>
+                                <option value="">Huế</option>
+                                <option value="">Đắc Lắc</option>
+                                <option value="">An Giang</option>
+                                <option value="">Lào Cai</option>
+                                <option value="">Lạng Sơn</option>
+                                <option value="">Quảng Ninh</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="shop__quantity">
+                        <div class="shop__cityname">Quận/Huyện:</div>
+                        <div class="shop__cityblock">
+                            <select name="Thanhpho">
+                                <option value="">-Chọn Quận/Huyện-</option>
+                                <option value=""selected>Hai Bà Trưng</option>
+                                <option value="" >Cầu Giấy</option>
+                                <option value="">Thanh Xuân</option>
+                                <option value="">Hoàng Mai</option>
+                                <option value="">Đống Đa</option>
+                                <option value="">Hà Đông</option>
+                                <option value="">Ba Đình Hoàn Kiếm</option>
+                                <option value="">Long Biên</option>
+                                <option value="">Tây Hồ</option>
+                                <option value="">Nam Từ Liêm</option>
+                                <option value="">Bắc Từ Liêm</option>
+                                <option value="">Mê Linh</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row shop__container--title">
+                    <h2>Danh sách các cửa hàng</h2>
+                </div> 
+                <div class="shop__map row">
+                    <div class="col l-4 m-6 c-12 shop__map--item">
+                        <div class="shop__map--box">
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-location-pin"></i>
+                            </div>
+                            <div class="shop__map--name">
+                                <span> Cửa Hàng PNJ Aeon Hà Nội </span>
+                            </div>
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-4 m-6 c-12 shop__map--item">
+                        <div class="shop__map--box">
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-location-pin"></i>
+                            </div>
+                            <div class="shop__map--name">
+                                <span>  Cửa hàng PNJ Aeon Hà Đông  </span>
+                            </div>
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-4 m-6 c-12 shop__map--item">
+                        <div class="shop__map--box">
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-location-pin"></i>
+                            </div>
+                            <div class="shop__map--name">
+                                <span>  Cửa Hàng PNJ BigC Thăng Long  </span>
+                            </div>
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-4 m-6 c-12 shop__map--item">
+                        <div class="shop__map--box">
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-location-pin"></i>
+                            </div>
+                            <div class="shop__map--name">
+                                <span>  Cửa Hàng PNJ Savico – Long Biên</span>
+                            </div>
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-4 m-6 c-12 shop__map--item">
+                        <div class="shop__map--box">
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-location-pin"></i>
+                            </div>
+                            <div class="shop__map--name">
+                                <span> Cửa Hàng PNJ Style Cầu Giấy </span>
+                            </div>
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-4 m-6 c-12 shop__map--item">
+                        <div class="shop__map--box">
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-location-pin"></i>
+                            </div>
+                            <div class="shop__map--name">
+                                <span> Cửa Hàng PNJ Vincom Mega Mall Time City </span>
+                            </div>
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-4 m-6 c-12 shop__map--item">
+                        <div class="shop__map--box">
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-location-pin"></i>
+                            </div>
+                            <div class="shop__map--name">
+                                <span> Cửa Hàng PNJ Vincom Nguyễn Chí Thanh </span>
+                            </div>
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-4 m-6 c-12 shop__map--item">
+                        <div class="shop__map--box">
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-location-pin"></i>
+                            </div>
+                            <div class="shop__map--name">
+                                <span> Cửa Hàng PNJ Vincom Royal </span>
+                            </div>
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-4 m-6 c-12 shop__map--item">
+                        <div class="shop__map--box">
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-location-pin"></i>
+                            </div>
+                            <div class="shop__map--name">
+                                <span> Cửa hàng PNJ Vincom Trần Duy Hưng </span>
+                            </div>
+                            <div class="shop__map--icon">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end shop -->
+
+        
+
+        <footer class="footer--text m-16">
+            <div class="grid wide">
+                <!-- Section: Social media -->
+                <section class="row no-gutters footer--spacebeetween">
+                    <!-- Left -->
+                    <div class="">
+                        <span>Hãy kết nối với chúng tôi trên các mạng xã hội:</span>
+                    </div>
+                    <!-- Left -->
+                
+                    <!-- Right -->
+                    <div class="">
+                        <a href="https://www.facebook.com/" class="text-reset">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                        <a href="https://www.google.com.vn/?hl=vi" class="text-reset">
+                            <i class="fa-brands fa-google"></i>
+                        </a>
+                        <a href="https://www.instagram.com/" class="text-reset">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="https://github.com/" class="text-reset">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                    </div>
+                    <!-- Right -->
+                </section>
+                <!-- Section: Social media -->
+            
+                <!-- Section: Links  -->
+                <section class="">
+                <div class="footer__container">
+                    <!-- Grid row -->
+                    <div class="row no-gutters footer__container--block">
+                    <!-- Grid column -->
+                        <div class="footer__container--pad col l-3 m-6 c-12">
+                            <!-- Content -->
+                            <h6 class="text-uppercase">
+                                <i class="text-pad fas fa-gem me-3"></i>Company name
+                            </h6>
+                            <p>
+                                Here you can use rows and columns to organize your footer content. Lorem ipsum
+                                dolor sit amet, consectetur adipisicing elit.
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+                
+                        <!-- Grid column -->
+                        <div class="footer__container--pad col l-3 m-6 c-12">
+                            <!-- Links -->
+                            <h6 class="text-uppercase">
+                                Products
+                            </h6>
+                            <p>
+                                <a href="#!" class="text-reset">Angular</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-reset">React</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-reset">Vue</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-reset">Laravel</a>
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+                
+                        <!-- Grid column -->
+                        <div class="footer__container--pad col l-3 m-6 c-12">
+                            <!-- Links -->
+                            <h6 class="text-uppercase">
+                                Useful links
+                            </h6>
+                            <p>
+                                <a href="#!" class="text-reset">Pricing</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-reset">Settings</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-reset">Orders</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-reset">Help</a>
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+                
+                        <!-- Grid column -->
+                        <div class="footer__container--pad col l-3 m-6 c-12">
+                            <!-- Links -->
+                            <h6 class="text-uppercase">Contact</h6>
+                            <p>
+                                <i class="fas fa-home me-3"></i> Van Duong, Bac Ninh
+                            </p>
+                            <p>
+                                <i class="fas fa-envelope me-3"></i>
+                                toducbn@gmail.com
+                            </p>
+                            <p>
+                                <i class="fas fa-phone me-3"></i> + 84 364 298 622
+                            </p>
+                            <p>
+                                <i class="fas fa-print me-3"></i> + 84 364 298 622
+                            </p>
+                        </div>
+                    <!-- Grid column -->
+                    </div>
+                    <!-- Grid row -->
+                </div>
+                </section>
+                <!-- Section: Links  -->
+            
+                <!-- Copyright -->
+                <!-- Copyright -->
+            </div>
+        </footer>
+        <div class="no-gutters text--center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+            <marquee behavior="" direction="">
+                © 2024 Copyright:
+                <a class="text-reset fw-bold" href="#header">Văn Ben, Văn Nu</a>
+            </marquee>
+        </div>
+    </div>
+</body>
+</html>
