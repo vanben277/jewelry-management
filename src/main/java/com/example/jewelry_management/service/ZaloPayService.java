@@ -6,4 +6,3 @@ public interface ZaloPayService {
 
     boolean verifyCallback(String data, String reqMac) throws Exception;
 }
-

@@ -56,11 +56,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductResponse> getByFilter(FilterProductForm filterProduct) {
         Account account = accountValidator.getCurrentAccount();
-
         if (!account.getRole().equals(AccountRole.ADMIN)) {
             throw new UnauthorizedException("Bạn không có quyền truy cập", ErrorCodeConstant.UNAUTHORIZED);
         }
-
         accountValidatorUtils.validatorAccountStatus(account);
 
         Specification<Product> specification = ProductSpecification.nameAndSkuCombinedSearch(filterProduct.getName())
@@ -68,9 +66,11 @@ public class ProductServiceImpl implements ProductService {
                 .and(ProductSpecification.hasStatus(filterProduct.getStatus()))
                 .and(ProductSpecification.goldTypeEquals(filterProduct.getGoldType()))
                 .and(ProductSpecification.isDeletedEquals(filterProduct.getIsDeleted()));
+
         Pageable pageable = PageRequest.of(filterProduct.getPageNumber(), filterProduct.getPageSize(), Sort.by("createAt").descending());
         Page<Product> saved = productRepository.findAll(specification, pageable);
-        return saved.map(productMapper::toProductResponse);
+
+        return mapProductPageToResponsePage(saved);
     }
 
 
@@ -400,13 +400,13 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<ProductResponse> latestProducts() {
-        return productRepository.findAll(Sort.by(Sort.Direction.DESC, "dateOfEntry"))
+        List<Product> products = productRepository.findAll(Sort.by(Sort.Direction.DESC, "dateOfEntry"))
                 .stream()
                 .limit(10)
-                .map(productMapper::toProductResponse)
                 .toList();
+
+        return getProductResponsesWithSoldQuantity(products);
     }
 
     @Override
@@ -448,7 +448,7 @@ public class ProductServiceImpl implements ProductService {
 
         Pageable pageable = PageRequest.of(filter.getPageNumber(), filter.getPageSize(), sort);
         Page<Product> saved = productRepository.findAll(specification, pageable);
-        return saved.map(productMapper::toProductResponse);
+        return mapProductPageToResponsePage(saved);
     }
 
     @Override
@@ -460,7 +460,7 @@ public class ProductServiceImpl implements ProductService {
                 .and(ProductSpecification.notDeleted());
         Pageable pageable = PageRequest.of(0, 5);
         Page<Product> page = productRepository.findAll(specification, pageable);
-        return page.map(productMapper::toProductResponse);
+        return mapProductPageToResponsePage(page);
     }
 
     @Override
@@ -476,7 +476,58 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy sản phẩm trong hệ thống", ErrorCodeConstant.PRODUCT_NOT_FOUND_ID));
 
+        if (form.getStatus() == ProductStatus.IN_STOCK) {
+            int totalQuantity =
+                    (product.getSizes() != null &&
+                            !product.getSizes().isEmpty()) ?
+                            product.getSizes().stream().mapToInt(ProductSize::getQuantity).sum() :
+                            (product.getQuantity() != null ? product.getQuantity() : 0);
+            if (totalQuantity <= 0) {
+                throw new BusinessException("Không thể chuyển trạng thái vì số lượng trong kho bằng 0",
+                        ErrorCodeConstant.INVALID_INPUT);
+            }
+        }
+
         product.setStatus(form.getStatus());
         productRepository.save(product);
+    }
+
+    private Page<ProductResponse> mapProductPageToResponsePage(Page<Product> productPage) {
+        List<Integer> productIds = productPage.getContent().stream()
+                .map(Product::getId)
+                .toList();
+
+        Map<Integer, Long> soldQuantityMap = new HashMap<>();
+        if (!productIds.isEmpty()) {
+            List<Object[]> soldData = orderItemRepository.getTotalSoldByProductIds(productIds);
+            soldQuantityMap = soldData.stream().collect(Collectors.toMap(
+                    row -> (Integer) row[0],
+                    row -> (Long) row[1]
+            ));
+        }
+
+        final Map<Integer, Long> finalMap = soldQuantityMap;
+        return productPage.map(product ->
+                productMapper.toProductResponse(product, finalMap.getOrDefault(product.getId(), 0L))
+        );
+    }
+
+    private List<ProductResponse> getProductResponsesWithSoldQuantity(List<Product> products) {
+        if (products.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Integer> ids = products.stream().map(Product::getId).toList();
+
+        List<Object[]> soldData = orderItemRepository.getTotalSoldByProductIds(ids);
+        Map<Integer, Long> soldMap = soldData.stream()
+                .collect(Collectors.toMap(
+                        row -> (Integer) row[0],
+                        row -> (Long) row[1]
+                ));
+
+        return products.stream()
+                .map(p -> productMapper.toProductResponse(p, soldMap.getOrDefault(p.getId(), 0L)))
+                .toList();
     }
 }

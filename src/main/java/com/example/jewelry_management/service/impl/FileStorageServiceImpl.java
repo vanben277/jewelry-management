@@ -96,4 +96,3 @@ public class FileStorageServiceImpl implements FileStorageService {
         return VALID_IMAGE_TYPES.contains(contentType);
     }
 }
-

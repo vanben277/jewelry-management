@@ -84,7 +84,7 @@ public class GlobalExceptionHandle {
     }
 
     @ExceptionHandler(ForbiddenException.class)
-    public ResponseEntity<ApiResponse> handleForbiddenException(UnauthorizedException e) {
+    public ResponseEntity<ApiResponse> handleForbiddenException(ForbiddenException e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse(e.getMessage(), null, "FORBIDDEN"));
     }
 }

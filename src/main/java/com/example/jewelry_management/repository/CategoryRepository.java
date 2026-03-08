@@ -36,4 +36,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer>, Jp
 
     @Query("SELECT c.id, c.name FROM Category c where c.parent is not null")
     List<AllCategoryNameResponse> findAllChildCategoryNames();
+
+    List<Category> findAllByNameInAndIsDeletedFalse(List<String> names);
 }

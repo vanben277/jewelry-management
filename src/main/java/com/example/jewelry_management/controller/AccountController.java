@@ -17,12 +17,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1")
-@CrossOrigin(
-        origins = {
-                "http://127.0.0.1:5500",
-                "http://192.168.1.110:5500"
-        }
-)
 public class AccountController {
     private final AccountService accountService;
 
@@ -102,6 +96,5 @@ public class AccountController {
     public ResponseEntity<ApiResponse> filter(AccountFilterForm accountFilterForm) {
         Page<AccountResponseFull> accountResponsePage = accountService.filter(accountFilterForm);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", accountResponsePage));
-
     }
 }

@@ -24,19 +24,26 @@ public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpeci
     @Query("SELECT COUNT(o) FROM Order o WHERE MONTH(o.createAt) = MONTH(CURRENT_DATE) AND YEAR(o.createAt) = YEAR(CURRENT_DATE)")
     int countOrdersInCurrentMonth();
 
-    @Query("SELECT COALESCE(SUM(o.totalPrice),0) FROM Order o WHERE MONTH(o.createAt) = MONTH(CURRENT_DATE) AND YEAR(o.createAt) = YEAR(CURRENT_DATE)")
+    @Query("SELECT COALESCE(SUM(o.totalPrice), 0) FROM Order o " +
+            "WHERE o.status = 'DELIVERED' " +
+            "AND MONTH(o.createAt) = MONTH(CURRENT_DATE) " +
+            "AND YEAR(o.createAt) = YEAR(CURRENT_DATE)")
     long totalRevenueInCurrentMonth();
 
-    @Query("SELECT COALESCE(SUM(od.quantity),0) FROM OrderItem od WHERE MONTH(od.order.createAt) = MONTH(CURRENT_DATE) AND YEAR(od.order.createAt) = YEAR(CURRENT_DATE)")
+    @Query("SELECT COALESCE(SUM(oi.quantity), 0) FROM OrderItem oi " +
+            "WHERE oi.order.status = 'DELIVERED' " +
+            "AND MONTH(oi.order.createAt) = MONTH(CURRENT_DATE) " +
+            "AND YEAR(oi.order.createAt) = YEAR(CURRENT_DATE)")
     int totalProductsSoldInCurrentMonth();
 
     @Query(value = """
-            SELECT MONTH(o.create_at) AS month, COALESCE(SUM(o.total_price), 0) AS revenue
-            FROM orders o
-            WHERE YEAR(o.create_at) = :year
-            GROUP BY MONTH(o.create_at)
-            ORDER BY month
-            """, nativeQuery = true)
+        SELECT MONTH(o.create_at) AS month, COALESCE(SUM(o.total_price), 0) AS revenue
+        FROM orders o
+        WHERE o.order_status = 'DELIVERED'
+        AND YEAR(o.create_at) = :year
+        GROUP BY MONTH(o.create_at)
+        ORDER BY month
+        """, nativeQuery = true)
     List<Object[]> findMonthlyRevenueByYear(@Param("year") int year);
 
 }

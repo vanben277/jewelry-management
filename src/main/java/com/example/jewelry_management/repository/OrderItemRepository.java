@@ -13,4 +13,9 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Integer> {
 
     @Query("SELECT COALESCE(SUM(oi.quantity), 0) FROM OrderItem oi WHERE oi.product.id = :productId")
     Long getSoldQuantityByProductId(@Param("productId") Integer productId);
+
+    @Query("SELECT oi.product.id, SUM(oi.quantity) FROM OrderItem oi " +
+            "WHERE oi.product.id IN :productIds " +
+            "GROUP BY oi.product.id")
+    List<Object[]> getTotalSoldByProductIds(@Param("productIds") List<Integer> productIds);
 }

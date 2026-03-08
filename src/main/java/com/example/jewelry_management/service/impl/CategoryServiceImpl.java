@@ -151,6 +151,11 @@ public class CategoryServiceImpl implements CategoryService {
             throw new BusinessException("Không thể xoá vì một trong các danh mục là cha của danh mục khác", ErrorCodeConstant.CATEGORY_HAS_CHILDREN);
         }
 
+        boolean hasProducts = productRepository.existsByCategoryIdInAndIsDeletedFalse(ids);
+        if(hasProducts) {
+            throw new BusinessException("Không thể xóa danh mục vì có sản phẩm đang liên kết với danh mục", ErrorCodeConstant.CATEGORY_HAS_PRODUCT);
+        }
+
         for (Category category : categories) {
             category.setIsDeleted(true);
         }
@@ -166,15 +171,44 @@ public class CategoryServiceImpl implements CategoryService {
             throw new BusinessException("Danh sách danh mục cần khôi phục không được để trống", ErrorCodeConstant.INVALID_INPUT);
         }
 
-        List<Category> categories = categoryRepository.findAllByIdInAndIsDeletedTrue(ids);
-        List<Integer> foundIds = categories.stream().map(Category::getId).toList();
+        List<Category> categoriesToRestore = categoryRepository.findAllByIdInAndIsDeletedTrue(ids);
+        if (categoriesToRestore.size() != ids.size()) {
+            throw new NotFoundException(
+                    "Một số Id không tồn tại hoặc không ở trạng thái bị xóa",
+                    ErrorCodeConstant.CATEGORY_NOT_FOUND_ID
+            );
+        }
 
-        List<Integer> missingIds = ids.stream()
-                .filter(id -> !foundIds.contains(id))
-                .toList();
+        List<String> namesToCheck = categoriesToRestore.stream().map(Category::getName).toList();
+        List<Category> existingActiveCategories = categoryRepository.findAllByNameInAndIsDeletedFalse(namesToCheck);
 
-        if (!missingIds.isEmpty()) {
-            throw new NotFoundException("Không tìm thấy danh mục cần khôi phục với ID: " + missingIds, ErrorCodeConstant.CATEGORY_NOT_FOUND_ID);
+        if (!existingActiveCategories.isEmpty()) {
+            String duplicateNames = existingActiveCategories.stream()
+                    .map(Category::getName)
+                    .collect(Collectors.joining(", "));
+            throw new BusinessException("Không thể khôi phục vì các tên sau đã tồn tại: " + duplicateNames,
+                    ErrorCodeConstant.CATEGORY_NAME_ALREADY_EXISTS);
+        }
+
+        for (Category category : categoriesToRestore) {
+            if (categoryRepository.existsByNameAndIsDeletedFalse(category.getName())) {
+                throw new BusinessException(
+                        "Không thể khôi phục danh mục '" + category.getName() + "' vì tên đã tồn tại",
+                        ErrorCodeConstant.CATEGORY_NAME_ALREADY_EXISTS
+                );
+            }
+        }
+
+        for (Category category : categoriesToRestore) {
+            Category parent = category.getParent();
+
+            if (parent != null && !ids.contains(parent.getId()) &&
+                    Boolean.TRUE.equals(parent.getIsDeleted())) {
+                throw new BusinessException(
+                        "Không thể khôi phục danh mục '" + category.getName() + "' vì danh mục Cha của nó vẫn đang bị xóa. Hãy khôi phục danh mục Cha trước.",
+                        ErrorCodeConstant.INVALID_INPUT
+                );
+            }
         }
 
         boolean hasActiveProduct = productRepository.existsByCategoryIdInAndIsDeletedFalse(ids);
@@ -183,15 +217,7 @@ public class CategoryServiceImpl implements CategoryService {
                     ErrorCodeConstant.CATEGORY_HAS_PRODUCT);
         }
 
-        for (Category category : categories) {
-            boolean nameConflict = categoryRepository.existsByNameAndIsDeletedFalse(category.getName());
-            if (nameConflict) {
-                throw new BusinessException("Không thể khôi phục sản phẩm '" + category.getName() + "' vì tên đã tồn tại", ErrorCodeConstant.PRODUCT_NAME_ALREADY_EXISTS);
-            }
-            category.setIsDeleted(false);
-        }
-
-        categoryRepository.saveAll(categories);
+        categoryRepository.saveAll(categoriesToRestore);
         log.info("Khôi phục thành công các danh mục: {}", ids);
     }
 
@@ -214,7 +240,6 @@ public class CategoryServiceImpl implements CategoryService {
         if (!missingIds.isEmpty()) {
             throw new NotFoundException("Danh mục cần xóa không tìm thấy với ID: " + missingIds, ErrorCodeConstant.CATEGORY_NOT_FOUND_ID);
         }
-
 
         List<Category> children = categoryRepository.findByParentIdInAndIsDeletedFalse(ids);
         if (!children.isEmpty()) {

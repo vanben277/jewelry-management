@@ -19,6 +19,11 @@ public class ProductMapper {
     private final OrderItemRepository orderItemRepository;
 
     public ProductResponse toProductResponse(Product product) {
+        Long soldQuantity = orderItemRepository.getSoldQuantityByProductId(product.getId());
+        return toProductResponse(product, soldQuantity);
+    }
+
+    public ProductResponse toProductResponse(Product product, Long soldQuantity) {
         ProductResponse response = new ProductResponse();
         response.setId(product.getId());
         response.setName(product.getName());
@@ -69,8 +74,7 @@ public class ProductMapper {
             response.setCategoryName(product.getCategory().getName());
         }
 
-        Long soldQuantity = orderItemRepository.getSoldQuantityByProductId(product.getId());
-        response.setSoldQuantity(soldQuantity);
+        response.setSoldQuantity(soldQuantity != null ? soldQuantity : 0L);
 
         return response;
     }

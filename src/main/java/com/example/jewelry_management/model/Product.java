@@ -84,21 +84,23 @@ public class Product {
     }
 
     public void updateStatus() {
-        int totalQuantity;
+        int totalQuantity = 0;
         if (sizes != null && !sizes.isEmpty()) {
             totalQuantity = sizes.stream()
                     .mapToInt(size -> size.getQuantity() != null ? size.getQuantity() : 0)
                     .sum();
         } else {
-            totalQuantity = quantity != null ? quantity : 0;
+            totalQuantity = (quantity != null) ? quantity : 0;
         }
-        setQuantity(totalQuantity);
-        if (totalQuantity == 0 && status != ProductStatus.SOLD_OUT) {
-            log.info("Product ID {} quantityInStock is 0, setting status to SOLD_OUT", id);
-            status = ProductStatus.SOLD_OUT;
-        } else if (totalQuantity > 0 && status == ProductStatus.SOLD_OUT) {
-            log.info("Product ID {} quantityInStock is {}, setting status to IN_STOCK", id, totalQuantity);
-            status = ProductStatus.IN_STOCK;
+
+        this.quantity = totalQuantity;
+
+        if (totalQuantity <= 0) {
+            this.status = ProductStatus.SOLD_OUT;
+        } else {
+            if (this.status == ProductStatus.SOLD_OUT) {
+                this.status = ProductStatus.IN_STOCK;
+            }
         }
     }
 }

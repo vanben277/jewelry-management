@@ -6,11 +6,13 @@ import com.example.jewelry_management.enums.AccountRole;
 import com.example.jewelry_management.enums.AccountStatus;
 import com.example.jewelry_management.exception.BusinessException;
 import com.example.jewelry_management.exception.ErrorCodeConstant;
+import com.example.jewelry_management.exception.ForbiddenException;
 import com.example.jewelry_management.exception.NotFoundException;
 import com.example.jewelry_management.form.*;
 import com.example.jewelry_management.model.Account;
 import com.example.jewelry_management.repository.AccountRepository;
 import com.example.jewelry_management.repository.specification.AccountSpecification;
+import com.example.jewelry_management.security.JwtUtils;
 import com.example.jewelry_management.service.AccountService;
 import com.example.jewelry_management.service.EmailService;
 import com.example.jewelry_management.service.FileStorageService;
@@ -47,6 +49,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountValidatorUtils accountValidatorUtils;
     private final AccountValidator accountValidator;
     private final EmailService emailService;
+    private final JwtUtils jwtUtils;
 
 
     @Override
@@ -98,7 +101,14 @@ public class AccountServiceImpl implements AccountService {
         account.updateLastLogin();
 
         Account saved = accountRepository.save(account);
-        return modelMapper.map(saved, LoginResponse.class);
+        
+        // Generate JWT token
+        String accessToken = jwtUtils.generateToken(saved.getUserName());
+        
+        LoginResponse response = modelMapper.map(saved, LoginResponse.class);
+        response.setAccessToken(accessToken);
+        
+        return response;
     }
 
     @Override
@@ -273,9 +283,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountResponse getById(Integer id) {
+        Account currentAccount = accountValidator.getCurrentAccount();
 
         Account existedById = accountRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Id không tồn tại trong hệ thống", ErrorCodeConstant.ACCOUNT_NOT_FOUND));
+
+        if (!currentAccount.getRole().equals(AccountRole.ADMIN) && !currentAccount.getId().equals(id)) {
+            throw new ForbiddenException("Bạn không có quyền truy cập thông tin", ErrorCodeConstant.NO_ACCESS);
+        }
         return modelMapper.map(existedById, AccountResponse.class);
     }
 

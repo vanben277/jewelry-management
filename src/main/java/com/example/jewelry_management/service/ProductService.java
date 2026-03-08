@@ -30,7 +30,6 @@ public interface ProductService {
 
     List<String> getAllGoldType();
 
-
     List<ProductResponse> latestProducts();
 
     Page<ProductResponse> getProductsByCategoryId(Integer id, FilterProductsByCategoryForm filter);
