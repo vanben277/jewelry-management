@@ -1,0 +1,59 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: jewelry_db_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: jewelry_management
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: jewelry_backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      # Kết nối DB (db là tên service ở trên)
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/jewelry_management?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+
+      # Security & JWT
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+
+      # AI Agent
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_MODEL_NAME: ${GEMINI_MODEL_NAME}
+
+      # Cloud Storage (Cloudinary)
+      CLOUDINARY_NAME: ${CLOUDINARY_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+
+      # Email & ZaloPay
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      ZALOPAY_APPID: ${ZALOPAY_APPID}
+      ZALOPAY_KEY1: ${ZALOPAY_KEY1}
+      ZALOPAY_KEY2: ${ZALOPAY_KEY2}
+      FRONTEND_RESET_PASSWORD_URL: ${FRONTEND_RESET_PASSWORD_URL}
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data: # Khai báo volume cho Database
