@@ -1,10 +1,8 @@
 package com.example.jewelry_management.model;
 
-
 import com.example.jewelry_management.enums.OrderStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,42 +13,43 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "customer_name")
+    @Column(name = "customer_name", nullable = false, length = 255)
     private String customerName;
 
-    @Column(name = "customer_phone")
+    @Column(name = "customer_phone", nullable = false, length = 50)
     private String customerPhone;
 
-    @Column(name = "customer_address")
+    @Column(name = "customer_address", columnDefinition = "TEXT")
     private String customerAddress;
 
-    @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
+    @Column(name = "order_status", nullable = false)
     private OrderStatus status = OrderStatus.PENDING;
 
-    @Column(name = "total_price")
+    @Column(name = "total_price", nullable = false, precision = 15, scale = 2)
     private BigDecimal totalPrice;
 
-    @Column(name = "create_at", nullable = false, updatable = false)
     @CreationTimestamp
+    @Column(name = "create_at", nullable = false, updatable = false)
     private LocalDateTime createAt;
 
-    @Column(name = "update_at", nullable = false)
     @UpdateTimestamp
+    @Column(name = "update_at", nullable = false)
     private LocalDateTime updateAt;
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> items = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> items = new ArrayList<>();
 }

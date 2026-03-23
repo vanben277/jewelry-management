@@ -23,13 +23,13 @@ public class ChatHistory {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @Column(name = "session_id", nullable = false)
+    @Column(name = "session_id", nullable = false, length = 100)
     private String sessionId;
 
-    @Column(name = "chat_type")
+    @Column(name = "chat_type", nullable = false, length = 30)
     private String chatType;
 
-    @Column(name = "user_query", columnDefinition = "TEXT")
+    @Column(name = "user_query", nullable = false, columnDefinition = "TEXT")
     private String userQuery;
 
     @Column(name = "ai_response", columnDefinition = "TEXT")
@@ -38,8 +38,9 @@ public class ChatHistory {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Builder.Default
     @Column(name = "tokens_used")
-    private Integer tokensUsed;
+    private Integer tokensUsed = 0;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

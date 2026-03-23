@@ -4,8 +4,7 @@ import com.example.jewelry_management.enums.AccountGender;
 import com.example.jewelry_management.enums.AccountRole;
 import com.example.jewelry_management.enums.AccountStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,56 +13,55 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "account")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true, length = 50)
     private String userName;
 
-    @Column(name = "firstname", nullable = false)
+    @Column(name = "firstname", nullable = false, length = 100)
     private String firstName;
 
-    @Column(name = "lastname", nullable = false)
+    @Column(name = "lastname", nullable = false, length = 100)
     private String lastName;
 
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @Column(name = "gender")
     @Enumerated(EnumType.STRING)
+    @Column(name = "gender", columnDefinition = "ENUM('MALE','FEMALE','OTHER')")
     private AccountGender gender;
 
-    @Column(name = "avatar")
+    @Column(name = "avatar", columnDefinition = "TEXT")
     private String avatar;
 
-    @Column(name = "phone", unique = true)
+    @Column(name = "phone", unique = true, length = 20)
     private String phone;
 
-    @Column(name = "address")
+    @Column(name = "address", columnDefinition = "TEXT")
     private String address;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true, length = 100)
     private String email;
 
-    @Getter
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Getter
-    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
     private AccountRole role = AccountRole.USER;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private AccountStatus status = AccountStatus.ACTIVE;
 
-    @Column(name = "otp_sku")
+    @Column(name = "otp_sku", length = 10)
     private String otpSku;
 
     @Column(name = "expiry_otp")
@@ -83,5 +81,4 @@ public class Account {
     public void updateLastLogin() {
         this.lastLoginAt = LocalDateTime.now();
     }
-
 }
