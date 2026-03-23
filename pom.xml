@@ -99,6 +99,13 @@
             <artifactId>langchain4j-google-ai-gemini</artifactId>
             <version>0.35.0</version>
         </dependency>
+        <!-- Cloudinary -->
+        <dependency>
+            <groupId>com.cloudinary</groupId>
+            <artifactId>cloudinary-http44</artifactId>
+            <version>1.39.0</version>
+        </dependency>
+
         <!-- JWT Dependencies -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

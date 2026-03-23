@@ -77,11 +77,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductResponse createProduct(CreateProductForm dto, MultipartFile[] files) {
-        Product existedProductName = productRepository.findByName(dto.getName());
-        if (existedProductName != null) {
-            throw new BusinessException("Tên sản phẩm đã tồn tại trong hệ thống", ErrorCodeConstant.PRODUCT_NAME_ALREADY_EXISTS);
-        }
-
         Product existedSku = productRepository.findBySku(dto.getSku());
         if (existedSku != null) {
             throw new BusinessException("Mã sản phẩm đã tồn tại trong hệ thống", ErrorCodeConstant.PRODUCT_SKU_ALREADY_EXISTS);
@@ -160,12 +155,6 @@ public class ProductServiceImpl implements ProductService {
             throw new BusinessException("Sản phẩm đã bị xóa khỏi hệ thống", ErrorCodeConstant.PRODUCT_HAS_BEEN_REMOVED_FROM_THE_SYSTEM);
         }
 
-
-        Product existedProductName = productRepository.findByName(dto.getName());
-        if (existedProductName != null && !existedProductName.getId().equals(id)) {
-            throw new BusinessException("Tên sản phẩm đã tồn tại trong hệ thống", ErrorCodeConstant.PRODUCT_NAME_ALREADY_EXISTS);
-        }
-
         mapToProduct.mapDtoToProduct(dto, updateProduct);
 
         validatorUtils.validatorImages(dto.getImages());
@@ -199,7 +188,7 @@ public class ProductServiceImpl implements ProductService {
             throw new BusinessException("Chỉ được phép có 1 ảnh chính duy nhất", ErrorCodeConstant.INVALID_INPUT);
         }
         if (countPrimary == 0 && !allImages.isEmpty()) {
-            allImages.get(0).setIsPrimary(true);
+            allImages.getFirst().setIsPrimary(true);
         }
 
         if (dto.getImages() != null) {
