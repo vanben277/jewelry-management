@@ -67,7 +67,8 @@ public class SecurityConfig implements WebMvcConfigurer {
                                 "/api/v1/product/category/{id}",
                                 "/api/v1/product/search",
                                 "/api/v1/product/{id}",
-                                "/api/v1/ai/history"
+                                "/api/v1/ai/history",
+                                "/api/v1/ai/health"
                         ).permitAll()
 
                         .requestMatchers(

@@ -91,4 +91,9 @@ public class AiController {
             return AccountRole.USER.name();
         }
     }
+
+    @GetMapping("/health")
+    public String healthCheck() {
+        return "ALIVE";
+    }
 }
