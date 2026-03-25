@@ -169,7 +169,8 @@ public class SecurityConfig implements WebMvcConfigurer {
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:5173",
                 "http://127.0.0.1:5500",
-                "http://192.168.1.110:5500"
+                "http://192.168.1.110:5500",
+                "https://jewelry-management.netlify.app"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Cache-Control"));
