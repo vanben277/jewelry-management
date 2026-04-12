@@ -43,6 +43,7 @@ public class OrderMapper {
                 order.getCustomerPhone(),
                 order.getCustomerAddress(),
                 order.getStatus(),
+                order.getPaymentMethod(),
                 order.getTotalPrice(),
                 order.getCreateAt(),
                 order.getUpdateAt(),

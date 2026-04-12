@@ -1,5 +1,6 @@
 package com.example.jewelry_management.form;
 
+import com.example.jewelry_management.enums.PaymentMethod;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,6 +24,9 @@ public class CreateOrderRequestForm {
 
     @NotBlank(message = "Địa chỉ không được bỏ trống")
     private String customerAddress;
+
+    @NotNull(message = "Vui lòng chọn phương thức thanh toán")
+    private PaymentMethod paymentMethod;
 
     @NotNull(message = "Danh sách sản phẩm không được rỗng")
     @Size(min = 1, message = "Phải có ít nhất 1 sản phẩm trong đơn hàng")

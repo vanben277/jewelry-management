@@ -18,12 +18,14 @@ public class ZaloPayController {
     private final ZaloPayService zaloPayService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createPayment(@RequestBody Map<String, Object> body) throws Exception {
+    public ResponseEntity<Map<String, String>> createPayment(@RequestBody Map<String, Object> body) throws Exception {
         long amount = Long.parseLong(body.get("amount").toString());
-        String description = body.get("description").toString();
+        long orderId = Long.parseLong(body.get("orderId").toString());
+        String description = "Thanh toan don hang #" + orderId;
 
         String orderUrl = zaloPayService.createOrder(amount, description);
-        return ResponseEntity.ok(orderUrl);
+
+        return ResponseEntity.ok(Map.of("paymentUrl", orderUrl));
     }
 
     // Callback từ ZaloPay

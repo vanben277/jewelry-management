@@ -62,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCustomerAddress(request.getCustomerAddress());
         order.setStatus(OrderStatus.PENDING);
         order.setAccount(currentAccount);
+        order.setPaymentMethod(request.getPaymentMethod());
 
         Set<Integer> productIds = request.getItems().stream()
                 .map(OrderItemRequestForm::getProductId)

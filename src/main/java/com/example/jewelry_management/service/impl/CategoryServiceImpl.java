@@ -191,15 +191,6 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         for (Category category : categoriesToRestore) {
-            if (categoryRepository.existsByNameAndIsDeletedFalse(category.getName())) {
-                throw new BusinessException(
-                        "Không thể khôi phục danh mục '" + category.getName() + "' vì tên đã tồn tại",
-                        ErrorCodeConstant.CATEGORY_NAME_ALREADY_EXISTS
-                );
-            }
-        }
-
-        for (Category category : categoriesToRestore) {
             Category parent = category.getParent();
 
             if (parent != null && !ids.contains(parent.getId()) &&
@@ -215,6 +206,10 @@ public class CategoryServiceImpl implements CategoryService {
         if (hasActiveProduct) {
             throw new BusinessException("Không thể khôi phục danh mục vì đang có sản phẩm hoạt động liên kết với nó",
                     ErrorCodeConstant.CATEGORY_HAS_PRODUCT);
+        }
+
+        for (Category category : categoriesToRestore) {
+            category.setIsDeleted(false);
         }
 
         categoryRepository.saveAll(categoriesToRestore);

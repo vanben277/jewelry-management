@@ -1,6 +1,7 @@
 package com.example.jewelry_management.dto.res;
 
 import com.example.jewelry_management.enums.OrderStatus;
+import com.example.jewelry_management.enums.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class OrderResponse {
     private String customerPhone;
     private String customerAddress;
     private OrderStatus status;
+    private PaymentMethod paymentMethod;
     private BigDecimal totalPrice;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;

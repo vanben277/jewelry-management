@@ -1,6 +1,7 @@
 package com.example.jewelry_management.model;
 
 import com.example.jewelry_management.enums.OrderStatus;
+import com.example.jewelry_management.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,7 +23,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "customer_name", nullable = false, length = 255)
+    @Column(name = "customer_name", nullable = false)
     private String customerName;
 
     @Column(name = "customer_phone", nullable = false, length = 50)
@@ -34,6 +35,10 @@ public class Order {
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)
     private OrderStatus status = OrderStatus.PENDING;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method", nullable = false)
+    private PaymentMethod paymentMethod = PaymentMethod.COD;
 
     @Column(name = "total_price", nullable = false, precision = 15, scale = 2)
     private BigDecimal totalPrice;
