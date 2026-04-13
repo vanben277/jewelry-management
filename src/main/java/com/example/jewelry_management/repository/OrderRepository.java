@@ -37,13 +37,13 @@ public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpeci
     int totalProductsSoldInCurrentMonth();
 
     @Query(value = """
-        SELECT MONTH(o.create_at) AS month, COALESCE(SUM(o.total_price), 0) AS revenue
-        FROM orders o
-        WHERE o.order_status = 'DELIVERED'
-        AND YEAR(o.create_at) = :year
-        GROUP BY MONTH(o.create_at)
-        ORDER BY month
-        """, nativeQuery = true)
+            SELECT MONTH(o.create_at) AS month, COALESCE(SUM(o.total_price), 0) AS revenue
+            FROM orders o
+            WHERE o.order_status = 'DELIVERED'
+            AND YEAR(o.create_at) = :year
+            GROUP BY MONTH(o.create_at)
+            ORDER BY month
+            """, nativeQuery = true)
     List<Object[]> findMonthlyRevenueByYear(@Param("year") int year);
 
 }

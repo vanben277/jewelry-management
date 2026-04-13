@@ -8,8 +8,6 @@ import java.util.List;
 public interface AiService {
     String chat(String message, String sessionId, Integer accountId, String role);
 
-//    String chatWithImage(String message, MultipartFile image, String sessionId, Integer accountId);
-
     List<ChatHistoryResponse> getChatHistory(Integer accountId, String sessionId);
 
     List<ChatSessionResponse> getChatSessions(Integer accountId);

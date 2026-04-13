@@ -152,7 +152,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         boolean hasProducts = productRepository.existsByCategoryIdInAndIsDeletedFalse(ids);
-        if(hasProducts) {
+        if (hasProducts) {
             throw new BusinessException("Không thể xóa danh mục vì có sản phẩm đang liên kết với danh mục", ErrorCodeConstant.CATEGORY_HAS_PRODUCT);
         }
 

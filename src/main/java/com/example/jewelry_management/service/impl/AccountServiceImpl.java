@@ -101,13 +101,13 @@ public class AccountServiceImpl implements AccountService {
         account.updateLastLogin();
 
         Account saved = accountRepository.save(account);
-        
+
         // Generate JWT token
         String accessToken = jwtUtils.generateToken(saved.getUserName());
-        
+
         LoginResponse response = modelMapper.map(saved, LoginResponse.class);
         response.setAccessToken(accessToken);
-        
+
         return response;
     }
 

@@ -45,25 +45,25 @@ public interface ChatHistoryRepository extends JpaRepository<ChatHistory, Long> 
     List<Object[]> findSessionSummaryByAccountId(@Param("accountId") Integer accountId);
 
     @Query(value = """
-        SELECT
-            ch.session_id,
-            (
-                SELECT ch2.user_query
-                FROM chat_history ch2
-                WHERE ch2.session_id = ch.session_id
-                ORDER BY ch2.created_at DESC
-                LIMIT 1
-            ) AS last_message,
-            MAX(ch.created_at) AS last_message_at,
-            COUNT(*) AS message_count,
-            a.id AS account_id,
-            CONCAT(a.firstname, ' ', a.lastname) AS full_name,
-            a.avatar AS avatar
-        FROM chat_history ch
-        JOIN account a ON ch.account_id = a.id
-        WHERE ch.account_id IS NOT NULL
-        GROUP BY ch.session_id, a.id, a.firstname, a.lastname, a.avatar
-        ORDER BY last_message_at DESC
-        """, nativeQuery = true)
+            SELECT
+                ch.session_id,
+                (
+                    SELECT ch2.user_query
+                    FROM chat_history ch2
+                    WHERE ch2.session_id = ch.session_id
+                    ORDER BY ch2.created_at DESC
+                    LIMIT 1
+                ) AS last_message,
+                MAX(ch.created_at) AS last_message_at,
+                COUNT(*) AS message_count,
+                a.id AS account_id,
+                CONCAT(a.firstname, ' ', a.lastname) AS full_name,
+                a.avatar AS avatar
+            FROM chat_history ch
+            JOIN account a ON ch.account_id = a.id
+            WHERE ch.account_id IS NOT NULL
+            GROUP BY ch.session_id, a.id, a.firstname, a.lastname, a.avatar
+            ORDER BY last_message_at DESC
+            """, nativeQuery = true)
     List<Object[]> findAllSessionSummaryForAdmin();
 }

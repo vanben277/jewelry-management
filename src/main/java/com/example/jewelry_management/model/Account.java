@@ -4,7 +4,10 @@ import com.example.jewelry_management.enums.AccountGender;
 import com.example.jewelry_management.enums.AccountRole;
 import com.example.jewelry_management.enums.AccountStatus;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

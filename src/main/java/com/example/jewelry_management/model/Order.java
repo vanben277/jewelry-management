@@ -3,7 +3,10 @@ package com.example.jewelry_management.model;
 import com.example.jewelry_management.enums.OrderStatus;
 import com.example.jewelry_management.enums.PaymentMethod;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

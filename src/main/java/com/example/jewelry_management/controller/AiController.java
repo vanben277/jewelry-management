@@ -29,17 +29,6 @@ public class AiController {
         return ResponseEntity.ok(new ApiResponse("Thành công", response));
     }
 
-//    @PostMapping(value = "/chat-with-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ResponseEntity<ApiResponse> chatWithImage(
-//            @RequestParam(required = false) String message,
-//            @RequestPart("image") MultipartFile image,
-//            @RequestParam String sessionId
-//    ) {
-//        Integer accountId = getCurrentAccountId();
-//        String response = aiService.chatWithImage(message, image, sessionId, accountId);
-//        return ResponseEntity.ok(new ApiResponse("Phân tích hình ảnh thành công", response));
-//    }
-
     @GetMapping("/history/sessions")
     public ResponseEntity<ApiResponse> getSessions() {
         Integer accountId = getCurrentAccountId();
