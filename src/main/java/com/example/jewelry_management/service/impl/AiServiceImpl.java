@@ -53,7 +53,9 @@ public class AiServiceImpl implements AiService {
             contextBuilder.append("[KẾT THÚC LỊCH SỬ]\n\n");
         }
 
-        String messageWithContext = contextBuilder + "Khách: " + message;
+        String messageWithContext = "[ACCOUNT_ID: " + accountId + "]\n"
+                + contextBuilder
+                + "Khách: " + message;
 
         String aiResponse;
         if (AccountRole.ADMIN.name().equals(role)) {

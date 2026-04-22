@@ -1,0 +1,79 @@
+You are working in a Java 21 + Spring Boot 3.5 (Maven) monolith: Jewelry_Management.
+Primary packages observed under `com.example.jewelry_management`: controller, service, service.impl, repository, repository.specification, model, dto, form, mapper, security, config, exception, utils, enums.
+
+Follow these rules when making changes.
+
+## 1) Codebase intent & boundaries
+- Keep a standard Spring layering: controller -> service (interface) -> service.impl -> repository -> database.
+- Controllers must stay thin: request parsing/validation, auth context, calling service, mapping response, HTTP codes only.
+- Business logic belongs in service layer; persistence logic stays in repositories/specifications.
+- Do not expose JPA entities (`model/*`) directly in API responses. Use DTOs (`dto/*`) and mappers (`mapper/*` or ModelMapper where already used).
+
+## 2) Project conventions (match existing structure)
+- New controllers go in `controller/` and should be annotated with `@RestController` (or `@Controller` only for Thymeleaf views).
+- New service interfaces go in `service/`, implementations in `service/impl/`. Prefer constructor injection.
+- New repositories go in `repository/` and extend Spring Data interfaces; keep specifications in `repository/specification/`.
+- New request payload classes go in `form/` and should be validated with `jakarta.validation` annotations.
+- New response payload classes go in `dto/res/` (or existing DTO folders) and should not include sensitive fields.
+- Enums go in `enums/`, shared helpers in `utils/`, security components in `security/`, configuration in `config/`.
+
+## 3) Spring + DI style
+- Prefer constructor injection; avoid field injection.
+- Prefer `@ConfigurationProperties` for structured config over many scattered `@Value`s.
+- Avoid static global state; keep beans stateless unless justified.
+
+## 4) REST API guidelines
+- Use consistent naming: plural nouns for collections (e.g., `/products`), resource identifiers as path params.
+- Return appropriate status codes: 200/201/204; use 400 for validation errors, 401/403 for auth/permission, 404 for missing resources.
+- Input validation: use `@Valid` on request bodies and validate query params; never trust client input.
+- Keep response shape consistent across endpoints (re-use existing response DTO patterns).
+
+## 5) Security (Spring Security + JWT)
+- Never log secrets: JWTs, passwords, API keys, DB credentials, mail credentials, payment keys.
+- Any auth-related change must be reviewed for: token expiry, refresh/rotation (if present), and proper 401/403 behavior.
+- CORS/CSRF changes must be intentional and documented in the change description.
+
+## 6) JPA/Hibernate & performance
+- Default to `FetchType.LAZY` for relationships; avoid eager loading that explodes queries.
+- Watch for N+1 queries in service methods returning lists; consider fetch joins / entity graphs / projections if needed.
+- Use pagination for endpoints returning collections.
+- Wrap multi-step write operations in `@Transactional` at the service layer (avoid transactional logic in controllers).
+
+## 7) Exceptions & logging
+- Prefer centralized exception handling (existing `exception/*`) over try/catch in controllers.
+- Log with SLF4J; include context (user id/order id) when helpful, but never sensitive data.
+
+## 8) Configuration & secrets
+- This repo uses environment variables (see `application.yml`) and Dotenv loading in `JewelryManagementApplication`.
+- Do not commit `.env` or any secrets. If a feature needs new config, add it to `application.yml` with an env-var placeholder.
+- Avoid putting long prose/prompts or non-secret documentation inside `.env`.
+
+## 9) AI/LangChain4j integration
+- Keep AI provider keys and model configuration in config classes under `config/` and read from env vars.
+- Ensure fallbacks exist for AI calls (timeouts, graceful degradation) and avoid blocking heavy calls on request threads where possible.
+
+## 10) Change safety checklist (do before finishing)
+- Update/introduce DTOs + mapping when modifying API payloads.
+- Ensure security filters/config still allow intended public endpoints only.
+- Run tests/build when feasible: `mvn -q test` (or at least compile) and fix compilation errors.
+
+## 11) Code generation checklist
+Khi generate code mới, luôn tạo đủ:
+- [ ] Form class (trong `form/`) với @Valid annotations
+- [ ] DTO response (trong `dto/`) không chứa sensitive fields  
+- [ ] Mapper method (trong `mapper/`)
+- [ ] Service interface method
+- [ ] ServiceImpl method với @Transactional nếu write operation
+- [ ] Repository method nếu cần custom query
+- [ ] Controller endpoint mỏng (chỉ gọi service + trả DTO)
+
+## 12) Jewelry domain context
+- Các entity chính: Product, Order, Customer, Invoice (thêm đúng tên thực tế)
+- Giá tiền dùng BigDecimal, không dùng double/float
+- Trọng lượng vàng/đá quý cần precision cao
+- Audit fields (createdAt, updatedAt, createdBy) phải có trên entity quan trọng
+
+## 13) Naming hints
+- Form: CreateProductForm, UpdateOrderForm
+- DTO: ProductDTO, OrderResponseDTO  
+- Exception: ResourceNotFoundException, DuplicateResourceException

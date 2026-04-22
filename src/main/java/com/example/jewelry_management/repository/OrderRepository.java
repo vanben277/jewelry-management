@@ -1,6 +1,9 @@
 package com.example.jewelry_management.repository;
 
+import com.example.jewelry_management.enums.OrderStatus;
 import com.example.jewelry_management.model.Order;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +22,9 @@ public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpeci
                                        @Param("start") LocalDateTime start,
                                        @Param("end") LocalDateTime end);
 
-    List<Order> findByAccountIdOrderByCreateAtDesc(Integer id);
+    Page<Order> findByAccountIdOrderByCreateAtDesc(Integer id, Pageable pageable);
+
+    Page<Order> findByAccountIdAndStatusOrderByCreateAtDesc(Integer id, OrderStatus status, Pageable pageable);
 
     @Query("SELECT COUNT(o) FROM Order o WHERE MONTH(o.createAt) = MONTH(CURRENT_DATE) AND YEAR(o.createAt) = YEAR(CURRENT_DATE)")
     int countOrdersInCurrentMonth();

@@ -325,16 +325,33 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalArgumentException("Top không được bỏ trống");
         }
 
-        List<Object[]> results = productRepository.findTopSellingProducts();
-        return results.stream().limit(filter.getTopN()).map(result -> {
+        List<Object[]> results = productRepository.findTopSellingProducts()
+                .stream()
+                .limit(filter.getTopN())
+                .toList();
+
+        List<Integer> productIds = results.stream()
+                .map(row -> (Integer) row[0])
+                .toList();
+
+        Map<Integer, List<ProductImageForm>> imagesByProductId = new HashMap<>();
+        if (!productIds.isEmpty()) {
+            imagesByProductId = productRepository.findImagesByProductIds(productIds).stream()
+                    .collect(Collectors.groupingBy(
+                            row -> (Integer) row[0],
+                            Collectors.mapping(row -> (ProductImageForm) row[1], Collectors.toList())
+                    ));
+        }
+
+        Map<Integer, List<ProductImageForm>> finalImagesByProductId = imagesByProductId;
+        return results.stream().map(result -> {
             TopProductResponse dto = new TopProductResponse();
             Integer productId = (Integer) result[0];
             dto.setProductId(productId);
             dto.setName((String) result[1]);
             dto.setPrice((BigDecimal) result[2]);
             dto.setTotalQuantitySold((Long) result[3]);
-            List<ProductImageForm> images = productRepository.findImagesByProductId(productId);
-            dto.setImages(images);
+            dto.setImages(finalImagesByProductId.getOrDefault(productId, List.of()));
             return dto;
         }).collect(Collectors.toList());
     }

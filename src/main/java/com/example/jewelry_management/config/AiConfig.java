@@ -31,6 +31,13 @@ public class AiConfig {
     @Value("${GROQ_BASE_URL}")
     private String groqBaseUrl;
 
+    @Value("${HF_API_KEY}")
+    private String hfApiKey;
+    @Value("${HF_MODEL_NAME}")
+    private String hfModelName;
+    @Value("${HF_BASE_URL}")
+    private String hfBaseUrl;
+
     @Bean
     public GoogleAiGeminiChatModel geminiChatModel() {
         return GoogleAiGeminiChatModel.builder()
@@ -47,6 +54,17 @@ public class AiConfig {
                 .baseUrl(groqBaseUrl)
                 .modelName(groqModelName)
                 .timeout(Duration.ofSeconds(60))
+                .logRequests(true)
+                .build();
+    }
+
+    @Bean("hfChatModel")
+    public OpenAiChatModel hfChatModel() {
+        return OpenAiChatModel.builder()
+                .apiKey(hfApiKey)
+                .baseUrl(hfBaseUrl)
+                .modelName(hfModelName)
+                .timeout(Duration.ofSeconds(90))
                 .logRequests(true)
                 .build();
     }
@@ -69,6 +87,15 @@ public class AiConfig {
                 .build();
     }
 
+    @Bean("hfUserAgent")
+    public JewelryUserAgent hfUserAgent(OpenAiChatModel hfChatModel) {
+        return AiServices.builder(JewelryUserAgent.class)
+                .chatLanguageModel(hfChatModel)
+                .chatMemoryProvider(id -> MessageWindowChatMemory.withMaxMessages(20))
+                .tools(jewelryTools)
+                .build();
+    }
+
     @Bean("geminiAdminAgent")
     public JewelryAdminAgent geminiAdminAgent(GoogleAiGeminiChatModel geminiChatModel) {
         return AiServices.builder(JewelryAdminAgent.class)
@@ -82,6 +109,15 @@ public class AiConfig {
     public JewelryAdminAgent groqAdminAgent(OpenAiChatModel groqChatModel) {
         return AiServices.builder(JewelryAdminAgent.class)
                 .chatLanguageModel(groqChatModel)
+                .chatMemoryProvider(id -> MessageWindowChatMemory.withMaxMessages(20))
+                .tools(jewelryTools)
+                .build();
+    }
+
+    @Bean("hfAdminAgent")
+    public JewelryAdminAgent hfAdminAgent(OpenAiChatModel hfChatModel) {
+        return AiServices.builder(JewelryAdminAgent.class)
+                .chatLanguageModel(hfChatModel)
                 .chatMemoryProvider(id -> MessageWindowChatMemory.withMaxMessages(20))
                 .tools(jewelryTools)
                 .build();

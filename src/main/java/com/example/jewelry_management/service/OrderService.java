@@ -11,6 +11,7 @@ import com.example.jewelry_management.form.RevenueFilterForm;
 import com.example.jewelry_management.form.UpdateOrderStatusForm;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public interface OrderService {
 
     List<String> getAllOrderStatus();
 
-    List<OrderResponse> getAllOrdersByMe(Integer id, OrderStatus status);
+    Page<OrderResponse> getAllOrdersByMe(Integer id, OrderStatus status, Pageable pageable);
 
     MonthlyRevenueResponse monthlyRevenue();
 

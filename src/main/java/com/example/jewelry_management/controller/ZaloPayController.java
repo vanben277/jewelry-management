@@ -45,7 +45,7 @@ public class ZaloPayController {
             }
         } catch (Exception e) {
             result.put("return_code", 0);
-            result.put("return_message", "Error: " + e.getMessage());
+            result.put("return_message", "Error");
         }
         return ResponseEntity.ok(result);
     }

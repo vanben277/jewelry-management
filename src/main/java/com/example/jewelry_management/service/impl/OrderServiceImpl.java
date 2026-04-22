@@ -210,7 +210,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderResponse> getAllOrdersByMe(Integer id, OrderStatus status) {
+    public Page<OrderResponse> getAllOrdersByMe(Integer id, OrderStatus status, Pageable pageable) {
         Account currentAccount = accountValidator.getCurrentAccount();
 
         if (!currentAccount.getId().equals(id)) {
@@ -221,17 +221,15 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new NotFoundException("Tài khoản không tồn tại trong hệ thống", ErrorCodeConstant.ACCOUNT_NOT_FOUND));
         accountValidatorUtils.validatorAccountStatus(account);
 
-        List<Order> orders = orderRepository.findByAccountIdOrderByCreateAtDesc(id);
+        Pageable safePageable = pageable == null
+                ? PageRequest.of(0, 20, Sort.by("createAt").descending())
+                : pageable;
 
-        if (status != null) {
-            orders = orders.stream()
-                    .filter(order -> order.getStatus().equals(status))
-                    .toList();
-        }
+        Page<Order> orders = (status == null)
+                ? orderRepository.findByAccountIdOrderByCreateAtDesc(id, safePageable)
+                : orderRepository.findByAccountIdAndStatusOrderByCreateAtDesc(id, status, safePageable);
 
-        return orders.stream()
-                .map(orderMapper::toResponse)
-                .toList();
+        return orders.map(orderMapper::toResponse);
     }
 
     @Override

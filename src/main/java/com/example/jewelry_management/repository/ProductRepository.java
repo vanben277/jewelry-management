@@ -30,6 +30,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer>, JpaS
             "FROM ProductImage pi WHERE pi.product.id = :productId")
     List<ProductImageForm> findImagesByProductId(@Param("productId") Integer productId);
 
+    @Query("SELECT pi.product.id, new com.example.jewelry_management.form.ProductImageForm(pi.imageUrl, pi.isPrimary) " +
+            "FROM ProductImage pi WHERE pi.product.id IN :productIds")
+    List<Object[]> findImagesByProductIds(@Param("productIds") List<Integer> productIds);
+
     Product findBySku(@NotBlank(message = "Mã sản phẩm không được bỏ trống") String sku);
 
     boolean existsByCategoryIdInAndIsDeletedFalse(List<Integer> ids);
