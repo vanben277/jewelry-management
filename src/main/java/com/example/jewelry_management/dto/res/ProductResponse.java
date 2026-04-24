@@ -24,6 +24,7 @@ public class ProductResponse {
     private Integer id;
     private String name;
     private BigDecimal price;
+    private BigDecimal costPrice;
     private Integer quantity;
     private LocalDate dateOfEntry;
     private String description;

@@ -26,7 +26,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpeci
 
     Page<Order> findByAccountIdAndStatusOrderByCreateAtDesc(Integer id, OrderStatus status, Pageable pageable);
 
-    @Query("SELECT COUNT(o) FROM Order o WHERE MONTH(o.createAt) = MONTH(CURRENT_DATE) AND YEAR(o.createAt) = YEAR(CURRENT_DATE)")
+    @Query("SELECT COUNT(o) FROM Order o WHERE o.status = 'DELIVERED' AND MONTH(o.createAt) = MONTH(CURRENT_DATE) AND YEAR(o.createAt) = YEAR(CURRENT_DATE)")
     int countOrdersInCurrentMonth();
 
     @Query("SELECT COALESCE(SUM(o.totalPrice), 0) FROM Order o " +
@@ -35,10 +35,12 @@ public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpeci
             "AND YEAR(o.createAt) = YEAR(CURRENT_DATE)")
     long totalRevenueInCurrentMonth();
 
-    @Query("SELECT COALESCE(SUM(oi.quantity), 0) FROM OrderItem oi " +
-            "WHERE oi.order.status = 'DELIVERED' " +
-            "AND MONTH(oi.order.createAt) = MONTH(CURRENT_DATE) " +
-            "AND YEAR(oi.order.createAt) = YEAR(CURRENT_DATE)")
+    @Query(value = "SELECT COALESCE(SUM(oi.quantity), 0) FROM order_item oi " +
+            "JOIN orders o ON oi.order_id = o.id " +
+            "WHERE o.order_status = 'DELIVERED' " +
+            "AND MONTH(o.create_at) = MONTH(CURRENT_DATE) " +
+            "AND YEAR(o.create_at) = YEAR(CURRENT_DATE)",
+            nativeQuery = true)
     int totalProductsSoldInCurrentMonth();
 
     @Query(value = """

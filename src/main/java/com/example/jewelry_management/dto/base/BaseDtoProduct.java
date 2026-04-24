@@ -10,12 +10,13 @@ public interface BaseDtoProduct {
 
     BigDecimal getPrice();
 
+    BigDecimal getCostPrice();
+
     Integer getQuantity();
 
     LocalDate getDateOfEntry();
 
     String getDescription();
-
 
     Integer getCategoryId();
 

@@ -34,6 +34,8 @@ public class UpdateProductForm implements BaseDtoProduct, QuantitySizeValidation
     @DecimalMin(value = "0.01", message = "Giá phải lớn hơn 0")
     private BigDecimal price;
 
+    private BigDecimal costPrice;
+
     private Integer quantity;
 
     @NotNull(message = "Ngày nhập không được bỏ trống")

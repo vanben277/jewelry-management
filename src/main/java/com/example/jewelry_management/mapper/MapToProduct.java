@@ -10,6 +10,7 @@ public class MapToProduct {
     public void mapDtoToProduct(BaseDtoProduct dto, Product product) {
         product.setName(dto.getName());
         product.setPrice(dto.getPrice());
+        product.setCostPrice(dto.getCostPrice());
         product.setQuantity(dto.getQuantity());
         product.setDateOfEntry(dto.getDateOfEntry());
         product.setDescription(dto.getDescription());
