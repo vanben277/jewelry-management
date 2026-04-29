@@ -37,18 +37,19 @@ public class OrderMapper {
         List<OrderItemResponse> itemResponses = order.getItems().stream()
                 .map(orderItemMapper::toItemResponse)
                 .toList();
-        return new OrderResponse(
-                order.getId(),
-                order.getCustomerName(),
-                order.getCustomerPhone(),
-                order.getCustomerAddress(),
-                order.getStatus(),
-                order.getPaymentMethod(),
-                order.getTotalPrice(),
-                order.getCreateAt(),
-                order.getUpdateAt(),
-                itemResponses,
-                toAccountResponse(order.getAccount())
-        );
+        return OrderResponse.builder()
+                .id(order.getId())
+                .customerName(order.getCustomerName())
+                .customerPhone(order.getCustomerPhone())
+                .customerAddress(order.getCustomerAddress())
+                .status(order.getStatus())
+                .paymentMethod(order.getPaymentMethod())
+                .totalPrice(order.getTotalPrice())
+                .createAt(order.getCreateAt())
+                .updateAt(order.getUpdateAt())
+                .items(itemResponses)
+                .accountResponse(toAccountResponse(order.getAccount()))
+                .qrCodeUrl(order.getQrCodeUrl())  // ← Map qrCodeUrl from entity
+                .build();
     }
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class ResetPasswordForm {
 
-    @NotBlank(message = "Mã otp không được bỏ trống")
+    @NotBlank(message = "Mã OTP không được bỏ trống")
     private String otpSku;
 
     @NotBlank(message = "Mật khẩu không được bỏ trống")

@@ -19,9 +19,6 @@ public class ErrorCodeConstant {
     public static final String INVALID_STATUS_TRANSACTIONAL = "400008";
     public static final String FINAL_STATUS = "400009";
     public static final String INVALID_STATUS = "400010";
-    public static final String ORDER_ALREADY_DELETED = "400011";
-    public static final String INVALID_ORDER_STATUS = "400012";
-    public static final String ORDER_NOT_DELETED = "400013";
     public static final String INVALID_PERIOD_TYPE = "400014";
     public static final String PRODUCT_OUT_OF_STOCK = "400015";
     public static final String INVALID_INPUT = "400016";
@@ -36,16 +33,17 @@ public class ErrorCodeConstant {
     public static final String ACCOUNT_ALREADY_EXISTS_PHONE = "400025";
     public static final String INVALID_ACCOUNT_OTP = "400026";
     public static final String OTP_HAS_EXPIRED = "400027";
-    public static final String UPLOAD_FAILED = "400028";
-    public static final String INVALID_IMAGE = "400029";
-    public static final String IMAGE_TOO_LARGE = "400030";
-    public static final String PASSWORD_IS_NOT_RELIGIOUS = "400031";
-    public static final String NEW_PASSWORD_MUST_BE_DIFFERENT_FROM_THE_OLD_HONEY = "400032";
-    public static final String CATEGORY_IS_PARENT = "400033";
-    public static final String OUT_OF_STOCK = "400034";
-    public static final String PRODUCT_SIZE_REQUEST = "400035";
-    public static final String INVALID_QUANTITY = "400036";
-    public static final String PRODUCT_SIZE_NOT_ALLOWED = "400037";
+    public static final String OTP_MAX_ATTEMPTS_EXCEEDED = "400028";
+    public static final String UPLOAD_FAILED = "400029";
+    public static final String INVALID_IMAGE = "400030";
+    public static final String IMAGE_TOO_LARGE = "400031";
+    public static final String PASSWORD_IS_NOT_RELIGIOUS = "400032";
+    public static final String NEW_PASSWORD_MUST_BE_DIFFERENT_FROM_THE_OLD_HONEY = "400033";
+    public static final String CATEGORY_IS_PARENT = "400034";
+    public static final String OUT_OF_STOCK = "400035";
+    public static final String PRODUCT_SIZE_REQUEST = "400036";
+    public static final String INVALID_QUANTITY = "400037";
+    public static final String PRODUCT_SIZE_NOT_ALLOWED = "400038";
 
 
     public static final String UNAUTHORIZED = "401001";

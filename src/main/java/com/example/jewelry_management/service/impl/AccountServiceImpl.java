@@ -214,6 +214,7 @@ public class AccountServiceImpl implements AccountService {
 
         account.setOtpSku(otp);
         account.setExpiryOtp(expiryTime);
+        account.setOtpAttempts(0); // Reset attempts when generating new OTP
 
         accountRepository.save(account);
 
@@ -224,25 +225,49 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public void resetPassword(ResetPasswordForm form) {
         Account account = accountRepository.findByOtpSku(form.getOtpSku())
-                .orElseThrow(() -> new NotFoundException("otp không hợp lệ", ErrorCodeConstant.INVALID_ACCOUNT_OTP));
-
-        if (account.getExpiryOtp() == null || account.getExpiryOtp().isBefore(LocalDateTime.now()))
-            throw new BusinessException("otp đã hết hạn", ErrorCodeConstant.OTP_HAS_EXPIRED);
-
-        var plainTextPassword = form.getNewPassword();
-        form.setNewPassword(passwordEncoder.encode(plainTextPassword));
+                .orElseThrow(() -> new NotFoundException("OTP không hợp lệ", ErrorCodeConstant.INVALID_ACCOUNT_OTP));
 
         accountValidatorUtils.validatorAccountStatus(account);
 
-        account.setPassword(form.getNewPassword());
+        // Check expiry first
+        if (account.getExpiryOtp() == null || account.getExpiryOtp().isBefore(LocalDateTime.now())) {
+            // Clear OTP data when expired
+            account.setOtpSku(null);
+            account.setExpiryOtp(null);
+            account.setOtpAttempts(0);
+            accountRepository.save(account);
+            throw new BusinessException("OTP đã hết hạn. Vui lòng yêu cầu OTP mới.", ErrorCodeConstant.OTP_HAS_EXPIRED);
+        }
+
+        // Check attempts (NEW SECURITY FEATURE)
+        int attempts = account.getOtpAttempts() != null ? account.getOtpAttempts() : 0;
+        if (attempts >= 5) {
+            // Clear OTP data after max attempts
+            account.setOtpSku(null);
+            account.setExpiryOtp(null);
+            account.setOtpAttempts(0);
+            accountRepository.save(account);
+            throw new BusinessException("Bạn đã nhập sai OTP quá 5 lần. Vui lòng yêu cầu OTP mới.",
+                    ErrorCodeConstant.OTP_MAX_ATTEMPTS_EXCEEDED);
+        }
+
+        // OTP is correct (found by findByOtpSku) - Reset password successfully
+        account.setPassword(passwordEncoder.encode(form.getNewPassword()));
         account.setOtpSku(null);
         account.setExpiryOtp(null);
+        account.setOtpAttempts(0); // Reset attempts on success
+
+        accountRepository.save(account);
+
+        emailService.sendPasswordChangedConfirmationHtml(account.getEmail());
+
+        account.setExpiryOtp(null);
+        account.setOtpAttempts(0); // Reset attempts on success
 
         accountRepository.save(account);
 
         emailService.sendPasswordChangedConfirmationHtml(account.getEmail());
     }
-
 
     @Override
     @Transactional
@@ -333,3 +358,4 @@ public class AccountServiceImpl implements AccountService {
         return accounts.map(acc -> modelMapper.map(acc, AccountResponseFull.class));
     }
 }
+

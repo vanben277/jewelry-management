@@ -4,6 +4,7 @@ import com.example.jewelry_management.enums.OrderStatus;
 import com.example.jewelry_management.model.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpecificationExecutor<Order> {
     @Query("SELECT DATE_FORMAT(o.createAt, :dateFormat) AS period, " +
@@ -22,9 +24,16 @@ public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpeci
                                        @Param("start") LocalDateTime start,
                                        @Param("end") LocalDateTime end);
 
+    @EntityGraph(attributePaths = {"items", "account"})
     Page<Order> findByAccountIdOrderByCreateAtDesc(Integer id, Pageable pageable);
 
+    @EntityGraph(attributePaths = {"items", "account"})
     Page<Order> findByAccountIdAndStatusOrderByCreateAtDesc(Integer id, OrderStatus status, Pageable pageable);
+
+    // Override findById to eager load items and account
+    @Override
+    @EntityGraph(attributePaths = {"items", "account"})
+    Optional<Order> findById(Integer id);
 
     @Query("SELECT COUNT(o) FROM Order o WHERE o.status = 'DELIVERED' AND MONTH(o.createAt) = MONTH(CURRENT_DATE) AND YEAR(o.createAt) = YEAR(CURRENT_DATE)")
     int countOrdersInCurrentMonth();

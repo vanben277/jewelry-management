@@ -2,10 +2,7 @@ package com.example.jewelry_management.dto.res;
 
 import com.example.jewelry_management.enums.OrderStatus;
 import com.example.jewelry_management.enums.PaymentMethod;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,6 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class OrderResponse {
     private Integer id;
     private String customerName;
@@ -27,4 +25,5 @@ public class OrderResponse {
     private LocalDateTime updateAt;
     private List<OrderItemResponse> items;
     private AccountSummaryRes accountResponse;
+    private String qrCodeUrl;
 }

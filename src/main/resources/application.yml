@@ -19,6 +19,10 @@ spring:
   app:
     frontend:
       reset-password-url: ${FRONTEND_RESET_PASSWORD_URL}
+  rate-limit:
+    enabled: ${RATE_LIMIT_ENABLED:true}
+    capacity: ${RATE_LIMIT_CAPACITY:5}
+    refill-minutes: ${RATE_LIMIT_REFILL_MINUTES:1}
   servlet:
     multipart:
       max-file-size: 10MB
@@ -42,6 +46,12 @@ zalopay:
   endpoint: ${ZALOPAY_ENDPOINT}
   callback-url: ${ZALOPAY_CALLBACK_URL}
   redirect-url: ${ZALOPAY_REDIRECT_URL}
+vietqr:
+  bank-id: ${VIETQR_BANK_ID}
+  account-no: ${VIETQR_ACCOUNT_NO}
+  account-name: ${VIETQR_ACCOUNT_NAME}
+  template: ${VIETQR_TEMPLATE:compact}
+  api-url: https://img.vietqr.io/image
 logging:
   level:
     dev.langchain4j: DEBUG

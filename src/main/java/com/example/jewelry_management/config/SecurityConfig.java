@@ -2,6 +2,7 @@ package com.example.jewelry_management.config;
 
 import com.example.jewelry_management.security.CustomAccessDeniedHandler;
 import com.example.jewelry_management.security.JwtAuthenticationFilter;
+import com.example.jewelry_management.security.RateLimitingFilter;
 import com.example.jewelry_management.security.RestAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final RateLimitingFilter rateLimitingFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -158,6 +160,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                         // Tất cả các yêu cầu khác cần xác thực
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable);
 

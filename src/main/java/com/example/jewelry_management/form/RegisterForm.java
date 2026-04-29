@@ -45,7 +45,9 @@ public class RegisterForm {
     private String address;
 
     @NotBlank(message = "Email không được bỏ trống")
-    @Email(message = "Email không hợp lệ")
+    @Email(message = "Email không đúng định dạng")
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+            message = "Email không hợp lệ")
     private String email;
 
     @NotBlank(message = "Mật khẩu không được bỏ trống")

@@ -60,4 +60,7 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
+
+    @Column(name = "qr_code_url", length = 500)
+    private String qrCodeUrl;
 }

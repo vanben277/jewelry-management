@@ -6,6 +6,7 @@ import com.example.jewelry_management.dto.res.OrderResponse;
 import com.example.jewelry_management.dto.res.RevenueReportResponse;
 import com.example.jewelry_management.enums.AccountRole;
 import com.example.jewelry_management.enums.OrderStatus;
+import com.example.jewelry_management.enums.PaymentMethod;
 import com.example.jewelry_management.enums.ProductStatus;
 import com.example.jewelry_management.exception.*;
 import com.example.jewelry_management.form.*;
@@ -19,6 +20,7 @@ import com.example.jewelry_management.repository.OrderRepository;
 import com.example.jewelry_management.repository.ProductRepository;
 import com.example.jewelry_management.repository.specification.OrderSpecification;
 import com.example.jewelry_management.service.OrderService;
+import com.example.jewelry_management.service.VietQRService;
 import com.example.jewelry_management.utils.AccountValidatorUtils;
 import com.example.jewelry_management.utils.OrderValidatorUtils;
 import com.example.jewelry_management.validator.AccountValidator;
@@ -36,6 +38,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -50,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderValidatorUtils validatorUtils;
     private final AccountRepository accountRepository;
     private final AccountValidatorUtils accountValidatorUtils;
+    private final VietQRService vietQRService;
 
     @Override
     @Transactional
@@ -111,7 +116,31 @@ public class OrderServiceImpl implements OrderService {
 
         order.setItems(orderItems);
         order.setTotalPrice(total);
+        
+        // Generate and save QR code URL if payment method is BANK_TRANSFER
+        if (request.getPaymentMethod() == PaymentMethod.BANK_TRANSFER) {
+            String qrCodeUrl = vietQRService.generateQRCodeUrl(
+                null,
+                total, 
+                "Thanh toan don hang"
+            );
+            order.setQrCodeUrl(qrCodeUrl);
+            log.info("Generated VietQR URL for new order with amount: {}", total);
+        }
+        
         Order saved = orderRepository.save(order);
+
+        if (saved.getPaymentMethod() == PaymentMethod.BANK_TRANSFER && saved.getQrCodeUrl() != null) {
+            String finalQrCodeUrl = vietQRService.generateQRCodeUrl(
+                saved.getId(), 
+                saved.getTotalPrice(), 
+                "Thanh toan don hang"
+            );
+            saved.setQrCodeUrl(finalQrCodeUrl);
+            orderRepository.save(saved);
+            log.info("Updated VietQR URL for order {}: {}", saved.getId(), finalQrCodeUrl);
+        }
+
         return orderMapper.toResponse(saved);
     }
 
@@ -136,6 +165,8 @@ public class OrderServiceImpl implements OrderService {
         if (!isAdmin && !order.getAccount().getId().equals(currentAccount.getId())) {
             throw new ForbiddenException("Ban khong co quyen truy cap. Vui long thu lai!", ErrorCodeConstant.NO_ACCESS);
         }
+        
+        // QR code URL is already saved in DB, just return it
         return orderMapper.toResponse(order);
     }
 
@@ -159,47 +190,85 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional()
+    @Transactional(readOnly = true)
     public List<RevenueReportResponse> getRevenueReport(RevenueFilterForm filter) {
         if (filter == null || filter.getPeriodType() == null) {
-            log.error("Bộ lọc khônng được trống");
-            throw new IllegalArgumentException("Bộ lọc khônng được trống");
+            throw new IllegalArgumentException("Bộ lọc không được trống");
         }
 
-        String dateFormat;
-        LocalDateTime start, end;
+        String periodType = filter.getPeriodType().toUpperCase();
 
-        switch (filter.getPeriodType().toUpperCase()) {
-            case "DAY":
-                dateFormat = "%Y-%m-%d";
-                start = filter.getStartDate() != null ? LocalDateTime.parse(filter.getStartDate()) : LocalDateTime.now();
-                end = filter.getEndDate() != null ? LocalDateTime.parse(filter.getEndDate()) : start;
-                break;
-            case "MONTH":
-                dateFormat = "%Y-%m";
-                start = filter.getStartDate() != null ? LocalDateTime.parse(filter.getStartDate() + "T00:00:00") : LocalDateTime.now().withDayOfMonth(1);
-                end = filter.getEndDate() != null ? LocalDateTime.parse(filter.getEndDate() + "T00:00:00").withDayOfMonth(1).plusMonths(1).minusDays(1) : start.withDayOfMonth(1).plusMonths(1).minusDays(1);
-                break;
-            case "YEAR":
-                dateFormat = "%Y";
-                start = filter.getStartDate() != null ? LocalDateTime.parse(filter.getStartDate() + "T00:00:00-T00:00:00") : LocalDateTime.now().withDayOfYear(1);
-                end = filter.getEndDate() != null ? LocalDateTime.parse(filter.getEndDate() + "T00:00:00-T00:00:00").withDayOfYear(1).plusYears(1).minusDays(1) : start.withDayOfYear(1).plusYears(1).minusDays(1);
-                break;
-            default:
-                log.error("Loại thời gian không hợp lệ: {}", filter.getPeriodType());
-                throw new BusinessException("Loại thời gian không hợp lệ: " + filter.getPeriodType(), ErrorCodeConstant.INVALID_PERIOD_TYPE);
+        String dateFormat = switch (periodType) {
+            case "DAY" -> "%Y-%m-%d";
+            case "MONTH" -> "%Y-%m";
+            case "YEAR" -> "%Y";
+            default -> throw new BusinessException(
+                    "Loại thời gian không hợp lệ: " + periodType,
+                    ErrorCodeConstant.INVALID_PERIOD_TYPE
+            );
+        };
+
+        LocalDateTime start = parseOrDefaultStart(filter.getStartDate(), periodType);
+        LocalDateTime end = parseOrDefaultEnd(filter.getEndDate(), start, periodType);
+
+        if (start.isAfter(end)) {
+            throw new BusinessException(
+                    "Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc",
+                    ErrorCodeConstant.INVALID_INPUT
+            );
         }
 
-        log.debug("Đang tìm báo cáo doanh thu cho periodType: {}, start: {}, end: {}", filter.getPeriodType(), start, end);
+        log.debug("Tìm báo cáo doanh thu: {}, từ {} đến {}", periodType, start, end);
 
         List<Object[]> results = orderRepository.findRevenueByPeriod(dateFormat, start, end);
+
         return results.stream().map(result -> {
             RevenueReportResponse dto = new RevenueReportResponse();
             dto.setPeriod((String) result[0]);
             dto.setTotalRevenue((BigDecimal) result[1]);
             dto.setOrderCount((Long) result[2]);
             return dto;
-        }).collect(Collectors.toList());
+        }).toList();
+    }
+
+    private LocalDateTime parseOrDefaultStart(String dateStr, String type) {
+        if (dateStr == null || dateStr.isBlank()) {
+            return switch (type) {
+                case "MONTH" -> LocalDate.now().withDayOfMonth(1).atStartOfDay();
+                case "YEAR" -> LocalDate.now().withDayOfYear(1).atStartOfDay();
+                default -> LocalDate.now().atStartOfDay();
+            };
+        }
+
+        try {
+            return LocalDate.parse(dateStr).atStartOfDay();
+        } catch (DateTimeParseException e) {
+            log.error("Invalid start date format: {}", dateStr, e);
+            throw new BusinessException(
+                    "Định dạng ngày bắt đầu không hợp lệ: " + dateStr + ". Vui lòng dùng yyyy-MM-dd",
+                    ErrorCodeConstant.INVALID_INPUT
+            );
+        }
+    }
+
+    private LocalDateTime parseOrDefaultEnd(String dateStr, LocalDateTime start, String type) {
+        if (dateStr == null || dateStr.isBlank()) {
+            return switch (type) {
+                case "MONTH" -> start.plusMonths(1).minusNanos(1);
+                case "YEAR" -> start.plusYears(1).minusNanos(1);
+                default -> start.plusDays(1).minusNanos(1);
+            };
+        }
+
+        try {
+            return LocalDate.parse(dateStr).atTime(LocalTime.MAX);
+        } catch (DateTimeParseException e) {
+            log.error("Invalid end date format: {}", dateStr, e);
+            throw new BusinessException(
+                    "Định dạng ngày kết thúc không hợp lệ: " + dateStr + ". Vui lòng dùng yyyy-MM-dd",
+                    ErrorCodeConstant.INVALID_INPUT
+            );
+        }
     }
 
     @Override

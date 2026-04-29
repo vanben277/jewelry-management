@@ -70,6 +70,9 @@ public class Account {
     @Column(name = "expiry_otp")
     private LocalDateTime expiryOtp;
 
+    @Column(name = "otp_attempts")
+    private Integer otpAttempts = 0;
+
     @Column(name = "last_login_at")
     private LocalDateTime lastLoginAt;
 

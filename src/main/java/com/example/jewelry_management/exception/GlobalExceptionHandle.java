@@ -29,7 +29,7 @@ public class GlobalExceptionHandle {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiResponse> handleRuntimeException(RuntimeException e) {
         log.error("Sever error: {}", String.valueOf(e));
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null, "INTERNAl_SERVER"));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null, "INTERNAL_SERVER_ERROR"));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -38,7 +38,7 @@ public class GlobalExceptionHandle {
 
         if (rootCause instanceof InvalidFormatException ife) {
             if (ife.getTargetType().isEnum()) {
-                String fieldName = ife.getPath().get(0).getFieldName();
+                String fieldName = ife.getPath().getFirst().getFieldName();
                 String invalidValue = ife.getValue().toString();
                 String enumName = ife.getTargetType().getSimpleName();
 
