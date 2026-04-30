@@ -117,28 +117,18 @@ public class OrderServiceImpl implements OrderService {
         order.setItems(orderItems);
         order.setTotalPrice(total);
         
-        // Generate and save QR code URL if payment method is BANK_TRANSFER
-        if (request.getPaymentMethod() == PaymentMethod.BANK_TRANSFER) {
-            String qrCodeUrl = vietQRService.generateQRCodeUrl(
-                null,
-                total, 
-                "Thanh toan don hang"
-            );
-            order.setQrCodeUrl(qrCodeUrl);
-            log.info("Generated VietQR URL for new order with amount: {}", total);
-        }
-        
         Order saved = orderRepository.save(order);
 
-        if (saved.getPaymentMethod() == PaymentMethod.BANK_TRANSFER && saved.getQrCodeUrl() != null) {
-            String finalQrCodeUrl = vietQRService.generateQRCodeUrl(
+        // Generate and save QR code URL for BANK_TRANSFER payment
+        if (saved.getPaymentMethod() == PaymentMethod.BANK_TRANSFER) {
+            String qrCodeUrl = vietQRService.generateQRCodeUrl(
                 saved.getId(), 
                 saved.getTotalPrice(), 
-                "Thanh toan don hang"
+                "Thanh toan don hang " + saved.getId()
             );
-            saved.setQrCodeUrl(finalQrCodeUrl);
-            orderRepository.save(saved);
-            log.info("Updated VietQR URL for order {}: {}", saved.getId(), finalQrCodeUrl);
+            saved.setQrCodeUrl(qrCodeUrl);
+            saved = orderRepository.save(saved);
+            log.info("Generated VietQR URL for order {}: {}", saved.getId(), qrCodeUrl);
         }
 
         return orderMapper.toResponse(saved);

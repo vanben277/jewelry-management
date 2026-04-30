@@ -18,6 +18,7 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class AiConfig {
     private final JewelryTools jewelryTools;
+    private final ChatMemoryProvider chatMemoryProvider;
 
     @Value("${GEMINI_API_KEY}")
     private String apiKey;
@@ -73,7 +74,7 @@ public class AiConfig {
     public JewelryUserAgent geminiUserAgent(GoogleAiGeminiChatModel geminiChatModel) {
         return AiServices.builder(JewelryUserAgent.class)
                 .chatLanguageModel(geminiChatModel)
-                .chatMemoryProvider(id -> MessageWindowChatMemory.withMaxMessages(20))
+                .chatMemoryProvider(chatMemoryProvider::getMemory)
                 .tools(jewelryTools)
                 .build();
     }
@@ -82,7 +83,7 @@ public class AiConfig {
     public JewelryUserAgent groqUserAgent(OpenAiChatModel groqChatModel) {
         return AiServices.builder(JewelryUserAgent.class)
                 .chatLanguageModel(groqChatModel)
-                .chatMemoryProvider(id -> MessageWindowChatMemory.withMaxMessages(20))
+                .chatMemoryProvider(chatMemoryProvider::getMemory)
                 .tools(jewelryTools)
                 .build();
     }
@@ -91,7 +92,7 @@ public class AiConfig {
     public JewelryUserAgent hfUserAgent(OpenAiChatModel hfChatModel) {
         return AiServices.builder(JewelryUserAgent.class)
                 .chatLanguageModel(hfChatModel)
-                .chatMemoryProvider(id -> MessageWindowChatMemory.withMaxMessages(20))
+                .chatMemoryProvider(chatMemoryProvider::getMemory)
                 .tools(jewelryTools)
                 .build();
     }
@@ -100,7 +101,7 @@ public class AiConfig {
     public JewelryAdminAgent geminiAdminAgent(GoogleAiGeminiChatModel geminiChatModel) {
         return AiServices.builder(JewelryAdminAgent.class)
                 .chatLanguageModel(geminiChatModel)
-                .chatMemoryProvider(id -> MessageWindowChatMemory.withMaxMessages(20))
+                .chatMemoryProvider(chatMemoryProvider::getMemory)
                 .tools(jewelryTools)
                 .build();
     }
@@ -109,7 +110,7 @@ public class AiConfig {
     public JewelryAdminAgent groqAdminAgent(OpenAiChatModel groqChatModel) {
         return AiServices.builder(JewelryAdminAgent.class)
                 .chatLanguageModel(groqChatModel)
-                .chatMemoryProvider(id -> MessageWindowChatMemory.withMaxMessages(20))
+                .chatMemoryProvider(chatMemoryProvider::getMemory)
                 .tools(jewelryTools)
                 .build();
     }
@@ -118,7 +119,7 @@ public class AiConfig {
     public JewelryAdminAgent hfAdminAgent(OpenAiChatModel hfChatModel) {
         return AiServices.builder(JewelryAdminAgent.class)
                 .chatLanguageModel(hfChatModel)
-                .chatMemoryProvider(id -> MessageWindowChatMemory.withMaxMessages(20))
+                .chatMemoryProvider(chatMemoryProvider::getMemory)
                 .tools(jewelryTools)
                 .build();
     }

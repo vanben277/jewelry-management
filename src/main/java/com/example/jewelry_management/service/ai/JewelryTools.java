@@ -59,28 +59,42 @@ public class JewelryTools {
     @Tool("Lấy danh sách đơn hàng của khách. Dùng để khách xem lịch sử mua hàng hoặc trước khi hủy đơn.")
     public String getMyOrders(Integer accountId) {
         if (accountId == null) {
-            return "Bạn cần đăng nhập để xem đơn hàng. Vui lòng đăng nhập và thử lại!";
+            return "{\"type\":\"error\",\"message\":\"Bạn cần đăng nhập để xem đơn hàng. Vui lòng đăng nhập và thử lại!\",\"meta\":{\"requiresLogin\":true}}";
         }
         try {
             List<OrderResponse> orders = orderService.getAllOrdersByMe(
                     accountId,
                     null,
-                    PageRequest.of(0, 20, Sort.by("createAt").descending())
+                    PageRequest.of(0, 5, Sort.by("createAt").descending())
             ).getContent();
-            if (orders.isEmpty()) return "Bạn chưa có đơn hàng nào.";
+            if (orders.isEmpty()) {
+                return "{\"type\":\"text\",\"message\":\"Bạn chưa có đơn hàng nào.\"}";
+            }
 
-            StringBuilder sb = new StringBuilder("Danh sách đơn hàng của bạn:\n");
-            for (OrderResponse o : orders) {
-                sb.append(String.format("- Đơn #%d | %s | %s | %s\n",
-                        o.getId(),
-                        o.getStatus(),
-                        o.getTotalPrice(),
-                        o.getCreateAt()
+            // Build JSON response with orders
+            StringBuilder json = new StringBuilder();
+            json.append("{\"type\":\"orders\",\"message\":\"Đây là 5 đơn hàng gần nhất của bạn:\",\"orders\":[");
+            
+            for (int i = 0; i < orders.size(); i++) {
+                OrderResponse o = orders.get(i);
+                if (i > 0) json.append(",");
+                json.append(String.format(
+                    "{\"id\":%d,\"status\":\"%s\",\"totalPrice\":\"%s\",\"createAt\":\"%s\",\"customerName\":\"%s\",\"paymentMethod\":\"%s\",\"itemCount\":%d}",
+                    o.getId(),
+                    o.getStatus(),
+                    String.format("%,dđ", o.getTotalPrice().longValue()),
+                    o.getCreateAt().toString(),
+                    o.getCustomerName() != null ? o.getCustomerName() : "",
+                    o.getPaymentMethod() != null ? o.getPaymentMethod() : "",
+                    o.getItems() != null ? o.getItems().size() : 0
                 ));
             }
-            return sb.toString();
+            
+            json.append("],\"meta\":{\"totalCount\":").append(orders.size()).append("}}");
+            return json.toString();
         } catch (Exception e) {
-            return "Không thể lấy danh sách đơn hàng: " + e.getMessage();
+            log.error("Error getting orders for account {}: ", accountId, e);
+            return "{\"type\":\"error\",\"message\":\"Không thể lấy danh sách đơn hàng.\"}";
         }
     }
 
@@ -90,7 +104,7 @@ public class JewelryTools {
             OrderResponse order = orderService.getOrderById(orderId);
 
             if (order == null) {
-                return "Không tìm thấy đơn hàng #" + orderId;
+                return String.format("{\"type\":\"error\",\"message\":\"Không tìm thấy đơn hàng #%d\"}", orderId);
             }
 
             Integer orderAccountId = order.getAccountResponse() != null
@@ -98,11 +112,11 @@ public class JewelryTools {
                     : null;
 
             if (orderAccountId == null || !orderAccountId.equals(accountId)) {
-                return "Bạn không có quyền hủy đơn hàng này.";
+                return "{\"type\":\"error\",\"message\":\"Bạn không có quyền hủy đơn hàng này.\"}";
             }
             if (!OrderStatus.PENDING.equals(order.getStatus())) {
                 return String.format(
-                        "Không thể hủy đơn #%d vì đơn đang ở trạng thái %s. Chỉ hủy được khi đơn ở trạng thái PENDING.",
+                        "{\"type\":\"error\",\"message\":\"Không thể hủy đơn #%d vì đơn đang ở trạng thái %s. Chỉ hủy được khi đơn ở trạng thái PENDING.\"}",
                         orderId, order.getStatus()
                 );
             }
@@ -111,11 +125,11 @@ public class JewelryTools {
             form.setStatus(OrderStatus.CANCELLED);
             orderService.updateStatus(orderId, form);
 
-            return String.format("Đơn hàng #%d đã được hủy thành công!", orderId);
+            return String.format("{\"type\":\"text\",\"message\":\"Đơn hàng #%d đã được hủy thành công!\"}", orderId);
 
         } catch (Exception e) {
             log.error("Lỗi hủy đơn: {}", e.getMessage());
-            return "Không thể hủy đơn hàng: " + e.getMessage();
+            return String.format("{\"type\":\"error\",\"message\":\"Không thể hủy đơn hàng: %s\"}", e.getMessage());
         }
     }
 }

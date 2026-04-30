@@ -52,6 +52,14 @@ vietqr:
   account-name: ${VIETQR_ACCOUNT_NAME}
   template: ${VIETQR_TEMPLATE:compact}
   api-url: https://img.vietqr.io/image
+ai:
+  chat:
+    max-messages: ${AI_CHAT_MAX_MESSAGES:10}
+    cache:
+      max-size: ${AI_CACHE_MAX_SIZE:1000}
+      ttl-minutes: ${AI_CACHE_TTL_MINUTES:30}
+    timeout-seconds: ${AI_TIMEOUT_SECONDS:60}
+    max-retries: ${AI_MAX_RETRIES:2}
 logging:
   level:
     dev.langchain4j: DEBUG

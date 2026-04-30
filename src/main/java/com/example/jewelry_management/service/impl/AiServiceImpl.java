@@ -1,5 +1,6 @@
 package com.example.jewelry_management.service.impl;
 
+import com.example.jewelry_management.dto.ai.AiResponseDto;
 import com.example.jewelry_management.dto.res.ChatHistoryResponse;
 import com.example.jewelry_management.dto.res.ChatSessionResponse;
 import com.example.jewelry_management.enums.AccountRole;
@@ -11,6 +12,7 @@ import com.example.jewelry_management.repository.AccountRepository;
 import com.example.jewelry_management.repository.ChatHistoryRepository;
 import com.example.jewelry_management.service.AiService;
 import com.example.jewelry_management.service.ai.AiFallbackService;
+import com.example.jewelry_management.service.ai.AiResponseParser;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,7 @@ public class AiServiceImpl implements AiService {
     private final AccountRepository accountRepository;
     private final ChatHistoryMapper chatHistoryMapper;
     private final AiFallbackService aiFallbackService;
+    private final AiResponseParser aiResponseParser;
 
     @Override
     @Transactional
@@ -36,36 +39,24 @@ public class AiServiceImpl implements AiService {
             throw new BusinessException("Nội dung chat không được để trống", null);
         }
 
-        List<ChatHistory> histories = chatHistoryRepository
-                .findTop10BySessionIdOrderByCreatedAtDesc(sessionId);
+        // Log accountId for debugging
+        log.info("[AI-CHAT] Session: {}, AccountId: {}, Role: {}", sessionId, accountId, role);
 
-        StringBuilder contextBuilder = new StringBuilder();
-        if (histories != null && !histories.isEmpty()) {
-            List<ChatHistory> reversed = new ArrayList<>(histories);
-            Collections.reverse(reversed);
-            contextBuilder.append("[LỊCH SỬ CUỘC TRÒ CHUYỆN]\n");
-            for (ChatHistory h : reversed) {
-                if (h.getUserQuery() != null && h.getAiResponse() != null) {
-                    contextBuilder.append("Khách: ").append(h.getUserQuery()).append("\n");
-                    contextBuilder.append("AI: ").append(h.getAiResponse()).append("\n");
-                }
-            }
-            contextBuilder.append("[KẾT THÚC LỊCH SỬ]\n\n");
-        }
+        String messageWithAccountId = "[ACCOUNT_ID: " + accountId + "]\n" + message;
 
-        String messageWithContext = "[ACCOUNT_ID: " + accountId + "]\n"
-                + contextBuilder
-                + "Khách: " + message;
-
-        String aiResponse;
+        String aiRawResponse;
         if (AccountRole.ADMIN.name().equals(role)) {
-            aiResponse = aiFallbackService.chatAdmin(message);
+            aiRawResponse = aiFallbackService.chatAdmin(messageWithAccountId);
         } else {
-            aiResponse = aiFallbackService.chatUser(messageWithContext);
+            aiRawResponse = aiFallbackService.chatUser(messageWithAccountId);
         }
 
-        saveHistory(message, aiResponse, null, sessionId, accountId, "TEXT");
-        return aiResponse;
+        // Parse AI response to structured JSON
+        AiResponseDto parsedResponse = aiResponseParser.parse(aiRawResponse);
+        String jsonResponse = aiResponseParser.toJson(parsedResponse);
+
+        saveHistory(message, jsonResponse, null, sessionId, accountId, "TEXT");
+        return jsonResponse;
     }
 
     @Override
