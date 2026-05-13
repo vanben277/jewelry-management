@@ -77,6 +77,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductResponse createProduct(CreateProductForm dto, MultipartFile[] files) {
+        log.info("[CREATE_PRODUCT] Starting - SKU: {}, Images count: {}", dto.getSku(), files != null ? files.length : 0);
+        
         Product existedSku = productRepository.findBySku(dto.getSku());
         if (existedSku != null) {
             throw new BusinessException("Mã sản phẩm đã tồn tại trong hệ thống", ErrorCodeConstant.PRODUCT_SKU_ALREADY_EXISTS);
@@ -93,6 +95,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<ProductImage> productImages = processMultipartImages(files, product);
         product.setImages(productImages);
+        log.info("[CREATE_PRODUCT] Processed {} images", productImages.size());
 
         List<ProductSize> sizes = processSizes(dto.getSizes(), product);
         product.setSizes(sizes);
@@ -105,6 +108,7 @@ public class ProductServiceImpl implements ProductService {
         product.setSku(dto.getSku());
 
         Product saved = productRepository.save(product);
+        log.info("[CREATE_PRODUCT] Success - Product ID: {}, Images saved: {}", saved.getId(), saved.getImages().size());
         return productMapper.toProductResponse(saved);
     }
 
@@ -113,10 +117,15 @@ public class ProductServiceImpl implements ProductService {
             throw new BusinessException("Sản phẩm phải có ít nhất 1 ảnh", ErrorCodeConstant.INVALID_INPUT);
         }
 
+        log.info("[PROCESS_IMAGES] Processing {} files", files.length);
         List<ProductImage> productImages = new ArrayList<>();
         for (int i = 0; i < files.length; i++) {
             MultipartFile file = files[i];
+            log.info("[PROCESS_IMAGES] Uploading file {}/{}: {}, size: {} bytes", 
+                    i + 1, files.length, file.getOriginalFilename(), file.getSize());
+            
             String imageUrl = fileStorageService.storeImage(file, "products");
+            log.info("[PROCESS_IMAGES] Uploaded successfully: {}", imageUrl);
 
             ProductImage image = new ProductImage();
             image.setImageUrl(imageUrl);
@@ -125,6 +134,7 @@ public class ProductServiceImpl implements ProductService {
             productImages.add(image);
         }
 
+        log.info("[PROCESS_IMAGES] Completed - Total images: {}", productImages.size());
         return productImages;
     }
 
@@ -147,6 +157,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductResponse updateProduct(Integer id, UpdateProductForm dto, List<MultipartFile> imageFiles) {
+        log.info("[UPDATE_PRODUCT] Starting - Product ID: {}, DTO images: {}, New files: {}", 
+                id, 
+                dto.getImages() != null ? dto.getImages().size() : 0,
+                imageFiles != null ? imageFiles.size() : 0);
+        
         Product updateProduct = productValidator.validateId(id);
 
         validatorUtils.validateGoldType(dto.getGoldType() != null ? dto.getGoldType().name() : null);
@@ -160,12 +175,22 @@ public class ProductServiceImpl implements ProductService {
         validatorUtils.validatorImages(dto.getImages());
 
         List<ProductImage> existingImages = updateProduct.getImages();
+        log.info("[UPDATE_PRODUCT] Existing images in DB: {}", existingImages.size());
+        
         List<ProductImage> allImages = new ArrayList<>(existingImages);
 
+        // Upload ảnh mới
         if (imageFiles != null && !imageFiles.isEmpty()) {
-            for (MultipartFile file : imageFiles) {
+            log.info("[UPDATE_PRODUCT] Uploading {} new files", imageFiles.size());
+            for (int i = 0; i < imageFiles.size(); i++) {
+                MultipartFile file = imageFiles.get(i);
                 if (!file.isEmpty()) {
+                    log.info("[UPDATE_PRODUCT] Uploading new file {}/{}: {}, size: {} bytes", 
+                            i + 1, imageFiles.size(), file.getOriginalFilename(), file.getSize());
+                    
                     String imageUrl = fileStorageService.storeImage(file, "products");
+                    log.info("[UPDATE_PRODUCT] Uploaded successfully: {}", imageUrl);
+                    
                     ProductImage img = new ProductImage();
                     img.setImageUrl(imageUrl);
                     img.setIsPrimary(false);
@@ -173,16 +198,23 @@ public class ProductServiceImpl implements ProductService {
                     allImages.add(img);
                 }
             }
+            log.info("[UPDATE_PRODUCT] After upload - Total images: {}", allImages.size());
         }
 
+        // Update isPrimary từ DTO
         if (dto.getImages() != null && !dto.getImages().isEmpty()) {
+            log.info("[UPDATE_PRODUCT] Updating isPrimary from DTO");
             for (ProductImageForm form : dto.getImages()) {
                 allImages.stream()
                         .filter(img -> img.getImageUrl().equals(form.getImageUrl()))
-                        .findFirst().ifPresent(existingImage -> existingImage.setIsPrimary(Boolean.TRUE.equals(form.getIsPrimary())));
+                        .findFirst().ifPresent(existingImage -> {
+                            log.debug("[UPDATE_PRODUCT] Setting isPrimary={} for: {}", form.getIsPrimary(), form.getImageUrl());
+                            existingImage.setIsPrimary(Boolean.TRUE.equals(form.getIsPrimary()));
+                        });
             }
         }
 
+        // Validate isPrimary
         long countPrimary = allImages.stream().filter(ProductImage::getIsPrimary).count();
         if (countPrimary > 1) {
             throw new BusinessException("Chỉ được phép có 1 ảnh chính duy nhất", ErrorCodeConstant.INVALID_INPUT);
@@ -191,21 +223,31 @@ public class ProductServiceImpl implements ProductService {
             allImages.getFirst().setIsPrimary(true);
         }
 
+        // Xóa ảnh cũ không còn trong DTO
         if (dto.getImages() != null) {
             List<String> keptUrls = dto.getImages().stream()
                     .map(ProductImageForm::getImageUrl)
                     .toList();
-
+            
+            log.info("[UPDATE_PRODUCT] Images to keep: {}", keptUrls.size());
+            
+            int deletedCount = 0;
             for (ProductImage oldImg : existingImages) {
                 if (!keptUrls.contains(oldImg.getImageUrl())) {
+                    log.info("[UPDATE_PRODUCT] Deleting old image: {}", oldImg.getImageUrl());
                     fileStorageService.deleteFileByUrl(oldImg.getImageUrl());
+                    deletedCount++;
                 }
             }
+            log.info("[UPDATE_PRODUCT] Deleted {} old images", deletedCount);
         }
 
+        // Clear và add lại tất cả ảnh
         updateProduct.getImages().clear();
         updateProduct.getImages().addAll(allImages);
+        log.info("[UPDATE_PRODUCT] Final images count: {}", allImages.size());
 
+        // Update sizes
         if (dto.getSizes() != null) {
             Set<Integer> sizeValues = new HashSet<>();
             for (ProductSizeForm form : dto.getSizes()) {
@@ -245,6 +287,7 @@ public class ProductServiceImpl implements ProductService {
         updateProduct.updateStatus();
 
         Product saved = productRepository.save(updateProduct);
+        log.info("[UPDATE_PRODUCT] Success - Product ID: {}, Images saved: {}", saved.getId(), saved.getImages().size());
         return productMapper.toProductResponse(saved);
     }
 
