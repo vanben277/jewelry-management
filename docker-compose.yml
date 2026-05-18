@@ -32,31 +32,69 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: ${JWT_EXPIRATION}
 
-      # AI Agent
+      # AI Agents - Gemini
       GEMINI_API_KEY: ${GEMINI_API_KEY}
-      GEMINI_MODEL_NAME: ${GEMINI_MODEL_NAME}
+      GEMINI_MODEL_NAME: ${GEMINI_MODEL_NAME:-gemini-2.5-flash}
+
+      # AI Agents - Groq
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      GROQ_MODEL_NAME: ${GROQ_MODEL_NAME:-llama-3.1-8b-instant}
+      GROQ_BASE_URL: ${GROQ_BASE_URL:-https://api.groq.com/openai/v1}
+
+      # AI Agents - HuggingFace
+      HF_API_KEY: ${HF_API_KEY}
+      HF_MODEL_NAME: ${HF_MODEL_NAME:-google/gemma-4-31B-it:fastest}
+      HF_BASE_URL: ${HF_BASE_URL:-https://router.huggingface.co/v1}
+
+      # AI Configuration
+      AI_CHAT_MAX_MESSAGES: ${AI_CHAT_MAX_MESSAGES:-10}
+      AI_CACHE_MAX_SIZE: ${AI_CACHE_MAX_SIZE:-1000}
+      AI_CACHE_TTL_MINUTES: ${AI_CACHE_TTL_MINUTES:-30}
+      AI_TIMEOUT_SECONDS: ${AI_TIMEOUT_SECONDS:-60}
+      AI_MAX_RETRIES: ${AI_MAX_RETRIES:-2}
+
+      # Rate Limiting
+      RATE_LIMIT_ENABLED: ${RATE_LIMIT_ENABLED:-true}
+      RATE_LIMIT_CAPACITY: ${RATE_LIMIT_CAPACITY:-5}
+      RATE_LIMIT_REFILL_MINUTES: ${RATE_LIMIT_REFILL_MINUTES:-1}
 
       # Cloud Storage (Cloudinary)
       CLOUDINARY_NAME: ${CLOUDINARY_NAME}
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
       CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
 
-      # Email & ZaloPay
+      # Email
       MAIL_HOST: ${MAIL_HOST}
       MAIL_PORT: ${MAIL_PORT}
       MAIL_USERNAME: ${MAIL_USERNAME}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
+
+      # ZaloPay
       ZALOPAY_APPID: ${ZALOPAY_APPID}
       ZALOPAY_KEY1: ${ZALOPAY_KEY1}
       ZALOPAY_KEY2: ${ZALOPAY_KEY2}
       ZALOPAY_ENDPOINT: ${ZALOPAY_ENDPOINT}
       ZALOPAY_CALLBACK_URL: ${ZALOPAY_CALLBACK_URL}
       ZALOPAY_REDIRECT_URL: ${ZALOPAY_REDIRECT_URL}
+
+      # VietQR
+      VIETQR_BANK_ID: ${VIETQR_BANK_ID}
+      VIETQR_ACCOUNT_NO: ${VIETQR_ACCOUNT_NO}
+      VIETQR_ACCOUNT_NAME: ${VIETQR_ACCOUNT_NAME}
+      VIETQR_TEMPLATE: ${VIETQR_TEMPLATE:-compact}
+
+      # Frontend
       FRONTEND_RESET_PASSWORD_URL: ${FRONTEND_RESET_PASSWORD_URL}
 
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 volumes:
   mysql_data: # Khai báo volume cho Database
