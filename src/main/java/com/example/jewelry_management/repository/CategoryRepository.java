@@ -34,7 +34,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer>, Jp
     @Query("SELECT COUNT(c) FROM Category c WHERE c.parent.id = :parentId AND c.isDeleted = false")
     long countChildrenByParentId(@Param("parentId") Integer parentId);
 
-    @Query("SELECT c.id, c.name FROM Category c where c.parent is not null")
+    @Query("SELECT c.id, c.name FROM Category c where c.parent is null and c.isDeleted = false")
     List<AllCategoryNameResponse> findAllChildCategoryNames();
 
     List<Category> findAllByNameInAndIsDeletedFalse(List<String> names);
