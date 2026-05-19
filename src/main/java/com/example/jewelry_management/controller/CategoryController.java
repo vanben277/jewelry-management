@@ -61,7 +61,13 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", names));
     }
 
-    @GetMapping("name-not-parent")
+    @GetMapping("name-parent")
+    public ResponseEntity<ApiResponse> getAllParentCategoryNames() {
+        List<AllCategoryNameResponse> names = categoryService.getAllParentCategoryNames();
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", names));
+    }
+
+    @GetMapping("name-child")
     public ResponseEntity<ApiResponse> getAllChildCategoryNames() {
         List<AllCategoryNameResponse> names = categoryService.getAllChildCategoryNames();
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Thành công", names));

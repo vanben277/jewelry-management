@@ -30,5 +30,7 @@ public interface CategoryService {
 
     CategoryResponse getById(Integer id);
 
+    List<AllCategoryNameResponse> getAllParentCategoryNames();
+
     List<AllCategoryNameResponse> getAllChildCategoryNames();
 }

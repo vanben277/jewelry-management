@@ -271,6 +271,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<AllCategoryNameResponse> getAllParentCategoryNames() {
+        return categoryRepository.findAllParentCategoryNames();
+    }
+
+    @Override
     public List<AllCategoryNameResponse> getAllChildCategoryNames() {
         return categoryRepository.findAllChildCategoryNames();
     }
